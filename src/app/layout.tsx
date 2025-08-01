@@ -36,6 +36,18 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8KHXYN6MC"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-H8KHXYN6MC');
+            `,
+          }}
+        />
       </head>
       <body className="min-h-screen page-container">
         <div className="container mx-auto px-4 py-6 max-w-2xl">
