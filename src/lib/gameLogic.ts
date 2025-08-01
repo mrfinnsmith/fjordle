@@ -98,7 +98,7 @@ export async function makeGuess(
   }
 
   const newGuesses = [...gameState.guesses, guess]
-  let newGameStatus = gameState.gameStatus
+  let newGameStatus: 'playing' | 'won' | 'lost' = gameState.gameStatus
 
   if (isCorrect) {
     newGameStatus = 'won'
