@@ -1,0 +1,47 @@
+'use client'
+
+interface FjordDisplayProps {
+    svgFilename?: string
+    isGameOver: boolean
+    correctAnswer?: string
+}
+
+export default function FjordDisplay({
+    svgFilename,
+    isGameOver,
+    correctAnswer
+}: FjordDisplayProps) {
+    if (!svgFilename) {
+        return (
+            <div className="fjord-display">
+                <div className="fjord-svg-container">
+                    <div className="flex items-center justify-center h-full text-gray-500">
+                        Loading fjord...
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="fjord-display">
+            <div className="fjord-svg-container">
+                <img
+                    src={`/fjord_svgs/${svgFilename}`}
+                    alt={isGameOver && correctAnswer ? `${correctAnswer}` : "Norwegian fjord outline"}
+                    className="fjord-svg"
+                    onError={(e) => {
+                        console.error('Failed to load SVG:', svgFilename)
+                        e.currentTarget.style.display = 'none'
+                    }}
+                />
+            </div>
+            {isGameOver && correctAnswer && (
+                <div className="correct-answer-reveal">
+                    <div className="answer-label">Fjord:</div>
+                    <div className="answer-name">{correctAnswer}</div>
+                </div>
+            )}
+        </div>
+    )
+} 
