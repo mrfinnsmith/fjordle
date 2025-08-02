@@ -45,7 +45,8 @@ export default function PastPuzzlesPage() {
 
     if (loading) {
         return (
-            <div className="w-full max-w-2xl mx-auto p-4">
+            <div className="space-y-6">
+                <h1 className="text-3xl font-bold">Past Fjordles</h1>
                 <div className="text-center">Loading past puzzles...</div>
             </div>
         )
@@ -53,17 +54,18 @@ export default function PastPuzzlesPage() {
 
     if (error) {
         return (
-            <div className="w-full max-w-2xl mx-auto p-4">
+            <div className="space-y-6">
+                <h1 className="text-3xl font-bold">Past Fjordles</h1>
                 <div className="text-center text-red-600">Error: {error}</div>
             </div>
         )
     }
 
     return (
-        <div className="w-full max-w-2xl mx-auto p-4">
-            <h1 className="text-3xl font-bold text-center mb-8">Past Fjordles</h1>
+        <div className="space-y-6">
+            <h1 className="text-3xl font-bold">Past Fjordles</h1>
 
-            <div className="mb-6 text-center">
+            <div className="text-center">
                 <Link
                     href="/"
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"

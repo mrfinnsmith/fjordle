@@ -1,16 +1,16 @@
 export default function HowToPlay() {
     return (
-        <div className="page-content">
-            <h1 className="text-2xl font-bold page-text mb-6">How to Play</h1>
+        <div className="space-y-6">
+            <h1 className="text-3xl font-bold">How to Play</h1>
 
-            <div className="space-y-6 page-text">
+            <div className="space-y-6">
                 <section>
-                    <h3 className="text-lg font-semibold mb-3">The Goal</h3>
+                    <h2 className="text-xl font-semibold mb-3">The Goal</h2>
                     <p>Guess the Norwegian fjord from its distinctive outline shape in 6 attempts or fewer.</p>
                 </section>
 
                 <section>
-                    <h3 className="text-lg font-semibold mb-3">How to Play</h3>
+                    <h2 className="text-xl font-semibold mb-3">How to Play</h2>
                     <div className="space-y-2">
                         <p><strong>Study the shape:</strong> Each puzzle shows the outline of a Norwegian fjord</p>
                         <p><strong>Make a guess:</strong> Type a fjord name and select from the autocomplete dropdown</p>
@@ -20,7 +20,7 @@ export default function HowToPlay() {
                 </section>
 
                 <section>
-                    <h3 className="text-lg font-semibold mb-3">Understanding Feedback</h3>
+                    <h2 className="text-xl font-semibold mb-3">Understanding Feedback</h2>
                     <div className="space-y-2">
                         <p><strong>Distance:</strong> How many kilometers your guess is from the correct fjord</p>
                         <p><strong>Direction:</strong> Arrow pointing from your guess toward the correct fjord</p>
@@ -29,7 +29,7 @@ export default function HowToPlay() {
                 </section>
 
                 <section>
-                    <h3 className="text-lg font-semibold mb-3">Example</h3>
+                    <h2 className="text-xl font-semibold mb-3">Example</h2>
                     <div className="bg-gray-50 p-4 rounded-lg">
                         <p className="mb-2"><strong>Guess:</strong> "Geirangerfjord"</p>
                         <p className="mb-2"><strong>Result:</strong> 127 km ↗️ 45%</p>
@@ -41,7 +41,7 @@ export default function HowToPlay() {
                 </section>
 
                 <section>
-                    <h3 className="text-lg font-semibold mb-3">Weekly Difficulty</h3>
+                    <h2 className="text-xl font-semibold mb-3">Weekly Difficulty</h2>
                     <div className="space-y-2">
                         <p><strong>Monday-Tuesday:</strong> Famous fjords (Geirangerfjord, Sognefjord)</p>
                         <p><strong>Wednesday-Thursday:</strong> Regional fjords (well-known within Norway)</p>
@@ -50,7 +50,7 @@ export default function HowToPlay() {
                 </section>
 
                 <section>
-                    <h3 className="text-lg font-semibold mb-3">Tips for Success</h3>
+                    <h2 className="text-xl font-semibold mb-3">Tips for Success</h2>
                     <div className="space-y-2">
                         <p><strong>Start broad:</strong> Guess famous fjords to get your bearings</p>
                         <p><strong>Use geography:</strong> Norway runs north-south, so direction arrows help narrow regions</p>
@@ -60,10 +60,9 @@ export default function HowToPlay() {
                 </section>
 
                 <section>
-                    <h3 className="text-lg font-semibold mb-3">Winning</h3>
+                    <h2 className="text-xl font-semibold mb-3">Winning</h2>
                     <p>Guess correctly within 6 attempts to win! Your stats track your streak and success rate. Share your results with an emoji pattern showing your guessing efficiency.</p>
                 </section>
-
             </div>
         </div>
     )
