@@ -62,6 +62,24 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Schema.org structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "Fjordle",
+              "description": "Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.",
+              "url": process.env.NEXT_PUBLIC_SITE_URL,
+              "applicationCategory": "Game",
+              "operatingSystem": "Web Browser",
+              "inLanguage": "en",
+              "keywords": "fjord puzzle, norway geography, daily puzzle, fjord game, norwegian fjords, puzzle, game, geography",
+              "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
+            })
+          }}
+        />
       </head>
       <body className="min-h-screen page-container">
         <div className="container mx-auto px-4 py-6 max-w-2xl">
