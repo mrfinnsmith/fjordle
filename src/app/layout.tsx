@@ -19,6 +19,12 @@ export const metadata: Metadata = {
         alt: 'Fjordle - Daily Norwegian Fjord Puzzle Game'
       }
     ]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fjordle - Daily Norwegian Fjord Puzzle',
+    description: 'Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.',
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`],
   }
 }
 
