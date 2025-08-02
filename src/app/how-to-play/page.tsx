@@ -1,67 +1,72 @@
+'use client'
+
+import { useLanguage } from '@/lib/languageContext'
+
 export default function HowToPlay() {
+    const { t } = useLanguage()
+
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold">How to Play</h1>
+            <h1 className="text-3xl font-bold">{t('how_to_play_title')}</h1>
 
             <div className="space-y-6">
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">The Goal</h2>
-                    <p>Guess the Norwegian fjord from its distinctive outline shape in 6 attempts or fewer.</p>
+                    <h2 className="text-xl font-semibold mb-3">{t('goal_title')}</h2>
+                    <p>{t('goal_text')}</p>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">How to Play</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('how_to_play_section')}</h2>
                     <div className="space-y-2">
-                        <p><strong>Study the shape:</strong> Each puzzle shows the outline of a Norwegian fjord</p>
-                        <p><strong>Make a guess:</strong> Type a fjord name and select from the autocomplete dropdown</p>
-                        <p><strong>Use the clues:</strong> After each wrong guess, you'll see distance and direction to the correct fjord</p>
-                        <p><strong>Triangulate:</strong> Use multiple guesses to narrow down the location</p>
+                        <p><strong>{t('study_shape')}</strong> {t('study_shape_text')}</p>
+                        <p><strong>{t('make_guess')}</strong> {t('make_guess_text')}</p>
+                        <p><strong>{t('use_clues')}</strong> {t('use_clues_text')}</p>
+                        <p><strong>{t('triangulate')}</strong> {t('triangulate_text')}</p>
                     </div>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Understanding Feedback</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('feedback_title')}</h2>
                     <div className="space-y-2">
-                        <p><strong>Distance:</strong> How many kilometers your guess is from the correct fjord</p>
-                        <p><strong>Direction:</strong> Arrow pointing from your guess toward the correct fjord</p>
-                        <p><strong>Proximity:</strong> Percentage showing how close you are (100% = correct)</p>
+                        <p><strong>{t('distance')}</strong> {t('distance_text')}</p>
+                        <p><strong>{t('direction')}</strong> {t('direction_text')}</p>
+                        <p><strong>{t('proximity')}</strong> {t('proximity_text')}</p>
                     </div>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Example</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('example_title')}</h2>
                     <div className="bg-gray-50 p-4 rounded-lg">
-                        <p className="mb-2"><strong>Guess:</strong> "Geirangerfjord"</p>
-                        <p className="mb-2"><strong>Result:</strong> 127 km ↗️ 45%</p>
+                        <p className="mb-2"><strong>{t('example_guess')}</strong> "Geirangerfjord"</p>
+                        <p className="mb-2"><strong>{t('example_result')}</strong> 127 km ↗️ 45%</p>
                         <p className="text-sm text-gray-600">
-                            This means the correct fjord is 127 kilometers northeast of Geirangerfjord,
-                            and you're 45% of the way there in terms of proximity.
+                            {t('example_explanation')}
                         </p>
                     </div>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Weekly Difficulty</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('weekly_difficulty')}</h2>
                     <div className="space-y-2">
-                        <p><strong>Monday-Tuesday:</strong> Famous fjords (Geirangerfjord, Sognefjord)</p>
-                        <p><strong>Wednesday-Thursday:</strong> Regional fjords (well-known within Norway)</p>
-                        <p><strong>Friday-Sunday:</strong> Mixed difficulty with local and lesser-known fjords</p>
+                        <p><strong>{t('monday_tuesday')}</strong> {t('monday_tuesday_text')}</p>
+                        <p><strong>{t('wednesday_thursday')}</strong> {t('wednesday_thursday_text')}</p>
+                        <p><strong>{t('friday_sunday')}</strong> {t('friday_sunday_text')}</p>
                     </div>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Tips for Success</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('tips_title')}</h2>
                     <div className="space-y-2">
-                        <p><strong>Start broad:</strong> Guess famous fjords to get your bearings</p>
-                        <p><strong>Use geography:</strong> Norway runs north-south, so direction arrows help narrow regions</p>
-                        <p><strong>Learn the map:</strong> Familiarize yourself with major Norwegian regions</p>
-                        <p><strong>Shape matters:</strong> Study the outline - some fjords have very distinctive shapes</p>
+                        <p><strong>{t('start_broad')}</strong> {t('start_broad_text')}</p>
+                        <p><strong>{t('use_geography')}</strong> {t('use_geography_text')}</p>
+                        <p><strong>{t('learn_map')}</strong> {t('learn_map_text')}</p>
+                        <p><strong>{t('shape_matters')}</strong> {t('shape_matters_text')}</p>
                     </div>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Winning</h2>
-                    <p>Guess correctly within 6 attempts to win! Your stats track your streak and success rate. Share your results with an emoji pattern showing your guessing efficiency.</p>
+                    <h2 className="text-xl font-semibold mb-3">{t('winning_title')}</h2>
+                    <p>{t('winning_text')}</p>
                 </section>
             </div>
         </div>

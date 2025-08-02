@@ -1,11 +1,17 @@
+'use client'
+
+import { useLanguage } from '@/lib/languageContext'
+
 export default function About() {
+    const { t } = useLanguage()
+
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold">About</h1>
+            <h1 className="text-3xl font-bold">{t('about_title')}</h1>
 
             <div className="space-y-4">
                 <p>
-                    Fjordle was created with love for Norwegian geography by{' '}
+                    {t('about_created')}{' '}
                     <a
                         href="https://mrfinnsmith.com"
                         className="font-medium hover:underline text-blue-600 hover:text-blue-800"
@@ -14,17 +20,15 @@ export default function About() {
                     </a>.
                 </p>
                 <p>
-                    Inspired by the distinctive beauty of Norwegian fjords,
-                    this daily puzzle challenges players to identify fjords from their
-                    unique outline shapes using distance and direction clues.
+                    {t('about_inspired')}
                 </p>
                 <p>
-                    Want to collaborate on puzzles or have suggestions? Reach out via any of{' '}
+                    {t('about_collaborate')}{' '}
                     <a
                         href="https://mrfinnsmith.com/about"
                         className="font-medium hover:underline text-blue-600 hover:text-blue-800"
                     >
-                        my online platforms
+                        {t('about_platforms')}
                     </a>.
                 </p>
             </div>

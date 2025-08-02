@@ -1,103 +1,102 @@
-import type { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-    title: 'Privacy Policy - Fjordle',
-    description: 'Privacy policy for Fjordle, the daily Norwegian fjord puzzle game.',
-}
+import { useLanguage } from '@/lib/languageContext'
 
 export default function PrivacyPage() {
+    const { t } = useLanguage()
+
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold">Privacy Policy</h1>
+            <h1 className="text-3xl font-bold">{t('privacy_title')}</h1>
 
             <p className="text-sm text-gray-600">
-                <strong>Last updated:</strong> August 2, 2025
+                <strong>{t('last_updated')}</strong> August 2, 2025
             </p>
 
             <div className="space-y-6">
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Overview</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('overview_title')}</h2>
                     <p>
-                        Fjordle is a daily Norwegian fjord puzzle game created by Finn Smith as a fun side project. This privacy policy explains how we handle your information.
+                        {t('overview_text')}
                     </p>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Information We Collect</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('info_collect_title')}</h2>
 
-                    <h3 className="text-lg font-medium mt-4 mb-2">Analytics Data</h3>
+                    <h3 className="text-lg font-medium mt-4 mb-2">{t('analytics_data')}</h3>
                     <p className="mb-3">
-                        We use Google Analytics to understand how people use Fjordle. This service may collect:
+                        {t('analytics_text')}
                     </p>
                     <ul className="list-disc pl-6 mb-4 space-y-1">
-                        <li>Pages you visit</li>
-                        <li>Time spent on the site</li>
-                        <li>Your general location (country/region)</li>
-                        <li>Device and browser information</li>
-                        <li>How you found our site</li>
+                        <li>{t('pages_visit')}</li>
+                        <li>{t('time_spent')}</li>
+                        <li>{t('general_location')}</li>
+                        <li>{t('device_browser')}</li>
+                        <li>{t('how_found')}</li>
                     </ul>
                     <p>
-                        We may also add Mixpanel analytics in the future for similar usage insights.
+                        {t('mixpanel_text')}
                     </p>
 
-                    <h3 className="text-lg font-medium mt-4 mb-2">Game Data</h3>
+                    <h3 className="text-lg font-medium mt-4 mb-2">{t('game_data')}</h3>
                     <p className="mb-3">
-                        We store anonymous game information:
+                        {t('game_data_text')}
                     </p>
                     <ul className="list-disc pl-6 space-y-1">
-                        <li>Your guesses and game sessions (no personal identification)</li>
-                        <li>Game statistics stored locally in your browser only</li>
+                        <li>{t('guesses_sessions')}</li>
+                        <li>{t('stats_local')}</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Information We Don't Collect</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('info_not_collect_title')}</h2>
                     <ul className="list-disc pl-6 space-y-1">
-                        <li>Names, email addresses, or contact information</li>
-                        <li>Personal accounts or profiles</li>
-                        <li>Location data beyond general analytics</li>
-                        <li>Any information that identifies you personally</li>
+                        <li>{t('no_names')}</li>
+                        <li>{t('no_accounts')}</li>
+                        <li>{t('no_location')}</li>
+                        <li>{t('no_personal')}</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">How We Use Information</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('how_use_title')}</h2>
                     <ul className="list-disc pl-6 space-y-1">
-                        <li>Improve the game experience</li>
-                        <li>Understand which fjords are most challenging</li>
-                        <li>Monitor site performance and usage patterns</li>
+                        <li>{t('improve_experience')}</li>
+                        <li>{t('understand_challenging')}</li>
+                        <li>{t('monitor_performance')}</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Data Storage</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('data_storage_title')}</h2>
                     <ul className="list-disc pl-6 space-y-1">
-                        <li>Game progress and statistics are stored locally in your browser</li>
-                        <li>Anonymous game data is stored securely on our servers</li>
-                        <li>We don't sell or share your information with third parties (except analytics services)</li>
+                        <li>{t('progress_local')}</li>
+                        <li>{t('anonymous_secure')}</li>
+                        <li>{t('no_sell')}</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Your Choices</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('choices_title')}</h2>
                     <ul className="list-disc pl-6 space-y-1">
-                        <li>You can clear your browser data to reset your game statistics</li>
-                        <li>You can disable analytics by using browser privacy settings or ad blockers</li>
-                        <li>The game works without cookies (though analytics may be limited)</li>
+                        <li>{t('clear_browser')}</li>
+                        <li>{t('disable_analytics')}</li>
+                        <li>{t('works_without_cookies')}</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Changes to This Policy</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('changes_policy_title')}</h2>
                     <p>
-                        We may update this privacy policy as we add new features. Check back occasionally for updates.
+                        {t('changes_policy_text')}
                     </p>
                 </section>
 
                 <section>
-                    <h2 className="text-xl font-semibold mb-3">Contact</h2>
+                    <h2 className="text-xl font-semibold mb-3">{t('contact_title')}</h2>
                     <p>
-                        For questions about this privacy policy, visit{' '}
+                        {t('contact_text')}{' '}
                         <a
                             href="https://mrfinnsmith.com"
                             className="text-blue-600 hover:text-blue-800 underline"
@@ -106,14 +105,14 @@ export default function PrivacyPage() {
                         >
                             https://mrfinnsmith.com
                         </a>{' '}
-                        to find contact information.
+                        {t('contact_info')}
                     </p>
                 </section>
 
                 <hr className="border-gray-200" />
 
                 <p className="text-sm text-gray-600 italic">
-                    Fjordle is an independent project created for educational entertainment about Norwegian geography.
+                    {t('independent_project')}
                 </p>
             </div>
         </div>
