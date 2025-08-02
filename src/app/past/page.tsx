@@ -82,7 +82,7 @@ export default function PastPuzzlesPage() {
                         <div>
                             <h3 className="font-semibold">{t('fjordle_number')}{puzzle.puzzle_number}</h3>
                             <p className="text-sm text-gray-600">
-                                {puzzle.fjord_name} • {formatDate(puzzle.date)}
+                                {formatDate(puzzle.date)}
                             </p>
                         </div>
                         <Link
