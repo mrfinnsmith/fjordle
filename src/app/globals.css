@@ -561,4 +561,119 @@ body {
     padding: 2rem;
     color: var(--text-secondary);
   }
+
+  /* Mobile responsive styles */
+  @media (max-width: 768px) {
+
+    /* Prevent horizontal scrolling */
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Navigation improvements */
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    nav a {
+      white-space: nowrap;
+      font-size: 0.875rem;
+    }
+
+    /* Header layout adjustments */
+    header {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Main title sizing */
+    h1 {
+      font-size: 2.5rem !important;
+    }
+
+    /* Container padding */
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Game content centering */
+    .game-container {
+      text-align: center;
+    }
+
+    /* Fjord display adjustments */
+    .fjord-display {
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .fjord-svg-container {
+      height: 250px;
+      padding: 0.75rem;
+    }
+
+    /* Input and form adjustments */
+    .guess-input-container {
+      max-width: 100%;
+    }
+
+    .guess-input {
+      font-size: 16px;
+      /* Prevents zoom on iOS */
+    }
+
+    /* History adjustments */
+    .guess-history {
+      padding: 0.75rem;
+    }
+
+    .guess-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+      text-align: left;
+    }
+
+    .guess-row>* {
+      margin: 0;
+    }
+
+    /* Button adjustments */
+    .game-button {
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Toast positioning */
+    .game-toast {
+      top: 80px;
+      left: 1rem;
+      right: 1rem;
+      transform: none;
+      width: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+
+    /* Extra small screens */
+    h1 {
+      font-size: 2rem !important;
+    }
+
+    nav a {
+      font-size: 0.8rem;
+    }
+
+    .fjord-svg-container {
+      height: 200px;
+    }
+
+    .guess-input {
+      padding: 0.875rem;
+    }
+  }
 }

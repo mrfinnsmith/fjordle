@@ -31,8 +31,11 @@ function Header() {
   const { t } = useLanguage()
 
   return (
-    <header className="flex justify-between items-start mb-6">
-      <div className="text-center flex-1">
+    <header className="mb-6">
+      <div className="flex justify-end mb-4">
+        <LanguageToggle />
+      </div>
+      <div className="text-center">
         <Link href="/" className="block">
           <h1 className="text-4xl font-bold page-text mb-1">
             Fjordle
@@ -52,9 +55,6 @@ function Header() {
             {t('privacy')}
           </Link>
         </nav>
-      </div>
-      <div className="ml-4">
-        <LanguageToggle />
       </div>
     </header>
   )
@@ -81,7 +81,7 @@ export default function RootLayout({
         <meta name="twitter:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
         <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
