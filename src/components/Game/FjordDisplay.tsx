@@ -28,7 +28,7 @@ export default function FjordDisplay({
             <div className="fjord-svg-container">
                 <img
                     src={`/fjord_svgs/${svgFilename}`}
-                    alt={isGameOver && correctAnswer ? `${correctAnswer}` : "Norwegian fjord outline"}
+                    alt={isGameOver && correctAnswer ? `${correctAnswer} fjordkontur` : "Norsk fjordkontur for gjettelek"}
                     className="fjord-svg"
                     onError={(e) => {
                         console.error('Failed to load SVG:', svgFilename)
