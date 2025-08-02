@@ -1,0 +1,62 @@
+export const translations = {
+  no: {
+    // Header
+    'past_fjordles': 'Tidligere Fjordle',
+    'about': 'Om',
+    'how_to_play': 'Hvordan spille',
+    'privacy': 'Personvern',
+    
+    // Game
+    'guesses': 'GJETNINGER',
+    'enter_fjord_name': 'Skriv inn fjordnavn...',
+    'loading': 'Laster...',
+    
+    // Results Modal
+    'congratulations': 'Gratulerer!',
+    'next_time': 'Neste gang!',
+    'the_answer_was': 'Svaret var:',
+    'played': 'Spilt',
+    'win_percent': 'Vinn %',
+    'current_streak': 'Nåværende rekke',
+    'max_streak': 'Maks rekke',
+    'share_results': 'Del resultatet ditt',
+    'copied': 'Kopiert!',
+    
+    // Metadata
+    'site_title': 'Fjordle - Daglig norsk fjord-puslespill',
+    'site_description': 'Daglig norsk fjord-puslespill. Gjett fjorden fra dens karakteristiske omriss. Nytt puslespill hver dag med norsk geografi.',
+    'site_keywords': 'fjord puslespill, norge geografi, daglig puslespill, fjord spill, norske fjorder, puslespill, spill, geografi, fjordle'
+  },
+  en: {
+    // Header
+    'past_fjordles': 'Past Fjordles',
+    'about': 'About',
+    'how_to_play': 'How to Play',
+    'privacy': 'Privacy',
+    
+    // Game
+    'guesses': 'GUESSES',
+    'enter_fjord_name': 'Enter fjord name...',
+    'loading': 'Loading...',
+    
+    // Results Modal
+    'congratulations': 'Congratulations!',
+    'next_time': 'Next Time!',
+    'the_answer_was': 'The answer was:',
+    'played': 'Played',
+    'win_percent': 'Win %',
+    'current_streak': 'Current Streak',
+    'max_streak': 'Max Streak',
+    'share_results': 'Share Your Results',
+    'copied': 'Copied!',
+    
+    // Metadata
+    'site_title': 'Fjordle - Daily Norwegian Fjord Puzzle',
+    'site_description': 'Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.',
+    'site_keywords': 'fjord puzzle, norway geography, daily puzzle, fjord game, norwegian fjords, puzzle, game, geography, fjordle'
+  }
+}
+
+export const getTranslation = (key: string, language: 'no' | 'en' = 'no'): string => {
+  return translations[language]?.[key] || translations.en[key] || key
+}

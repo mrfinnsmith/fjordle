@@ -79,3 +79,9 @@ export interface GuessData {
 }
 
 export const MAX_ATTEMPTS = 6
+
+export interface Translations {
+  [key: string]: string
+}
+
+export type Language = 'no' | 'en'

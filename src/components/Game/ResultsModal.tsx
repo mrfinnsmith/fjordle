@@ -3,6 +3,7 @@
 import { GameState } from '@/types/game'
 import { useState } from 'react'
 import { getUserStats } from '@/lib/localStorage'
+import { useLanguage } from '@/lib/languageContext'
 
 interface ResultsModalProps {
   gameState: GameState
@@ -11,6 +12,7 @@ interface ResultsModalProps {
 }
 
 export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModalProps) {
+  const { t } = useLanguage()
   const [showCopiedMessage, setShowCopiedMessage] = useState(false)
 
   if (!isOpen || !gameState.puzzle) return null
@@ -73,11 +75,11 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
             <span className="text-white text-2xl">🇳🇴</span>
           </div>
           <h2 className="text-3xl font-bold mb-2">
-            {gameState.gameStatus === 'won' ? 'Congratulations!' : 'Next Time!'}
+            {gameState.gameStatus === 'won' ? t('congratulations') : t('next_time')}
           </h2>
           {gameState.gameStatus === 'lost' && gameState.puzzle && (
             <p className="text-lg text-gray-600 mb-4">
-              The answer was: <strong>{gameState.puzzle.fjord.name}</strong>
+              {t('the_answer_was')}: <strong>{gameState.puzzle.fjord.name}</strong>
             </p>
           )}
         </div>
@@ -86,19 +88,19 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
         <div className="grid grid-cols-4 gap-4 mb-6">
           <div className="text-center">
             <div className="text-2xl font-bold">{userStats.gamesPlayed}</div>
-            <div className="text-sm text-gray-600">Played</div>
+            <div className="text-sm text-gray-600">{t('played')}</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold">{winPercentage}</div>
-            <div className="text-sm text-gray-600">Win %</div>
+            <div className="text-sm text-gray-600">{t('win_percent')}</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold">{userStats.currentStreak}</div>
-            <div className="text-sm text-gray-600">Current Streak</div>
+            <div className="text-sm text-gray-600">{t('current_streak')}</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold">{userStats.maxStreak}</div>
-            <div className="text-sm text-gray-600">Max Streak</div>
+            <div className="text-sm text-gray-600">{t('max_streak')}</div>
           </div>
         </div>
 
@@ -119,7 +121,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
           onClick={handleShare}
           className="w-full bg-black text-white py-3 rounded-full font-medium"
         >
-          {showCopiedMessage ? 'Copied!' : 'Share Your Results'}
+          {showCopiedMessage ? t('copied') : t('share_results')}
         </button>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, KeyboardEvent } from 'react'
 import { FjordOption } from '@/types/game'
+import { useLanguage } from '@/lib/languageContext'
 
 interface GuessInputProps {
     fjords: FjordOption[]
@@ -18,6 +19,7 @@ export default function GuessInput({
     attemptsUsed,
     maxAttempts
 }: GuessInputProps) {
+    const { t } = useLanguage()
     const [inputValue, setInputValue] = useState('')
     const [filteredFjords, setFilteredFjords] = useState<FjordOption[]>([])
     const [showDropdown, setShowDropdown] = useState(false)
@@ -76,7 +78,7 @@ export default function GuessInput({
             {/* Attempts counter */}
             <div className="attempts-display">
                 <span className="attempts-text">
-                    GUESSES {attemptsUsed} / {maxAttempts}
+                    {t('guesses')} {attemptsUsed} / {maxAttempts}
                 </span>
             </div>
 
@@ -88,7 +90,7 @@ export default function GuessInput({
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Enter fjord name..."
+                    placeholder={t('enter_fjord_name')}
                     disabled={disabled}
                     className="guess-input"
                 />
@@ -110,4 +112,4 @@ export default function GuessInput({
             </div>
         </div>
     )
-} 
+}

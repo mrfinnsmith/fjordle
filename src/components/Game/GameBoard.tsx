@@ -5,6 +5,7 @@ import { GameState, Puzzle, FjordOption } from '@/types/game'
 import { createInitialGameState, makeGuess } from '@/lib/gameLogic'
 import { createSession, getSessionExists } from '@/lib/session_api'
 import { getAllFjords } from '@/lib/puzzleApi'
+import { useLanguage } from '@/lib/languageContext'
 import FjordDisplay from './FjordDisplay'
 import GuessInput from './GuessInput'
 import GuessHistory from './GuessHistory'
@@ -18,6 +19,7 @@ interface GameBoardProps {
 }
 
 export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
+  const { t } = useLanguage()
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [fjords, setFjords] = useState<FjordOption[]>([])
   const [showResultsModal, setShowResultsModal] = useState(false)
@@ -102,7 +104,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   if (!gameState) {
     return (
       <div className="game-container">
-        <div className="loading-spinner">Loading...</div>
+        <div className="loading-spinner">{t('loading')}</div>
       </div>
     )
   }
