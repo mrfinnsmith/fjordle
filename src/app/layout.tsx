@@ -96,8 +96,11 @@ export default function RootLayout({
               <Link href="/about" className="page-link hover:underline text-sm mr-4">
                 About
               </Link>
-              <Link href="/how-to-play" className="page-link hover:underline text-sm">
+              <Link href="/how-to-play" className="page-link hover:underline text-sm mr-4">
                 How to Play
+              </Link>
+              <Link href="/privacy" className="page-link hover:underline text-sm">
+                Privacy
               </Link>
             </nav>
           </header>
