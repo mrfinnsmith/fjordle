@@ -10,12 +10,22 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - Proximity percentage helps players triangulate the location
 - Shareable results with emoji patterns
 
+## Internationalization
+
+- **Default Language**: Norwegian (bokmål) 
+- **Language Toggle**: Flag icons (🇳🇴/🇬🇧) in top-right corner
+- **Persistence**: Language preference saved in localStorage
+- **Full Translation**: All UI text, page content, and metadata
+- **Natural Norwegian**: Written for Norwegian audience, not direct translation
+- **Fjord Names**: Always displayed in original Norwegian regardless of language
+
 ## Tech Stack
 
 - **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
 - **Assets**: 1,467 Norwegian fjord SVG outlines
 - **Storage**: Local storage for user stats and game progress
+- **i18n**: React Context for language switching
 
 ## Database Schema
 
@@ -69,6 +79,7 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 - `fjordle-session-id` - Anonymous session identifier
 - `fjordle-stats` - User statistics (games played, win rate, streaks)
 - `fjordle_puzzle_{id}_progress` - Individual puzzle progress
+- `fjordle-language` - User's preferred language ('no' or 'en')
 
 ### Tracked Stats
 - Games played/won
@@ -101,6 +112,13 @@ src/
 ├── app/                 # Next.js app router
 ├── components/Game/     # Game components
 ├── lib/                # Utilities and API functions
+│   ├── gameLogic.ts         # Core game mechanics
+│   ├── languageContext.tsx  # i18n context and translations
+│   ├── localStorage.ts      # Browser storage utilities
+│   ├── puzzleApi.ts         # Puzzle data API functions
+│   ├── session_api.ts       # Session tracking API
+│   ├── supabase.ts          # Database connection
+│   └── translations.ts      # Translation utilities (optional)
 ├── types/              # TypeScript interfaces
 public/
 ├── fjord_svgs/         # 1,467 fjord outline SVGs
@@ -113,12 +131,29 @@ public/
 - `GuessInput` - Autocomplete fjord name input
 - `GuessHistory` - Shows previous attempts with feedback
 - `ResultsModal` - End game stats and sharing
+- `LanguageProvider` - i18n context wrapper
+- `LanguageToggle` - Flag-based language switcher
+
+## Translation Management
+
+### Adding New Translations
+1. Add translation keys to `languageContext.tsx`
+2. Include both Norwegian (`no`) and English (`en`) versions
+3. Use `t('translation_key')` in components
+4. Import `useLanguage` hook where needed
+
+### Translation Guidelines
+- Norwegian text should sound natural, not like direct translation
+- Keep fjord names in original Norwegian always
+- Date formatting adapts to selected language
+- Metadata and page titles translate dynamically
 
 ## Deployment Notes
 
 - Set `NEXT_PUBLIC_SITE_URL` for proper OpenGraph/canonical URLs
 - Ensure Supabase RLS policies allow anonymous access
 - Verify all 1,467 SVG files are deployed to `/public/fjord_svgs/`
+- Default language is Norwegian (bokmål) for SEO and audience targeting
 
 ## Troubleshooting
 
@@ -135,3 +170,9 @@ public/
 - Verify file exists in `/public/fjord_svgs/`
 - Check filename matches database `svg_filename` field exactly
 - Ensure proper file permissions after deployment
+
+### Language/Translation Issues
+- Check `localStorage` for `fjordle-language` key
+- Verify `useLanguage` hook is used within `LanguageProvider`
+- Ensure all translation keys exist in both languages
+- Check browser console for missing translation warnings
