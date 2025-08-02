@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.',
   keywords: ['fjord puzzle', 'norway geography', 'daily puzzle', 'fjord game', 'norwegian fjords', 'puzzle', 'game', 'geography', 'fjordle'],
   openGraph: {
-    title: 'Fjordle - Daily Norwegian Fjord Puzzle',
+    title: 'Fjordle, the daily Norwegian fjord puzzle',
     description: 'Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.',
     url: process.env.NEXT_PUBLIC_SITE_URL,
     type: 'website',
@@ -36,6 +36,14 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
+
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8KHXYN6MC"></script>
         <script
