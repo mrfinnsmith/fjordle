@@ -34,6 +34,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
                 'about': 'Om',
                 'how_to_play': 'Hvordan spille',
                 'privacy': 'Personvern',
+                'no_puzzle_today': 'Ingen gåte tilgjengelig i dag',
+                'no_puzzle_message': 'Kom tilbake senere for dagens gåte!',
+                'game_description': 'Gjett den norske fjorden ut fra omrisset!',
 
                 // Game
                 'guesses': 'GJETNINGER',
@@ -162,6 +165,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
                 'about': 'About',
                 'how_to_play': 'How to Play',
                 'privacy': 'Privacy',
+                'no_puzzle_today': 'No puzzle available today',
+                'no_puzzle_message': 'Please check back later for today\'s puzzle!',
+                'game_description': 'Guess the Norwegian fjord from its outline!',
 
                 // Game
                 'guesses': 'GUESSES',

@@ -1,34 +1,39 @@
+'use client'
+
 import GameBoard from '@/components/Game/GameBoard'
 import { getTodaysPuzzle } from '@/lib/puzzleApi'
+import { useLanguage } from '@/lib/languageContext'
+import { useEffect, useState } from 'react'
+import { Puzzle } from '@/types/game'
 
-export const revalidate = 3600
+function NoPuzzleMessage() {
+  const { t } = useLanguage()
 
-export default async function Home() {
-  const puzzle = await getTodaysPuzzle()
+  return (
+    <div className="text-center space-y-4">
+      <h2 className="text-xl font-semibold text-gray-800">
+        {t('no_puzzle_today')}
+      </h2>
+      <p className="text-gray-600">
+        {t('no_puzzle_message')}
+      </p>
+    </div>
+  )
+}
 
-  if (!puzzle) {
-    return (
-      <div className="text-center space-y-4">
-        <h2 className="text-xl font-semibold text-gray-800">
-          No puzzle available today
-        </h2>
-        <p className="text-gray-600">
-          Please check back later for today's puzzle!
-        </p>
-      </div>
-    )
-  }
+function GameContent({ puzzle }: { puzzle: any }) {
+  const { t, language } = useLanguage()
 
   return (
     <div className="space-y-4">
       <div className="text-center">
         <p className="text-gray-700 mb-4">
-          Guess the Norwegian fjord from its outline!
+          {t('game_description')}
         </p>
       </div>
       <div className="text-center mb-4">
         <p className="text-gray-600 text-sm">
-          {new Date().toLocaleDateString('en-US', {
+          {new Date().toLocaleDateString(language === 'no' ? 'no-NO' : 'en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -40,4 +45,38 @@ export default async function Home() {
       <GameBoard puzzle={puzzle} />
     </div>
   )
+}
+
+export default function Home() {
+  const [puzzle, setPuzzle] = useState<Puzzle | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadPuzzle() {
+      try {
+        const todaysPuzzle = await getTodaysPuzzle()
+        setPuzzle(todaysPuzzle)
+      } catch (error) {
+        console.error('Failed to load puzzle:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadPuzzle()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="text-center">
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    )
+  }
+
+  if (!puzzle) {
+    return <NoPuzzleMessage />
+  }
+
+  return <GameContent puzzle={puzzle} />
 }
