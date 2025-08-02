@@ -1,7 +1,7 @@
 export default function HowToPlay() {
     return (
         <div className="page-content">
-            <h2 className="text-2xl font-bold page-text mb-6">How to Play</h2>
+            <h1 className="text-2xl font-bold page-text mb-6">How to Play</h1>
 
             <div className="space-y-6 page-text">
                 <section>
