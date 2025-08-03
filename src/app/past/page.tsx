@@ -18,7 +18,7 @@ interface FormattedPuzzle extends PastPuzzle {
 }
 
 export default function PastPuzzlesPage() {
-    const { t, language, mounted } = useLanguage()
+    const { t, language } = useLanguage()
     const router = useRouter()
     const [puzzles, setPuzzles] = useState<PastPuzzle[]>([])
     const [formattedPuzzles, setFormattedPuzzles] = useState<FormattedPuzzle[]>([])
@@ -26,7 +26,7 @@ export default function PastPuzzlesPage() {
     const [error, setError] = useState<string | null>(null)
 
     console.log('[DEBUG] PastPuzzlesPage render - router:', router)
-    console.log('[DEBUG] PastPuzzlesPage render - language:', language, 'mounted:', mounted)
+    console.log('[DEBUG] PastPuzzlesPage render - language:', language)
     console.log('[DEBUG] PastPuzzlesPage render - puzzles count:', puzzles.length)
     console.log('[DEBUG] PastPuzzlesPage render - formatted puzzles count:', formattedPuzzles.length)
 
@@ -34,7 +34,7 @@ export default function PastPuzzlesPage() {
         console.log('[DEBUG] PastPuzzlesPage mounted')
         console.log('[DEBUG] Router in PastPuzzlesPage:', router)
         if (typeof window !== 'undefined') {
-          console.log('[DEBUG] Current URL:', window.location.href)
+            console.log('[DEBUG] Current URL:', window.location.href)
         }
     }, [router])
 
@@ -61,9 +61,9 @@ export default function PastPuzzlesPage() {
         fetchPuzzles()
     }, [])
 
-    // Format dates after component is mounted and language is available
+    // Format dates when language or puzzles change
     useEffect(() => {
-        if (mounted && puzzles.length > 0) {
+        if (puzzles.length > 0) {
             console.log('[DEBUG] Formatting puzzle dates with language:', language)
             const formatted = puzzles.map(puzzle => ({
                 ...puzzle,
@@ -72,7 +72,7 @@ export default function PastPuzzlesPage() {
             console.log('[DEBUG] Formatted puzzles:', formatted)
             setFormattedPuzzles(formatted)
         }
-    }, [puzzles, language, mounted])
+    }, [puzzles, language])
 
     if (loading) {
         return (

@@ -1,4 +1,6 @@
 import { LanguageProvider } from '@/lib/languageContext'
+import { getLanguageFromCookies } from '@/lib/serverCookies'
+import { Language } from '@/types/game'
 import ClientLayout from '@/components/ClientLayout'
 import './globals.css'
 
@@ -7,8 +9,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // Read language from cookies on server-side
+  let initialLanguage: Language = 'no'
+
+  try {
+    initialLanguage = getLanguageFromCookies()
+  } catch {
+    // Fallback to Norwegian if cookie reading fails
+    initialLanguage = 'no'
+  }
+
   return (
-    <html lang="no">
+    <html lang={initialLanguage}>
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
 
@@ -18,7 +30,6 @@ export default function RootLayout({
 
         <meta property="og:title" content="Fjordle - Daglig fjordpuslespill" />
         <meta property="og:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
-
         <meta name="twitter:title" content="Fjordle - Daglig fjordpuslespill" />
         <meta name="twitter:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
         <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
@@ -57,7 +68,7 @@ export default function RootLayout({
               "url": process.env.NEXT_PUBLIC_SITE_URL,
               "applicationCategory": "Game",
               "operatingSystem": "Web Browser",
-              "inLanguage": "no",
+              "inLanguage": initialLanguage,
               "keywords": "fjord puslespill, norge geografi, daglig puslespill, fjord spill, norske fjorder, puslespill, spill, geografi",
               "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
             })
@@ -65,7 +76,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen page-container">
-        <LanguageProvider>
+        <LanguageProvider initialLanguage={initialLanguage}>
           <ClientLayout>
             {children}
           </ClientLayout>

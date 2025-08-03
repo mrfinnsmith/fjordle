@@ -5,11 +5,10 @@ import { useEffect } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function HowToPlay() {
-    const { t, mounted } = useLanguage()
+    const { t } = useLanguage()
     const router = useRouter()
 
     console.log('[DEBUG] HowToPlayPage render - router:', router)
-    console.log('[DEBUG] HowToPlayPage render - mounted:', mounted)
 
     useEffect(() => {
         console.log('[DEBUG] HowToPlayPage mounted')

@@ -24,22 +24,20 @@ function NoPuzzleMessage() {
 }
 
 function GameContent({ puzzle }: { puzzle: Puzzle }) {
-  const { t, language, mounted } = useLanguage()
+  const { t, language } = useLanguage()
   const [formattedDate, setFormattedDate] = useState('')
 
-  console.log('[DEBUG] GameContent render - language:', language, 'mounted:', mounted)
+  console.log('[DEBUG] GameContent render - language:', language)
 
   useEffect(() => {
-    if (mounted) {
-      console.log('[DEBUG] GameContent formatting date with language:', language)
-      setFormattedDate(formatDate(new Date(), language, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'Europe/Oslo'
-      }))
-    }
-  }, [language, mounted])
+    console.log('[DEBUG] GameContent formatting date with language:', language)
+    setFormattedDate(formatDate(new Date(), language, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'Europe/Oslo'
+    }))
+  }, [language])
 
   return (
     <div className="space-y-4">

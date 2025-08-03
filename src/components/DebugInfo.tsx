@@ -6,7 +6,7 @@ import { useLanguage } from '@/lib/languageContext'
 export default function DebugInfo() {
     const router = useRouter()
     const pathname = usePathname()
-    const { language, mounted } = useLanguage()
+    const { language } = useLanguage()
 
     console.log('[DEBUG] DebugInfo render')
 
@@ -24,7 +24,6 @@ export default function DebugInfo() {
             fontFamily: 'monospace'
         }}>
             <div>Environment: {process.env.NODE_ENV}</div>
-            <div>Mounted: {mounted ? 'YES' : 'NO'}</div>
             <div>Language: {language}</div>
             <div>Pathname: {pathname}</div>
             <div>Router exists: {router ? 'YES' : 'NO'}</div>

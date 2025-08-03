@@ -14,20 +14,18 @@ interface FormattedGuess extends Guess {
 }
 
 export default function GuessHistory({ guesses }: GuessHistoryProps) {
-    const { language, mounted } = useLanguage()
+    const { language } = useLanguage()
     const [formattedGuesses, setFormattedGuesses] = useState<FormattedGuess[]>([])
-    
-    // Format numbers after component is mounted and language is available
+
+    // Format numbers when language or guesses change
     useEffect(() => {
-        if (mounted) {
-            const formatted = guesses.map(guess => ({
-                ...guess,
-                formattedDistance: formatNumber(guess.distance, language)
-            }))
-            setFormattedGuesses(formatted)
-        }
-    }, [guesses, language, mounted])
-    
+        const formatted = guesses.map(guess => ({
+            ...guess,
+            formattedDistance: formatNumber(guess.distance, language)
+        }))
+        setFormattedGuesses(formatted)
+    }, [guesses, language])
+
     if (guesses.length === 0) return null
 
     return (

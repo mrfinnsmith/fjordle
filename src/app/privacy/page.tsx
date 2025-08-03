@@ -5,11 +5,10 @@ import { useEffect } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function PrivacyPage() {
-    const { t, mounted } = useLanguage()
+    const { t } = useLanguage()
     const router = useRouter()
 
     console.log('[DEBUG] PrivacyPage render - router:', router)
-    console.log('[DEBUG] PrivacyPage render - mounted:', mounted)
 
     useEffect(() => {
         console.log('[DEBUG] PrivacyPage mounted')

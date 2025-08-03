@@ -5,17 +5,16 @@ import { useEffect } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function About() {
-    const { t, mounted } = useLanguage()
+    const { t } = useLanguage()
     const router = useRouter()
 
     console.log('[DEBUG] AboutPage render - router:', router)
-    console.log('[DEBUG] AboutPage render - mounted:', mounted)
 
     useEffect(() => {
         console.log('[DEBUG] AboutPage mounted')
         console.log('[DEBUG] Router in AboutPage:', router)
         if (typeof window !== 'undefined') {
-          console.log('[DEBUG] Current URL:', window.location.href)
+            console.log('[DEBUG] Current URL:', window.location.href)
         }
     }, [router])
 

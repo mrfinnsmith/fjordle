@@ -1,38 +1,25 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, ReactNode, useState } from 'react'
 import { Language, TranslationKey } from '@/types/game'
 import { translations } from './translations'
-import { getLanguageFromCookiesClient, setLanguageCookie } from './cookies'
+import { setLanguageCookie } from './cookies'
 
 interface LanguageContextType {
     language: Language
     setLanguage: (lang: Language) => void
     t: (key: TranslationKey) => string
-    mounted: boolean
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 interface LanguageProviderProps {
     children: ReactNode
+    initialLanguage: Language  // Accept language from server
 }
 
-export function LanguageProvider({ children }: LanguageProviderProps) {
-    const [mounted, setMounted] = useState(false)
-    const [language, setLanguageState] = useState<Language>('no') // Safe default
-
-    console.log('[DEBUG] LanguageProvider render - mounted:', mounted)
-    console.log('[DEBUG] LanguageProvider render - language:', language)
-
-    useEffect(() => {
-        console.log('[DEBUG] LanguageProvider useEffect - reading language from cookies')
-        const savedLanguage = getLanguageFromCookiesClient()
-        console.log('[DEBUG] Saved language from cookies:', savedLanguage)
-        setLanguageState(savedLanguage)
-        setMounted(true)
-        console.log('[DEBUG] LanguageProvider mounted with language:', savedLanguage)
-    }, [])
+export function LanguageProvider({ children, initialLanguage }: LanguageProviderProps) {
+    const [language, setLanguageState] = useState<Language>(initialLanguage)
 
     const setLanguage = (lang: Language) => {
         console.log('[DEBUG] setLanguage called with:', lang)
@@ -52,10 +39,10 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
         return translation
     }
 
-    console.log('[DEBUG] LanguageProvider providing context:', { language, setLanguage: '(function)', t: '(function)', mounted })
+    console.log('[DEBUG] LanguageProvider providing context:', { language, setLanguage: '(function)', t: '(function)' })
 
     return (
-        <LanguageContext.Provider value={{ language, setLanguage, t, mounted }}>
+        <LanguageContext.Provider value={{ language, setLanguage, t }}>
             {children}
         </LanguageContext.Provider>
     )

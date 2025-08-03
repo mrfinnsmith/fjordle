@@ -49,13 +49,11 @@ function Header() {
 }
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
-  const { mounted } = useLanguage()
   const router = useRouter()
   const pathname = usePathname()
 
   console.log('[DEBUG] ClientLayout - router:', router)
   console.log('[DEBUG] ClientLayout - pathname:', pathname)
-  console.log('[DEBUG] ClientLayout - mounted:', mounted)
 
   useEffect(() => {
     console.log('[DEBUG] ClientLayout mounted')
@@ -116,30 +114,14 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     }
   }, [])
 
-  // Don't render language-dependent content until mounted
-  if (!mounted) {
-    return (
-      <div className="container mx-auto px-4 py-6 max-w-2xl">
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold page-text mb-1">Fjordle</h1>
-            <div className="mt-4">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-            </div>
-          </div>
-        </div>
-        <DebugInfo />
-      </div>
-    )
-  }
-
+  // Always render the full app immediately
   return (
     <div className="container mx-auto px-4 py-6 max-w-2xl">
       <Header />
       <main>
         {children}
       </main>
-      <DebugInfo />
+      {process.env.NODE_ENV === 'development' && <DebugInfo />}
     </div>
   )
 } 
