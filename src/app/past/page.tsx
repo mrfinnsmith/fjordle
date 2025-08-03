@@ -33,7 +33,9 @@ export default function PastPuzzlesPage() {
     useEffect(() => {
         console.log('[DEBUG] PastPuzzlesPage mounted')
         console.log('[DEBUG] Router in PastPuzzlesPage:', router)
-        console.log('[DEBUG] Current URL:', window.location.href)
+        if (typeof window !== 'undefined') {
+          console.log('[DEBUG] Current URL:', window.location.href)
+        }
     }, [router])
 
     useEffect(() => {

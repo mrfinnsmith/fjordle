@@ -52,19 +52,20 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const { mounted } = useLanguage()
   const router = useRouter()
   const pathname = usePathname()
-  
+
   console.log('[DEBUG] ClientLayout - router:', router)
   console.log('[DEBUG] ClientLayout - pathname:', pathname)
-  console.log('[DEBUG] ClientLayout - window.location:', window.location?.href)
   console.log('[DEBUG] ClientLayout - mounted:', mounted)
-  
+
   useEffect(() => {
     console.log('[DEBUG] ClientLayout mounted')
     console.log('[DEBUG] Router available:', !!router)
     console.log('[DEBUG] Router push available:', typeof router?.push)
     console.log('[DEBUG] Current pathname:', pathname)
-    console.log('[DEBUG] Window location:', window.location.href)
-    
+    if (typeof window !== 'undefined') {
+      console.log('[DEBUG] Window location:', window.location.href)
+    }
+
     // Test router functionality
     const testRouter = () => {
       try {
@@ -75,7 +76,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         console.error('[DEBUG] Router test failed:', error)
       }
     }
-    
+
     setTimeout(testRouter, 1000)
   }, [router, pathname])
 
@@ -97,17 +98,21 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
     const handlePopstate = (e: PopStateEvent) => {
       console.log('[DEBUG] Popstate event:', e)
-      console.log('[DEBUG] URL changed to:', window.location.href)
+      if (typeof window !== 'undefined') {
+        console.log('[DEBUG] URL changed to:', window.location.href)
+      }
     }
 
-    document.addEventListener('click', handleClick, true)
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    window.addEventListener('popstate', handlePopstate)
+    if (typeof window !== 'undefined') {
+      document.addEventListener('click', handleClick, true)
+      window.addEventListener('beforeunload', handleBeforeUnload)
+      window.addEventListener('popstate', handlePopstate)
 
-    return () => {
-      document.removeEventListener('click', handleClick, true)
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-      window.removeEventListener('popstate', handlePopstate)
+      return () => {
+        document.removeEventListener('click', handleClick, true)
+        window.removeEventListener('beforeunload', handleBeforeUnload)
+        window.removeEventListener('popstate', handlePopstate)
+      }
     }
   }, [])
 

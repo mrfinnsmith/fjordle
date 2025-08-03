@@ -14,7 +14,9 @@ export default function PrivacyPage() {
     useEffect(() => {
         console.log('[DEBUG] PrivacyPage mounted')
         console.log('[DEBUG] Router in PrivacyPage:', router)
-        console.log('[DEBUG] Current URL:', window.location.href)
+        if (typeof window !== 'undefined') {
+            console.log('[DEBUG] Current URL:', window.location.href)
+        }
     }, [router])
 
     return (

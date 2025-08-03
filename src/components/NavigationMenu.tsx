@@ -40,22 +40,26 @@ export default function NavigationMenu() {
     console.log('[DEBUG] typeof router:', typeof router)
     console.log('[DEBUG] router object:', router)
     console.log('[DEBUG] router.push exists:', typeof router?.push)
-    console.log('[DEBUG] window.location before:', window.location.href)
-    
+    if (typeof window !== 'undefined') {
+      console.log('[DEBUG] window.location before:', window.location.href)
+    }
+
     try {
       console.log('[DEBUG] About to call router.push with:', path)
       router.push(path)
       console.log('[DEBUG] router.push call completed')
-      
+
       // Check if URL changed after a delay
-      setTimeout(() => {
-        console.log('[DEBUG] URL after 100ms:', window.location.href)
-      }, 100)
-      
-      setTimeout(() => {
-        console.log('[DEBUG] URL after 500ms:', window.location.href)
-      }, 500)
-      
+      if (typeof window !== 'undefined') {
+        setTimeout(() => {
+          console.log('[DEBUG] URL after 100ms:', window.location.href)
+        }, 100)
+
+        setTimeout(() => {
+          console.log('[DEBUG] URL after 500ms:', window.location.href)
+        }, 500)
+      }
+
     } catch (error) {
       console.error('[DEBUG] Error in router.push:', error)
       console.error('[DEBUG] Error stack:', error instanceof Error ? error.stack : 'No stack trace')
@@ -69,10 +73,10 @@ export default function NavigationMenu() {
     console.log('[DEBUG] Event target:', e.target)
     console.log('[DEBUG] Event currentTarget:', e.currentTarget)
     console.log('[DEBUG] Default prevented?:', e.defaultPrevented)
-    
+
     e.preventDefault()
     console.log('[DEBUG] preventDefault called')
-    
+
     handleNavigation(path)
     setIsOpen(false)
     console.log('[DEBUG] Menu closed')

@@ -14,7 +14,9 @@ export default function About() {
     useEffect(() => {
         console.log('[DEBUG] AboutPage mounted')
         console.log('[DEBUG] Router in AboutPage:', router)
-        console.log('[DEBUG] Current URL:', window.location.href)
+        if (typeof window !== 'undefined') {
+          console.log('[DEBUG] Current URL:', window.location.href)
+        }
     }, [router])
 
     return (

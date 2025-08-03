@@ -71,7 +71,9 @@ export default function Home() {
   useEffect(() => {
     console.log('[DEBUG] HomePage mounted')
     console.log('[DEBUG] Router in HomePage:', router)
-    console.log('[DEBUG] Current URL:', window.location.href)
+    if (typeof window !== 'undefined') {
+      console.log('[DEBUG] Current URL:', window.location.href)
+    }
   }, [router])
 
   useEffect(() => {

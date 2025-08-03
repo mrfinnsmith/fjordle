@@ -14,7 +14,9 @@ export default function HowToPlay() {
     useEffect(() => {
         console.log('[DEBUG] HowToPlayPage mounted')
         console.log('[DEBUG] Router in HowToPlayPage:', router)
-        console.log('[DEBUG] Current URL:', window.location.href)
+        if (typeof window !== 'undefined') {
+            console.log('[DEBUG] Current URL:', window.location.href)
+        }
     }, [router])
 
     return (
