@@ -8,8 +8,6 @@ export default function DebugInfo() {
     const pathname = usePathname()
     const { language } = useLanguage()
 
-    console.log('[DEBUG] DebugInfo render')
-
     return (
         <div style={{
             position: 'fixed',
