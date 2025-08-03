@@ -10,6 +10,6 @@ jobs:
     steps:
       - name: Call Supabase function
         run: |
-          curl -X POST https://kzdbsuhqlkgpoabt.supabase.co/functions/v1/daily-puzzle \
+          curl -X POST https://kvkmdkvmbuiqicgoqabx.supabase.co/functions/v1/daily-puzzle \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Content-Type: application/json"
