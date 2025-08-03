@@ -62,7 +62,7 @@ export default function NavigationMenu() {
               key={link.href}
               href={link.href}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap"
-              onClick={() => setIsOpen(false)}
+              onClick={() => setTimeout(() => setIsOpen(false), 50)}
             >
               {link.label}
             </Link>
