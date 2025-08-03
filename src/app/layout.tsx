@@ -1,5 +1,6 @@
 import { LanguageProvider } from '@/lib/languageContext'
 import { getLanguageFromCookies } from '@/lib/serverCookies'
+import { Language } from '@/types/game'
 import ClientLayout from '@/components/ClientLayout'
 import './globals.css'
 
@@ -8,8 +9,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Read language from cookies on server-side
-  const initialLanguage = getLanguageFromCookies()
+  // Read language from cookies on server-side with comprehensive error handling
+  let initialLanguage: Language = 'no'
+
+  try {
+    initialLanguage = getLanguageFromCookies()
+  } catch (error) {
+    console.error('Layout: Failed to read language from cookies:', error)
+    console.warn('Layout: Using default language due to cookie reading failure')
+    initialLanguage = 'no'
+  }
 
   return (
     <html lang={initialLanguage}>
