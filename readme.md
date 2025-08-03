@@ -14,10 +14,11 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 
 - **Default Language**: Norwegian (bokmål) 
 - **Language Toggle**: Flag icons (🇳🇴/🇬🇧) in top-right corner
-- **Persistence**: Language preference saved in localStorage
+- **Persistence**: Language preference saved in cookies
 - **Full Translation**: All UI text, page content, and metadata
 - **Natural Norwegian**: Written for Norwegian audience, not direct translation
 - **Fjord Names**: Always displayed in original Norwegian regardless of language
+- **Language Detection**: Server-side cookie reading with client-side React Context for switching
 
 ## Tech Stack
 
@@ -25,7 +26,7 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **Database**: Supabase (PostgreSQL)
 - **Assets**: 1,467 Norwegian fjord SVG outlines
 - **Storage**: Local storage for user stats and game progress
-- **i18n**: React Context for language switching
+- **i18n**: Server-side cookie detection with React Context for language switching
 
 ## Database Schema
 
@@ -79,6 +80,8 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 - `fjordle-session-id` - Anonymous session identifier
 - `fjordle-stats` - User statistics (games played, win rate, streaks)
 - `fjordle_puzzle_{id}_progress` - Individual puzzle progress
+
+### Cookie Storage
 - `fjordle-language` - User's preferred language ('no' or 'en')
 
 ### Tracked Stats
@@ -110,18 +113,49 @@ SELECT * FROM get_daily_fjord_puzzle();
 ```
 src/
 ├── app/                 # Next.js app router
-├── components/Game/     # Game components
+│   ├── about/           # About page
+│   ├── api/             # API routes
+│   │   ├── advance-puzzle/   # Daily puzzle management
+│   │   ├── past-puzzles/     # Past puzzles API
+│   │   └── puzzle/[number]/  # Specific puzzle API
+│   ├── how-to-play/     # How to play page
+│   ├── past/            # Past puzzles page
+│   ├── privacy/         # Privacy policy page
+│   ├── puzzle/[number]/ # Individual puzzle pages
+│   ├── globals.css      # Global styles
+│   ├── layout.tsx       # Root layout with server-side language detection
+│   ├── page.tsx         # Home page
+│   ├── robots.ts        # Robots.txt generation
+│   └── sitemap.ts       # Sitemap generation
+├── components/          # React components
+│   ├── Game/            # Game-specific components
+│   │   ├── FjordDisplay.tsx      # Fjord outline display
+│   │   ├── GameBoard.tsx         # Main game interface
+│   │   ├── GuessHistory.tsx      # Previous attempts with feedback
+│   │   ├── GuessInput.tsx        # Autocomplete fjord input
+│   │   ├── ResultsModal.tsx      # End game stats and sharing
+│   │   └── Toast.tsx             # Notification component
+│   ├── ClientLayout.tsx          # Client-side layout wrapper
+│   ├── DebugInfo.tsx            # Development debug panel
+│   └── NavigationMenu.tsx        # Main navigation menu
 ├── lib/                # Utilities and API functions
-│   ├── gameLogic.ts         # Core game mechanics
-│   ├── languageContext.tsx  # i18n context and translations
-│   ├── localStorage.ts      # Browser storage utilities
-│   ├── puzzleApi.ts         # Puzzle data API functions
-│   ├── session_api.ts       # Session tracking API
-│   ├── supabase.ts          # Database connection
-│   └── translations.ts      # Translation utilities (optional)
+│   ├── cookies.ts               # Client-side cookie management
+│   ├── gameLogic.ts             # Core game mechanics
+│   ├── languageContext.tsx      # i18n context and translations
+│   ├── localStorage.ts          # Browser storage utilities
+│   ├── puzzleApi.ts             # Puzzle data API functions
+│   ├── serverCookies.ts         # Server-side cookie reading
+│   ├── session_api.ts           # Session tracking API
+│   ├── supabase.ts              # Database connection
+│   ├── translations.ts          # Translation data
+│   └── utils.ts                 # General utilities
 ├── types/              # TypeScript interfaces
+│   └── game.ts                  # Game-related types
 public/
 ├── fjord_svgs/         # 1,467 fjord outline SVGs
+├── og-image.png        # Social media image
+├── favicon files       # Various favicon formats
+└── site.webmanifest    # PWA manifest
 ```
 
 ## Key Components
@@ -133,11 +167,12 @@ public/
 - `ResultsModal` - End game stats and sharing
 - `LanguageProvider` - i18n context wrapper
 - `LanguageToggle` - Flag-based language switcher
+- `NavigationMenu` - Dropdown navigation menu
 
 ## Translation Management
 
 ### Adding New Translations
-1. Add translation keys to `languageContext.tsx`
+1. Add translation keys to `lib/languageContext.tsx`
 2. Include both Norwegian (`no`) and English (`en`) versions
 3. Use `t('translation_key')` in components
 4. Import `useLanguage` hook where needed
@@ -154,6 +189,7 @@ public/
 - Ensure Supabase RLS policies allow anonymous access
 - Verify all 1,467 SVG files are deployed to `/public/fjord_svgs/`
 - Default language is Norwegian (bokmål) for SEO and audience targeting
+- **Norwegian Flash**: Brief Norwegian text may appear before English loads (acceptable trade-off for working navigation)
 
 ## Troubleshooting
 
@@ -176,3 +212,9 @@ public/
 - Verify `useLanguage` hook is used within `LanguageProvider`
 - Ensure all translation keys exist in both languages
 - Check browser console for missing translation warnings
+
+### Navigation Issues
+- If navigation links don't work after deployment, delete `.next` build cache and redeploy
+- Next.js chunk caching can serve old JavaScript even with new source code
+- Force fresh build: `rm -rf .next` then push to trigger new deployment
+- This prevents cached JavaScript chunks from breaking navigation functionality
