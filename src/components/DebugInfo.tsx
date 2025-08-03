@@ -28,7 +28,7 @@ export default function DebugInfo() {
             <div>Language: {language}</div>
             <div>Pathname: {pathname}</div>
             <div>Router exists: {router ? 'YES' : 'NO'}</div>
-            <div>Router.push exists: {router?.push ? 'YES' : 'NO'}</div>
+            <div>Router.push exists: {typeof router?.push === 'function' ? 'YES' : 'NO'}</div>
             <div>URL: {typeof window !== 'undefined' ? window.location.href : 'SSR'}</div>
             <div>User Agent: {typeof navigator !== 'undefined' ? navigator.userAgent.substring(0, 50) : 'SSR'}</div>
             <div>Timestamp: {new Date().toISOString()}</div>
