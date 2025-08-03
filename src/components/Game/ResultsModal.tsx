@@ -21,12 +21,10 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
     maxStreak: 0,
     lastPlayedDate: ''
   })
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     // Only access localStorage after component mounts
     setUserStats(getUserStats())
-    setMounted(true)
   }, [])
 
   if (!isOpen || !gameState.puzzle) return null
@@ -35,107 +33,112 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
     ? Math.round((userStats.gamesWon / userStats.gamesPlayed) * 100)
     : 0
 
-  const generateShareText = (): string => {
-    const { puzzle, guesses, gameStatus } = gameState
-    if (!puzzle) return ''
+  const generateResultText = () => {
+    const attempts = gameState.guesses.length
+    const maxAttempts = 6
+    const emojiResult = gameState.won
+      ? '🎯'
+      : '❌'
 
-    const attempts = gameStatus === 'won' ? guesses.length : 'X'
-    let shareText = `#Fjordle #${puzzle.puzzle_number} ${attempts}/6\n\n`
+    const guessEmojis = gameState.guesses.map(guess => {
+      if (guess.proximity >= 100) return '🎯'
+      if (guess.proximity >= 75) return '🔥'
+      if (guess.proximity >= 50) return '🟠'
+      if (guess.proximity >= 25) return '🟡'
+      return '🔵'
+    }).join('')
 
-    guesses.forEach(guess => {
-      if (guess.isCorrect) {
-        shareText += '🟩\n'
-      } else {
-        // Use exact proximity percentages
-        shareText += `${guess.proximityPercent}%\n`
-      }
-    })
-
-    // Fill remaining attempts if lost
-    if (gameStatus === 'lost') {
-      for (let i = guesses.length; i < 6; i++) {
-        shareText += '⬜\n'
+    if (!gameState.won) {
+      for (let i = attempts; i < maxAttempts; i++) {
+        // Don't add extra empty squares for failed games
       }
     }
 
-    shareText += `\n${process.env.NEXT_PUBLIC_SITE_URL}`
-    return shareText
+    return `Fjordle #${gameState.puzzle.puzzleNumber} ${emojiResult}\n${attempts}/${maxAttempts}\n\n${guessEmojis}\n\n${process.env.NEXT_PUBLIC_SITE_URL}`
   }
 
-  const handleShare = async () => {
-    const shareText = generateShareText()
+  const copyResults = async () => {
     try {
-      await navigator.clipboard.writeText(shareText)
+      await navigator.clipboard.writeText(generateResultText())
       setShowCopiedMessage(true)
       setTimeout(() => setShowCopiedMessage(false), 2000)
     } catch (err) {
-      console.error('Failed to copy to clipboard:', err)
+      console.error('Failed to copy results:', err)
     }
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4 relative">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg p-6 max-w-md w-full relative">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
         >
           ×
         </button>
 
-        <div className="text-center mb-6">
-          <div className="w-12 h-12 bg-blue-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
-            <span className="text-white text-2xl">🇳🇴</span>
-          </div>
-          <h2 className="text-3xl font-bold mb-2">
-            {gameState.gameStatus === 'won' ? t('congratulations') : t('next_time')}
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4 page-text">
+            {gameState.won ? t('congratulations') : t('better_luck_tomorrow')}
           </h2>
-          {gameState.gameStatus === 'lost' && gameState.puzzle && (
-            <p className="text-lg text-gray-600 mb-4">
-              {t('the_answer_was')}: <strong>{gameState.puzzle.fjord.name}</strong>
-            </p>
+
+          {gameState.won && (
+            <div className="mb-4">
+              <p className="text-lg page-text">
+                {t('guessed_in_attempts', { attempts: gameState.guesses.length })}
+              </p>
+              <p className="text-sm text-gray-600 mt-2 page-text">
+                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.name}</span>
+              </p>
+            </div>
           )}
-        </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          <div className="text-center">
-            <div className="text-2xl font-bold">{userStats.gamesPlayed}</div>
-            <div className="text-sm text-gray-600">{t('played')}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold">{winPercentage}</div>
-            <div className="text-sm text-gray-600">{t('win_percent')}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold">{userStats.currentStreak}</div>
-            <div className="text-sm text-gray-600">{t('current_streak')}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold">{userStats.maxStreak}</div>
-            <div className="text-sm text-gray-600">{t('max_streak')}</div>
-          </div>
-        </div>
+          {!gameState.won && (
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 page-text">
+                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.name}</span>
+              </p>
+            </div>
+          )}
 
-        <hr className="border-gray-300 mb-6" />
-
-        {/* Guess Pattern */}
-        <div className="space-y-2 mb-6">
-          {gameState.guesses.map((guess, index) => (
-            <div key={index} className="text-center">
-              <div className="inline-block px-3 py-1 rounded bg-gray-100">
-                {guess.isCorrect ? '🎯' : `${guess.proximityPercent}%`}
+          <div className="bg-gray-100 rounded-lg p-4 mb-4">
+            <h3 className="font-semibold mb-2 page-text">{t('statistics')}</h3>
+            <div className="grid grid-cols-4 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold page-text">{userStats.gamesPlayed}</div>
+                <div className="text-xs text-gray-600 page-text">{t('played')}</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold page-text">{winPercentage}%</div>
+                <div className="text-xs text-gray-600 page-text">{t('win_percentage')}</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold page-text">{userStats.currentStreak}</div>
+                <div className="text-xs text-gray-600 page-text">{t('current_streak')}</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold page-text">{userStats.maxStreak}</div>
+                <div className="text-xs text-gray-600 page-text">{t('max_streak')}</div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <button
-          onClick={handleShare}
-          className="w-full bg-black text-white py-3 rounded-full font-medium"
-        >
-          {showCopiedMessage ? t('copied') : t('share_results')}
-        </button>
+          <div className="space-y-3">
+            <button
+              onClick={copyResults}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+            >
+              {showCopiedMessage ? t('copied') : t('share_results')}
+            </button>
+
+            <button
+              onClick={onClose}
+              className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded hover:bg-gray-300 transition-colors page-text"
+            >
+              {t('close')}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )
