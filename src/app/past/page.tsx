@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
+import { formatDate } from '@/lib/utils'
 
 interface PastPuzzle {
     puzzle_id: number
@@ -36,13 +37,9 @@ export default function PastPuzzlesPage() {
         fetchPuzzles()
     }, [])
 
-    const formatDate = (dateString: string) => {
+    const formatPuzzleDate = (dateString: string) => {
         const date = new Date(dateString)
-        return date.toLocaleDateString(language === 'no' ? 'no-NO' : 'en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        })
+        return formatDate(date, language)
     }
 
     if (loading) {
@@ -82,7 +79,7 @@ export default function PastPuzzlesPage() {
                         <div>
                             <h3 className="font-semibold">{t('fjordle_number')}{puzzle.puzzle_number}</h3>
                             <p className="text-sm text-gray-600">
-                                {formatDate(puzzle.date)}
+                                {formatPuzzleDate(puzzle.date)}
                             </p>
                         </div>
                         <Link

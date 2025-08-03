@@ -1,12 +1,16 @@
 'use client'
 
 import { Guess } from '@/types/game'
+import { useLanguage } from '@/lib/languageContext'
+import { formatNumber } from '@/lib/utils'
 
 interface GuessHistoryProps {
     guesses: Guess[]
 }
 
 export default function GuessHistory({ guesses }: GuessHistoryProps) {
+    const { language } = useLanguage()
+    
     if (guesses.length === 0) return null
 
     return (
@@ -23,7 +27,7 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
                     {!guess.isCorrect && (
                         <>
                             <div className="guess-distance">
-                                {guess.distance.toLocaleString()}km
+                                {formatNumber(guess.distance, language)}km
                             </div>
 
                             <div className="guess-direction">

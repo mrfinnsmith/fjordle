@@ -5,6 +5,7 @@ import { getTodaysPuzzle } from '@/lib/puzzleApi'
 import { useLanguage } from '@/lib/languageContext'
 import { useEffect, useState } from 'react'
 import { Puzzle } from '@/types/game'
+import { formatDate } from '@/lib/utils'
 
 function NoPuzzleMessage() {
   const { t } = useLanguage()
@@ -33,7 +34,7 @@ function GameContent({ puzzle }: { puzzle: any }) {
       </div>
       <div className="text-center mb-4">
         <p className="text-gray-600 text-sm">
-          {new Date().toLocaleDateString(language === 'no' ? 'no-NO' : 'en-US', {
+          {formatDate(new Date(), language, {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
