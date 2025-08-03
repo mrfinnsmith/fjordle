@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import NavigationMenu from '@/components/NavigationMenu'
 import { LanguageProvider, useLanguage } from '@/lib/languageContext'
 import './globals.css'
 
@@ -32,7 +33,8 @@ function Header() {
 
   return (
     <header className="mb-6">
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end items-center space-x-2 mb-4">
+        <NavigationMenu />
         <LanguageToggle />
       </div>
       <div className="text-center">
@@ -41,25 +43,10 @@ function Header() {
             Fjordle
           </h1>
         </Link>
-        <nav className="mt-3">
-          <Link href="/past" className="page-link hover:underline text-sm mr-4">
-            {t('past_fjordles')}
-          </Link>
-          <Link href="/about" className="page-link hover:underline text-sm mr-4">
-            {t('about')}
-          </Link>
-          <Link href="/how-to-play" className="page-link hover:underline text-sm mr-4">
-            {t('how_to_play')}
-          </Link>
-          <Link href="/privacy" className="page-link hover:underline text-sm">
-            {t('privacy')}
-          </Link>
-        </nav>
       </div>
     </header>
   )
 }
-
 export default function RootLayout({
   children,
 }: {
