@@ -34,6 +34,8 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
     : 0
 
   const generateResultText = () => {
+    if (!gameState.puzzle) return ''
+
     const attempts = gameState.guesses.length
     const maxAttempts = 6
     const emojiResult = gameState.gameStatus === "won"
