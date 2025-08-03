@@ -1,7 +1,7 @@
 'use client'
 
 import { GameState } from '@/types/game'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getUserStats } from '@/lib/localStorage'
 import { useLanguage } from '@/lib/languageContext'
 
@@ -14,10 +14,23 @@ interface ResultsModalProps {
 export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModalProps) {
   const { t } = useLanguage()
   const [showCopiedMessage, setShowCopiedMessage] = useState(false)
+  const [userStats, setUserStats] = useState({
+    gamesPlayed: 0,
+    gamesWon: 0,
+    currentStreak: 0,
+    maxStreak: 0,
+    lastPlayedDate: ''
+  })
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    // Only access localStorage after component mounts
+    setUserStats(getUserStats())
+    setMounted(true)
+  }, [])
 
   if (!isOpen || !gameState.puzzle) return null
 
-  const userStats = getUserStats()
   const winPercentage = userStats.gamesPlayed > 0
     ? Math.round((userStats.gamesWon / userStats.gamesPlayed) * 100)
     : 0
