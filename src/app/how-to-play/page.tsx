@@ -37,7 +37,7 @@ export default function HowToPlay() {
                 <section>
                     <h2 className="text-xl font-semibold mb-3">{t('example_title')}</h2>
                     <div className="bg-gray-50 p-4 rounded-lg">
-                        <p className="mb-2"><strong>{t('example_guess')}</strong> "Geirangerfjord"</p>
+                        <p className="mb-2"><strong>{t('example_guess')}</strong> &quot;Geirangerfjord&quot;</p>
                         <p className="mb-2"><strong>{t('example_result')}</strong> 127 km ↗️ 45%</p>
                         <p className="text-sm text-gray-600">
                             {t('example_explanation')}

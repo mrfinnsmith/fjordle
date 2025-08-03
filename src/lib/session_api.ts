@@ -98,7 +98,7 @@ export async function getSessionExists(sessionId: string, puzzleId: number): Pro
       .single()
 
     return !error && !!data
-  } catch (error) {
+  } catch {
     return false
   }
 }

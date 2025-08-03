@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { GameState, UserStats, GameProgress, Guess } from '@/types/game'
+import { GameState, UserStats, GameProgress } from '@/types/game'
 
 export function getOrCreateSessionId(): string {
   const key = 'fjordle-session-id'
@@ -53,7 +53,7 @@ export function clearGameProgress(puzzleId?: number) {
   }
 }
 
-export function updateUserStats(won: boolean, date: string) {
+export function updateUserStats(won: boolean) {
   const stats = getUserStats()
   const today = new Date().toISOString().split('T')[0]
 

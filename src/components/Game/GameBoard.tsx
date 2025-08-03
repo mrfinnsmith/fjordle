@@ -85,9 +85,9 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   // Update stats when game completes
   useEffect(() => {
     if (gameState && (gameState.gameStatus === 'won' || gameState.gameStatus === 'lost')) {
-      updateUserStats(gameState.gameStatus === 'won', puzzle.date)
+      updateUserStats(gameState.gameStatus === 'won')
     }
-  }, [gameState?.gameStatus, puzzle.date])
+  }, [gameState?.gameStatus])
 
   const handleGuess = async (fjordId: number, fjordName: string, coords: { lat: number; lng: number }) => {
     if (!gameState) return

@@ -57,7 +57,7 @@ export default function NavigationMenu() {
           ref={menuRef}
           className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[160px] z-50"
         >
-          {navigationLinks.map((link, index) => (
+          {navigationLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

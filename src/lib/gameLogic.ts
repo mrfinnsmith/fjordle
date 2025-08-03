@@ -1,4 +1,4 @@
-import { GameState, Puzzle, Guess, Fjord, FjordOption, MAX_ATTEMPTS } from '@/types/game'
+import { GameState, Puzzle, Guess, FjordOption, MAX_ATTEMPTS } from '@/types/game'
 import { recordGuess, updateSession, completeSession } from './session_api'
 
 export function createInitialGameState(puzzle: Puzzle, fjords: FjordOption[], sessionId?: string): GameState {

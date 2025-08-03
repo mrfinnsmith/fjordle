@@ -22,7 +22,7 @@ function NoPuzzleMessage() {
   )
 }
 
-function GameContent({ puzzle }: { puzzle: any }) {
+function GameContent({ puzzle }: { puzzle: Puzzle }) {
   const { t, language } = useLanguage()
 
   return (
