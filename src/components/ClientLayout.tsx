@@ -1,8 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 import NavigationMenu from '@/components/NavigationMenu'
 import { useLanguage } from '@/lib/languageContext'
+import DebugInfo from './DebugInfo'
 
 function LanguageToggle() {
   const { language, setLanguage } = useLanguage()
@@ -47,6 +50,66 @@ function Header() {
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { mounted } = useLanguage()
+  const router = useRouter()
+  const pathname = usePathname()
+  
+  console.log('[DEBUG] ClientLayout - router:', router)
+  console.log('[DEBUG] ClientLayout - pathname:', pathname)
+  console.log('[DEBUG] ClientLayout - window.location:', window.location?.href)
+  console.log('[DEBUG] ClientLayout - mounted:', mounted)
+  
+  useEffect(() => {
+    console.log('[DEBUG] ClientLayout mounted')
+    console.log('[DEBUG] Router available:', !!router)
+    console.log('[DEBUG] Router push available:', typeof router?.push)
+    console.log('[DEBUG] Current pathname:', pathname)
+    console.log('[DEBUG] Window location:', window.location.href)
+    
+    // Test router functionality
+    const testRouter = () => {
+      try {
+        console.log('[DEBUG] Testing router.push with current path')
+        router.push(pathname)
+        console.log('[DEBUG] Router test completed')
+      } catch (error) {
+        console.error('[DEBUG] Router test failed:', error)
+      }
+    }
+    
+    setTimeout(testRouter, 1000)
+  }, [router, pathname])
+
+  // Debug browser events
+  useEffect(() => {
+    const handleClick = (e: Event) => {
+      console.log('[DEBUG] Global click event:', e.target)
+      console.log('[DEBUG] Event details:', {
+        type: e.type,
+        target: e.target,
+        currentTarget: e.currentTarget,
+        defaultPrevented: e.defaultPrevented
+      })
+    }
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      console.log('[DEBUG] Before unload event:', e)
+    }
+
+    const handlePopstate = (e: PopStateEvent) => {
+      console.log('[DEBUG] Popstate event:', e)
+      console.log('[DEBUG] URL changed to:', window.location.href)
+    }
+
+    document.addEventListener('click', handleClick, true)
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    window.addEventListener('popstate', handlePopstate)
+
+    return () => {
+      document.removeEventListener('click', handleClick, true)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      window.removeEventListener('popstate', handlePopstate)
+    }
+  }, [])
 
   // Don't render language-dependent content until mounted
   if (!mounted) {
@@ -60,6 +123,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             </div>
           </div>
         </div>
+        <DebugInfo />
       </div>
     )
   }
@@ -70,6 +134,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <main>
         {children}
       </main>
+      <DebugInfo />
     </div>
   )
 } 

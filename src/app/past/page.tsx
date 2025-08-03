@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDate } from '@/lib/utils'
@@ -18,23 +19,39 @@ interface FormattedPuzzle extends PastPuzzle {
 
 export default function PastPuzzlesPage() {
     const { t, language, mounted } = useLanguage()
+    const router = useRouter()
     const [puzzles, setPuzzles] = useState<PastPuzzle[]>([])
     const [formattedPuzzles, setFormattedPuzzles] = useState<FormattedPuzzle[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
+    console.log('[DEBUG] PastPuzzlesPage render - router:', router)
+    console.log('[DEBUG] PastPuzzlesPage render - language:', language, 'mounted:', mounted)
+    console.log('[DEBUG] PastPuzzlesPage render - puzzles count:', puzzles.length)
+    console.log('[DEBUG] PastPuzzlesPage render - formatted puzzles count:', formattedPuzzles.length)
+
+    useEffect(() => {
+        console.log('[DEBUG] PastPuzzlesPage mounted')
+        console.log('[DEBUG] Router in PastPuzzlesPage:', router)
+        console.log('[DEBUG] Current URL:', window.location.href)
+    }, [router])
+
     useEffect(() => {
         const fetchPuzzles = async () => {
+            console.log('[DEBUG] Fetching past puzzles...')
             try {
                 const response = await fetch('/api/past-puzzles')
                 if (!response.ok) {
                     throw new Error('Failed to fetch puzzles')
                 }
                 const data = await response.json()
+                console.log('[DEBUG] Past puzzles fetched:', data)
                 setPuzzles(data)
             } catch (err) {
+                console.error('[DEBUG] Error fetching puzzles:', err)
                 setError(err instanceof Error ? err.message : 'Unknown error')
             } finally {
+                console.log('[DEBUG] Past puzzles loading completed')
                 setLoading(false)
             }
         }
@@ -45,10 +62,12 @@ export default function PastPuzzlesPage() {
     // Format dates after component is mounted and language is available
     useEffect(() => {
         if (mounted && puzzles.length > 0) {
+            console.log('[DEBUG] Formatting puzzle dates with language:', language)
             const formatted = puzzles.map(puzzle => ({
                 ...puzzle,
                 formattedDate: formatDate(new Date(puzzle.date), language)
             }))
+            console.log('[DEBUG] Formatted puzzles:', formatted)
             setFormattedPuzzles(formatted)
         }
     }, [puzzles, language, mounted])

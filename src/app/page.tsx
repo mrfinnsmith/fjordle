@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import GameBoard from '@/components/Game/GameBoard'
 import { getTodaysPuzzle } from '@/lib/puzzleApi'
 import { useLanguage } from '@/lib/languageContext'
@@ -26,8 +27,11 @@ function GameContent({ puzzle }: { puzzle: Puzzle }) {
   const { t, language, mounted } = useLanguage()
   const [formattedDate, setFormattedDate] = useState('')
 
+  console.log('[DEBUG] GameContent render - language:', language, 'mounted:', mounted)
+
   useEffect(() => {
     if (mounted) {
+      console.log('[DEBUG] GameContent formatting date with language:', language)
       setFormattedDate(formatDate(new Date(), language, {
         year: 'numeric',
         month: 'long',
@@ -56,17 +60,31 @@ function GameContent({ puzzle }: { puzzle: Puzzle }) {
 }
 
 export default function Home() {
+  const router = useRouter()
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null)
   const [loading, setLoading] = useState(true)
 
+  console.log('[DEBUG] HomePage render - router:', router)
+  console.log('[DEBUG] HomePage render - puzzle:', puzzle)
+  console.log('[DEBUG] HomePage render - loading:', loading)
+
+  useEffect(() => {
+    console.log('[DEBUG] HomePage mounted')
+    console.log('[DEBUG] Router in HomePage:', router)
+    console.log('[DEBUG] Current URL:', window.location.href)
+  }, [router])
+
   useEffect(() => {
     async function loadPuzzle() {
+      console.log('[DEBUG] Loading puzzle...')
       try {
         const todaysPuzzle = await getTodaysPuzzle()
+        console.log('[DEBUG] Puzzle loaded:', todaysPuzzle)
         setPuzzle(todaysPuzzle)
       } catch (error) {
-        console.error('Failed to load puzzle:', error)
+        console.error('[DEBUG] Failed to load puzzle:', error)
       } finally {
+        console.log('[DEBUG] Puzzle loading completed')
         setLoading(false)
       }
     }

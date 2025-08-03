@@ -22,16 +22,23 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     const [mounted, setMounted] = useState(false)
     const [language, setLanguageState] = useState<Language>('no') // Safe default
 
+    console.log('[DEBUG] LanguageProvider render - mounted:', mounted)
+    console.log('[DEBUG] LanguageProvider render - language:', language)
+
     useEffect(() => {
-        // Read language preference from cookies after hydration
+        console.log('[DEBUG] LanguageProvider useEffect - reading language from cookies')
         const savedLanguage = getLanguageFromCookiesClient()
+        console.log('[DEBUG] Saved language from cookies:', savedLanguage)
         setLanguageState(savedLanguage)
         setMounted(true)
+        console.log('[DEBUG] LanguageProvider mounted with language:', savedLanguage)
     }, [])
 
     const setLanguage = (lang: Language) => {
+        console.log('[DEBUG] setLanguage called with:', lang)
         setLanguageState(lang)
         setLanguageCookie(lang)
+        console.log('[DEBUG] Language updated to:', lang)
     }
 
     const t = (key: TranslationKey): string => {
@@ -44,6 +51,8 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
         return translation
     }
+
+    console.log('[DEBUG] LanguageProvider providing context:', { language, setLanguage: '(function)', t: '(function)', mounted })
 
     return (
         <LanguageContext.Provider value={{ language, setLanguage, t, mounted }}>

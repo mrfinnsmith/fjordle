@@ -1,9 +1,21 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function HowToPlay() {
-    const { t } = useLanguage()
+    const { t, mounted } = useLanguage()
+    const router = useRouter()
+
+    console.log('[DEBUG] HowToPlayPage render - router:', router)
+    console.log('[DEBUG] HowToPlayPage render - mounted:', mounted)
+
+    useEffect(() => {
+        console.log('[DEBUG] HowToPlayPage mounted')
+        console.log('[DEBUG] Router in HowToPlayPage:', router)
+        console.log('[DEBUG] Current URL:', window.location.href)
+    }, [router])
 
     return (
         <div className="space-y-6">
