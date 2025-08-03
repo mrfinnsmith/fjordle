@@ -36,7 +36,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
   const generateResultText = () => {
     const attempts = gameState.guesses.length
     const maxAttempts = 6
-    const emojiResult = gameState.won
+    const emojiResult = gameState.gameStatus === "won"
       ? '🎯'
       : '❌'
 
@@ -48,7 +48,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
       return '🔵'
     }).join('')
 
-    if (!gameState.won) {
+    if (gameState.gameStatus !== "won") {
       for (let i = attempts; i < maxAttempts; i++) {
         // Don't add extra empty squares for failed games
       }
@@ -79,10 +79,10 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
 
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4 page-text">
-            {gameState.won ? t('congratulations') : t('better_luck_tomorrow')}
+            {gameState.gameStatus === "won" ? t('congratulations') : t('better_luck_tomorrow')}
           </h2>
 
-          {gameState.won && (
+          {gameState.gameStatus === "won" && (
             <div className="mb-4">
               <p className="text-lg page-text">
                 {t('guessed_in_attempts', { attempts: gameState.guesses.length })}
@@ -93,7 +93,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
             </div>
           )}
 
-          {!gameState.won && (
+          {gameState.gameStatus !== "won" && (
             <div className="mb-4">
               <p className="text-sm text-gray-600 page-text">
                 {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.name}</span>
