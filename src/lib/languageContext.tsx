@@ -9,25 +9,25 @@ interface LanguageContextType {
     language: Language
     setLanguage: (lang: Language) => void
     t: (key: TranslationKey) => string
+    mounted: boolean
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 interface LanguageProviderProps {
     children: ReactNode
-    initialLanguage?: Language
 }
 
-export function LanguageProvider({ children, initialLanguage = 'no' }: LanguageProviderProps) {
-    const [language, setLanguageState] = useState<Language>(initialLanguage)
+export function LanguageProvider({ children }: LanguageProviderProps) {
+    const [mounted, setMounted] = useState(false)
+    const [language, setLanguageState] = useState<Language>('no') // Safe default
 
     useEffect(() => {
-        // On client-side, read from cookies and update if different from initial
-        const cookieLanguage = getLanguageFromCookiesClient()
-        if (cookieLanguage !== initialLanguage) {
-            setLanguageState(cookieLanguage)
-        }
-    }, [initialLanguage])
+        // Read language preference from cookies after hydration
+        const savedLanguage = getLanguageFromCookiesClient()
+        setLanguageState(savedLanguage)
+        setMounted(true)
+    }, [])
 
     const setLanguage = (lang: Language) => {
         setLanguageState(lang)
@@ -46,7 +46,7 @@ export function LanguageProvider({ children, initialLanguage = 'no' }: LanguageP
     }
 
     return (
-        <LanguageContext.Provider value={{ language, setLanguage, t }}>
+        <LanguageContext.Provider value={{ language, setLanguage, t, mounted }}>
             {children}
         </LanguageContext.Provider>
     )

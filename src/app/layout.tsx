@@ -1,6 +1,4 @@
 import { LanguageProvider } from '@/lib/languageContext'
-import { getLanguageFromCookies } from '@/lib/serverCookies'
-import { Language } from '@/types/game'
 import ClientLayout from '@/components/ClientLayout'
 import './globals.css'
 
@@ -9,19 +7,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Read language from cookies on server-side with comprehensive error handling
-  let initialLanguage: Language = 'no'
-
-  try {
-    initialLanguage = getLanguageFromCookies()
-  } catch (error) {
-    console.error('Layout: Failed to read language from cookies:', error)
-    console.warn('Layout: Using default language due to cookie reading failure')
-    initialLanguage = 'no'
-  }
-
   return (
-    <html lang={initialLanguage}>
+    <html lang="no">
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
 
@@ -70,7 +57,7 @@ export default function RootLayout({
               "url": process.env.NEXT_PUBLIC_SITE_URL,
               "applicationCategory": "Game",
               "operatingSystem": "Web Browser",
-              "inLanguage": initialLanguage,
+              "inLanguage": "no",
               "keywords": "fjord puslespill, norge geografi, daglig puslespill, fjord spill, norske fjorder, puslespill, spill, geografi",
               "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
             })
@@ -78,7 +65,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen page-container">
-        <LanguageProvider initialLanguage={initialLanguage}>
+        <LanguageProvider>
           <ClientLayout>
             {children}
           </ClientLayout>
