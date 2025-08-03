@@ -2,6 +2,7 @@ import { LanguageProvider } from '@/lib/languageContext'
 import { getLanguageFromCookies } from '@/lib/serverCookies'
 import { Language } from '@/types/game'
 import ClientLayout from '@/components/ClientLayout'
+import Script from 'next/script'
 import './globals.css'
 
 export default function RootLayout({
@@ -43,19 +44,6 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
 
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8KHXYN6MC"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-H8KHXYN6MC');
-            `,
-          }}
-        />
-
         {/* Schema.org structured data */}
         <script
           type="application/ld+json"
@@ -76,6 +64,20 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen page-container">
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-H8KHXYN6MC"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-H8KHXYN6MC');
+          `}
+        </Script>
+
         <LanguageProvider initialLanguage={initialLanguage}>
           <ClientLayout>
             {children}

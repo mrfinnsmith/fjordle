@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter, usePathname } from 'next/navigation'
 import NavigationMenu from '@/components/NavigationMenu'
 import { useLanguage } from '@/lib/languageContext'
 import DebugInfo from './DebugInfo'

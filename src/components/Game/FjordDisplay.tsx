@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 interface FjordDisplayProps {
     svgFilename?: string
     isGameOver: boolean
@@ -26,10 +28,12 @@ export default function FjordDisplay({
     return (
         <div className="fjord-display">
             <div className="fjord-svg-container">
-                <img
+                <Image
                     src={`/fjord_svgs/${svgFilename}`}
                     alt={isGameOver && correctAnswer ? `${correctAnswer} fjordkontur` : "Norsk fjordkontur for gjettelek"}
                     className="fjord-svg"
+                    width={400}
+                    height={300}
                     onError={(e) => {
                         console.error('Failed to load SVG:', svgFilename)
                         e.currentTarget.style.display = 'none'

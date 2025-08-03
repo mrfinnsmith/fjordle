@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { GameState, Puzzle, FjordOption } from '@/types/game'
 import { createInitialGameState, makeGuess } from '@/lib/gameLogic'
 import { createSession, getSessionExists } from '@/lib/session_api'
@@ -25,7 +25,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [showResultsModal, setShowResultsModal] = useState(false)
   const [sessionInitialized, setSessionInitialized] = useState(false)
 
-  const getEffectivePuzzleId = () => puzzleId || puzzle.id
+  const getEffectivePuzzleId = useCallback(() => puzzleId || puzzle.id, [puzzleId, puzzle.id])
 
   const handleToastComplete = () => {
     setGameState(prev => prev ? {
@@ -73,14 +73,14 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     }
 
     initialize()
-  }, [getEffectivePuzzleId()])
+  }, [getEffectivePuzzleId, puzzle])
 
   // Save progress when game state changes
   useEffect(() => {
     if (gameState && sessionInitialized) {
       saveGameProgress(getEffectivePuzzleId(), gameState)
     }
-  }, [gameState, getEffectivePuzzleId(), sessionInitialized])
+  }, [gameState, getEffectivePuzzleId, sessionInitialized])
 
   // Update stats when game completes
   useEffect(() => {
