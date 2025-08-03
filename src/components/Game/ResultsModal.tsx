@@ -81,7 +81,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
 
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4 page-text">
-            {gameState.gameStatus === "won" ? t('congratulations') : t('better_luck_tomorrow')}
+            {gameState.gameStatus === "won" ? t('congratulations') : t('next_time')}
           </h2>
 
           {gameState.gameStatus === "won" && (
@@ -90,7 +90,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
                 {t('guessed_in_attempts', { attempts: gameState.guesses.length })}
               </p>
               <p className="text-sm text-gray-600 mt-2 page-text">
-                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
+                {t('the_answer_was')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
               </p>
             </div>
           )}
@@ -98,7 +98,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
           {gameState.gameStatus !== "won" && (
             <div className="mb-4">
               <p className="text-sm text-gray-600 page-text">
-                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
+                {t('the_answer_was')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
               </p>
             </div>
           )}
@@ -112,7 +112,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
               </div>
               <div>
                 <div className="text-2xl font-bold page-text">{winPercentage}%</div>
-                <div className="text-xs text-gray-600 page-text">{t('win_percentage')}</div>
+                <div className="text-xs text-gray-600 page-text">{t('win_percent')}</div>
               </div>
               <div>
                 <div className="text-2xl font-bold page-text">{userStats.currentStreak}</div>
