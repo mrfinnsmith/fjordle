@@ -1,4 +1,4 @@
-]'use client'
+'use client'
 
 import { GameState } from '@/types/game'
 import { useState, useEffect } from 'react'
@@ -23,7 +23,6 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
   })
 
   useEffect(() => {
-    // Only access localStorage after component mounts
     setUserStats(getUserStats())
   }, [])
 
@@ -38,9 +37,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
 
     const attempts = gameState.guesses.length
     const maxAttempts = 6
-    const emojiResult = gameState.gameStatus === "won"
-      ? '🎯'
-      : '❌'
+    const emojiResult = gameState.gameStatus === "won" ? '🎯' : '❌'
 
     const guessEmojis = gameState.guesses.map(guess => {
       if (guess.proximityPercent >= 100) return '🎯'
@@ -49,12 +46,6 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
       if (guess.proximityPercent >= 25) return '🟡'
       return '🔵'
     }).join('')
-
-    if (gameState.gameStatus !== "won") {
-      for (let i = attempts; i < maxAttempts; i++) {
-        // Don't add extra empty squares for failed games
-      }
-    }
 
     return `Fjordle #${gameState.puzzle.puzzle_number} ${emojiResult}\n${attempts}/${maxAttempts}\n\n${guessEmojis}\n\n${process.env.NEXT_PUBLIC_SITE_URL}`
   }
