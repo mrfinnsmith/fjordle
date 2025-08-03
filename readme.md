@@ -27,20 +27,94 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **Assets**: 1,467 Norwegian fjord SVG outlines
 - **Storage**: Local storage for user stats and game progress
 - **i18n**: Server-side cookie detection with React Context for language switching
+- **Automation**: GitHub Actions for daily puzzle assignment
 
 ## Database Schema
 
 ### Core Tables
 - `fjords` - 1,467 Norwegian fjords with names, coordinates, SVG filenames
-- `daily_puzzles` - Daily puzzle assignments with fjord_id and puzzle_number
+- `daily_puzzles` - Daily puzzle assignments with fjord_id, puzzle_number, and last_presented_date
+- `puzzle_queue` - Manual queue for specific dates (optional)
 - `game_sessions` - Anonymous user sessions with completion stats
 - `guesses` - Individual guess attempts with distance/proximity data
 
 ### Key Functions
-- `assign_daily_puzzle()` - Automatically queues next unused fjord
+- `assign_daily_puzzle()` - Automatically assigns puzzles with queue priority and recycling
 - `get_daily_fjord_puzzle()` - Returns today's puzzle
 - `get_fjord_puzzle_by_number(puzzle_num)` - Returns specific puzzle
 - `get_past_puzzles()` - Returns all previous puzzles
+
+## Daily Puzzle System
+
+### Automatic Assignment
+- **Timing**: Daily at 23:00 UTC (midnight Oslo time)
+- **Method**: GitHub Action calls Supabase Edge Function
+- **Logic**: 
+  1. Check queue for today's date
+  2. If queued fjord exists, use it and delete queue entry
+  3. If no queue, select unused fjord randomly
+  4. If all fjords used, recycle oldest by `last_presented_date`
+
+### Manual Queue Management
+
+Queue specific fjords for future dates:
+
+```sql
+-- Queue a fjord for a specific date
+INSERT INTO puzzle_queue (fjord_id, scheduled_date) 
+VALUES (123, '2025-12-25');
+
+-- Queue multiple fjords
+INSERT INTO puzzle_queue (fjord_id, scheduled_date)
+VALUES 
+  (456, '2025-05-17'),  -- Constitution Day
+  (789, '2025-12-24'),  -- Christmas Eve
+  (123, '2025-12-25');  -- Christmas Day
+
+-- View current queue
+SELECT pq.scheduled_date, f.name as fjord_name, f.id as fjord_id
+FROM puzzle_queue pq
+JOIN fjords f ON pq.fjord_id = f.id
+ORDER BY pq.scheduled_date;
+
+-- Remove from queue
+DELETE FROM puzzle_queue WHERE scheduled_date = '2025-12-25';
+```
+
+### Manual Puzzle Creation
+Force create puzzle immediately:
+
+```sql
+SELECT assign_daily_puzzle();
+```
+
+### Monitoring
+Check recent puzzles:
+
+```sql
+SELECT dp.presented_date, f.name, dp.puzzle_number
+FROM daily_puzzles dp
+JOIN fjords f ON dp.fjord_id = f.id
+ORDER BY dp.presented_date DESC
+LIMIT 10;
+```
+
+## GitHub Actions
+
+### Daily Automation
+- **File**: `.github/workflows/daily-puzzle.yml`
+- **Schedule**: `0 23 * * *` (23:00 UTC daily)
+- **Action**: Calls Supabase Edge Function to assign puzzle
+- **Manual Trigger**: Can be run manually from GitHub Actions tab
+
+### Configuration
+Requires GitHub repository secret:
+- `SUPABASE_ANON_KEY` - Supabase anonymous public key
+
+### Edge Function
+- **Location**: Supabase dashboard → Edge Functions → daily-puzzle
+- **URL**: `https://kvkmdkvmbuiqicgoqabx.supabase.co/functions/v1/daily-puzzle`
+- **Purpose**: Executes `assign_daily_puzzle()` function
 
 ## Local Development
 
@@ -62,11 +136,6 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 - **Distance**: Kilometers from guess to correct answer
 - **Direction**: Arrow emoji pointing toward correct fjord
 - **Proximity**: Percentage (100% = correct, 0% = furthest possible)
-
-### Difficulty Progression
-- Monday-Tuesday: Famous fjords (Geirangerfjord, Sognefjord)
-- Wednesday-Thursday: Regional fjords
-- Friday-Sunday: Mixed difficulty including local fjords
 
 ## Assets
 
@@ -90,24 +159,6 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 - Win percentage
 - Guess patterns for sharing
 
-## Daily Puzzle Management
-
-### Adding New Puzzle
-```sql
-SELECT assign_daily_puzzle();
-```
-
-### Manual Puzzle Assignment
-```sql
-INSERT INTO daily_puzzles (fjord_id, puzzle_number, presented_date)
-VALUES (fjord_id, next_number, CURRENT_DATE);
-```
-
-### View Today's Puzzle
-```sql
-SELECT * FROM get_daily_fjord_puzzle();
-```
-
 ## File Structure
 
 ```
@@ -115,7 +166,6 @@ src/
 ├── app/                 # Next.js app router
 │   ├── about/           # About page
 │   ├── api/             # API routes
-│   │   ├── advance-puzzle/   # Daily puzzle management
 │   │   ├── past-puzzles/     # Past puzzles API
 │   │   └── puzzle/[number]/  # Specific puzzle API
 │   ├── how-to-play/     # How to play page
@@ -151,6 +201,9 @@ src/
 │   └── utils.ts                 # General utilities
 ├── types/              # TypeScript interfaces
 │   └── game.ts                  # Game-related types
+.github/
+└── workflows/
+    └── daily-puzzle.yml        # GitHub Action for daily automation
 public/
 ├── fjord_svgs/         # 1,467 fjord outline SVGs
 ├── og-image.png        # Social media image
@@ -194,8 +247,23 @@ public/
 ## Troubleshooting
 
 ### No Puzzle Available
-- Check if daily puzzle exists: `SELECT * FROM daily_puzzles WHERE presented_date = CURRENT_DATE;`
-- Create today's puzzle: `SELECT assign_daily_puzzle();`
+Check if daily puzzle exists:
+```sql
+SELECT * FROM daily_puzzles WHERE presented_date = CURRENT_DATE;
+```
+
+Create today's puzzle manually:
+```sql
+SELECT assign_daily_puzzle();
+```
+
+### GitHub Action Failed
+1. Check Actions tab in GitHub repository
+2. Click failed run to see error details
+3. Common issues:
+   - Missing `SUPABASE_ANON_KEY` secret
+   - Supabase Edge Function not deployed
+   - Database function errors
 
 ### Database Connection Issues
 - Verify environment variables are set
@@ -218,3 +286,42 @@ public/
 - Next.js chunk caching can serve old JavaScript even with new source code
 - Force fresh build: `rm -rf .next` then push to trigger new deployment
 - This prevents cached JavaScript chunks from breaking navigation functionality
+
+## Common Tasks
+
+### Queue Special Date
+```sql
+-- Queue famous fjords for holidays
+INSERT INTO puzzle_queue (fjord_id, scheduled_date) 
+VALUES 
+  (SELECT id FROM fjords WHERE name = 'Geirangerfjorden' LIMIT 1, '2025-05-17'),
+  (SELECT id FROM fjords WHERE name = 'Nærøyfjorden' LIMIT 1, '2025-12-25');
+```
+
+### Check System Status
+```sql
+-- Recent puzzles
+SELECT dp.presented_date, f.name, dp.puzzle_number
+FROM daily_puzzles dp
+JOIN fjords f ON dp.fjord_id = f.id
+ORDER BY dp.presented_date DESC
+LIMIT 5;
+
+-- Upcoming queue
+SELECT pq.scheduled_date, f.name
+FROM puzzle_queue pq
+JOIN fjords f ON pq.fjord_id = f.id
+WHERE pq.scheduled_date >= CURRENT_DATE
+ORDER BY pq.scheduled_date;
+
+-- Total fjords used
+SELECT COUNT(*) as total_fjords, 
+       COUNT(DISTINCT dp.fjord_id) as used_fjords
+FROM fjords f
+LEFT JOIN daily_puzzles dp ON f.id = dp.fjord_id;
+```
+
+### Update GitHub Secrets
+1. Go to GitHub repository → Settings → Secrets and variables → Actions
+2. Update `SUPABASE_ANON_KEY` if Supabase keys change
+3. Secrets are automatically used by GitHub Actions
