@@ -41,10 +41,10 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
       : '❌'
 
     const guessEmojis = gameState.guesses.map(guess => {
-      if (guess.proximity >= 100) return '🎯'
-      if (guess.proximity >= 75) return '🔥'
-      if (guess.proximity >= 50) return '🟠'
-      if (guess.proximity >= 25) return '🟡'
+      if (guess.proximityPercent >= 100) return '🎯'
+      if (guess.proximityPercent >= 75) return '🔥'
+      if (guess.proximityPercent >= 50) return '🟠'
+      if (guess.proximityPercent >= 25) return '🟡'
       return '🔵'
     }).join('')
 
@@ -54,7 +54,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
       }
     }
 
-    return `Fjordle #${gameState.puzzle.puzzleNumber} ${emojiResult}\n${attempts}/${maxAttempts}\n\n${guessEmojis}\n\n${process.env.NEXT_PUBLIC_SITE_URL}`
+    return `Fjordle #${gameState.puzzle.puzzle_number} ${emojiResult}\n${attempts}/${maxAttempts}\n\n${guessEmojis}\n\n${process.env.NEXT_PUBLIC_SITE_URL}`
   }
 
   const copyResults = async () => {
@@ -88,7 +88,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
                 {t('guessed_in_attempts', { attempts: gameState.guesses.length })}
               </p>
               <p className="text-sm text-gray-600 mt-2 page-text">
-                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.name}</span>
+                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
               </p>
             </div>
           )}
@@ -96,7 +96,7 @@ export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModa
           {gameState.gameStatus !== "won" && (
             <div className="mb-4">
               <p className="text-sm text-gray-600 page-text">
-                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.name}</span>
+                {t('correct_answer')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
               </p>
             </div>
           )}
