@@ -16,8 +16,18 @@ export const formatDate = (
         day: 'numeric'
     }
 ): string => {
+    // Only format on client-side to prevent hydration mismatch
+    if (typeof window === 'undefined') {
+        return date.toISOString().split('T')[0] // Safe server fallback: YYYY-MM-DD
+    }
+    
     const locale = language === 'no' ? 'no-NO' : 'en-US'
-    return date.toLocaleDateString(locale, options)
+    const defaultOptions = {
+        timeZone: 'Europe/Oslo', // Consistent timezone
+        ...options
+    }
+    
+    return date.toLocaleDateString(locale, defaultOptions)
 }
 
 /**
@@ -27,6 +37,11 @@ export const formatDate = (
  * @returns Formatted number string
  */
 export const formatNumber = (number: number, language: Language): string => {
+    // Only format on client-side to prevent hydration mismatch
+    if (typeof window === 'undefined') {
+        return number.toString() // Safe server fallback
+    }
+    
     const locale = language === 'no' ? 'no-NO' : 'en-US'
     return number.toLocaleString(locale)
 } 

@@ -2,6 +2,10 @@ import { v4 as uuidv4 } from 'uuid'
 import { GameState, UserStats, GameProgress } from '@/types/game'
 
 export function getOrCreateSessionId(): string {
+  if (typeof window === 'undefined') {
+    return 'ssr-session-id' // Safe fallback for SSR
+  }
+  
   const key = 'fjordle-session-id'
   let sessionId = localStorage.getItem(key)
 
@@ -14,6 +18,10 @@ export function getOrCreateSessionId(): string {
 }
 
 export function saveGameProgress(puzzleId: number, gameState: Partial<GameState>) {
+  if (typeof window === 'undefined') {
+    return // Safe no-op for SSR
+  }
+  
   const progress: GameProgress = {
     sessionId: getOrCreateSessionId(),
     puzzleId,
@@ -28,6 +36,10 @@ export function saveGameProgress(puzzleId: number, gameState: Partial<GameState>
 }
 
 export function loadGameProgress(puzzleId: number): Partial<GameState> | null {
+  if (typeof window === 'undefined') {
+    return null // Safe fallback for SSR
+  }
+  
   const key = `fjordle_puzzle_${puzzleId}_progress`
   const saved = localStorage.getItem(key)
   if (!saved) return null
@@ -47,6 +59,10 @@ export function loadGameProgress(puzzleId: number): Partial<GameState> | null {
 }
 
 export function clearGameProgress(puzzleId?: number) {
+  if (typeof window === 'undefined') {
+    return // Safe no-op for SSR
+  }
+  
   if (puzzleId) {
     const key = `fjordle_puzzle_${puzzleId}_progress`
     localStorage.removeItem(key)
@@ -54,6 +70,10 @@ export function clearGameProgress(puzzleId?: number) {
 }
 
 export function updateUserStats(won: boolean) {
+  if (typeof window === 'undefined') {
+    return // Safe no-op for SSR
+  }
+  
   const stats = getUserStats()
   const today = new Date().toISOString().split('T')[0]
 
@@ -78,6 +98,16 @@ export function updateUserStats(won: boolean) {
 }
 
 export function getUserStats(): UserStats {
+  if (typeof window === 'undefined') {
+    return {
+      gamesPlayed: 0,
+      gamesWon: 0,
+      currentStreak: 0,
+      maxStreak: 0,
+      lastPlayedDate: ''
+    } // Safe fallback for SSR
+  }
+  
   const saved = localStorage.getItem('fjordle-stats')
   if (!saved) {
     return {

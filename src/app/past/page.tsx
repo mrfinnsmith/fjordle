@@ -12,9 +12,14 @@ interface PastPuzzle {
     date: string
 }
 
+interface FormattedPuzzle extends PastPuzzle {
+    formattedDate: string
+}
+
 export default function PastPuzzlesPage() {
-    const { t, language } = useLanguage()
+    const { t, language, mounted } = useLanguage()
     const [puzzles, setPuzzles] = useState<PastPuzzle[]>([])
+    const [formattedPuzzles, setFormattedPuzzles] = useState<FormattedPuzzle[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -37,10 +42,16 @@ export default function PastPuzzlesPage() {
         fetchPuzzles()
     }, [])
 
-    const formatPuzzleDate = (dateString: string) => {
-        const date = new Date(dateString)
-        return formatDate(date, language)
-    }
+    // Format dates after component is mounted and language is available
+    useEffect(() => {
+        if (mounted && puzzles.length > 0) {
+            const formatted = puzzles.map(puzzle => ({
+                ...puzzle,
+                formattedDate: formatDate(new Date(puzzle.date), language)
+            }))
+            setFormattedPuzzles(formatted)
+        }
+    }, [puzzles, language, mounted])
 
     if (loading) {
         return (
@@ -74,12 +85,12 @@ export default function PastPuzzlesPage() {
             </div>
 
             <div className="space-y-2">
-                {puzzles.map((puzzle) => (
+                {formattedPuzzles.map((puzzle) => (
                     <div key={puzzle.puzzle_number} className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
                         <div>
                             <h3 className="font-semibold">{t('fjordle_number')}{puzzle.puzzle_number}</h3>
                             <p className="text-sm text-gray-600">
-                                {formatPuzzleDate(puzzle.date)}
+                                {puzzle.formattedDate}
                             </p>
                         </div>
                         <Link
@@ -92,7 +103,7 @@ export default function PastPuzzlesPage() {
                 ))}
             </div>
 
-            {puzzles.length === 0 && (
+            {formattedPuzzles.length === 0 && (
                 <div className="text-center text-gray-600">
                     {t('no_past_puzzles')}
                 </div>
