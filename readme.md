@@ -172,7 +172,7 @@ public/
 - Ensure proper file permissions after deployment
 
 ### Language/Translation Issues
-- Check `localStorage` for `fjordle-language` key
+- Check browser cookies for `fjordle-language` key
 - Verify `useLanguage` hook is used within `LanguageProvider`
 - Ensure all translation keys exist in both languages
 - Check browser console for missing translation warnings

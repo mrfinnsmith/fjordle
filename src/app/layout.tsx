@@ -1,59 +1,18 @@
-'use client'
-
-import Link from 'next/link'
-import NavigationMenu from '@/components/NavigationMenu'
-import { LanguageProvider, useLanguage } from '@/lib/languageContext'
+import { LanguageProvider } from '@/lib/languageContext'
+import { getLanguageFromCookies } from '@/lib/serverCookies'
+import ClientLayout from '@/components/ClientLayout'
 import './globals.css'
 
-function LanguageToggle() {
-  const { language, setLanguage } = useLanguage()
-
-  return (
-    <div className="flex items-center space-x-2">
-      <button
-        onClick={() => setLanguage('no')}
-        className={`text-2xl ${language === 'no' ? 'opacity-100' : 'opacity-50'}`}
-        title="Norsk"
-      >
-        🇳🇴
-      </button>
-      <button
-        onClick={() => setLanguage('en')}
-        className={`text-2xl ${language === 'en' ? 'opacity-100' : 'opacity-50'}`}
-        title="English"
-      >
-        🇬🇧
-      </button>
-    </div>
-  )
-}
-
-function Header() {
-  const { t } = useLanguage()
-
-  return (
-    <header className="mb-6">
-      <div className="flex justify-end items-center space-x-2 mb-4">
-        <NavigationMenu />
-        <LanguageToggle />
-      </div>
-      <div className="text-center">
-        <Link href="/" className="block">
-          <h1 className="text-4xl font-bold page-text mb-1">
-            Fjordle
-          </h1>
-        </Link>
-      </div>
-    </header>
-  )
-}
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Read language from cookies on server-side
+  const initialLanguage = getLanguageFromCookies()
+
   return (
-    <html lang="no">
+    <html lang={initialLanguage}>
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
 
@@ -102,7 +61,7 @@ export default function RootLayout({
               "url": process.env.NEXT_PUBLIC_SITE_URL,
               "applicationCategory": "Game",
               "operatingSystem": "Web Browser",
-              "inLanguage": "no",
+              "inLanguage": initialLanguage,
               "keywords": "fjord puslespill, norge geografi, daglig puslespill, fjord spill, norske fjorder, puslespill, spill, geografi",
               "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
             })
@@ -110,13 +69,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen page-container">
-        <LanguageProvider>
-          <div className="container mx-auto px-4 py-6 max-w-2xl">
-            <Header />
-            <main>
-              {children}
-            </main>
-          </div>
+        <LanguageProvider initialLanguage={initialLanguage}>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
         </LanguageProvider>
       </body>
     </html>

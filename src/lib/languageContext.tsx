@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { Language, TranslationKey } from '@/types/game'
 import { translations } from './translations'
+import { getLanguageFromCookiesClient, setLanguageCookie } from './cookies'
 
 interface LanguageContextType {
     language: Language
@@ -12,19 +13,25 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-    const [language, setLanguageState] = useState<Language>('no')
+interface LanguageProviderProps {
+    children: ReactNode
+    initialLanguage?: Language
+}
+
+export function LanguageProvider({ children, initialLanguage = 'no' }: LanguageProviderProps) {
+    const [language, setLanguageState] = useState<Language>(initialLanguage)
 
     useEffect(() => {
-        const saved = localStorage.getItem('fjordle-language') as Language
-        if (saved && (saved === 'no' || saved === 'en')) {
-            setLanguageState(saved)
+        // On client-side, read from cookies and update if different from initial
+        const cookieLanguage = getLanguageFromCookiesClient()
+        if (cookieLanguage !== initialLanguage) {
+            setLanguageState(cookieLanguage)
         }
-    }, [])
+    }, [initialLanguage])
 
     const setLanguage = (lang: Language) => {
         setLanguageState(lang)
-        localStorage.setItem('fjordle-language', lang)
+        setLanguageCookie(lang)
     }
 
     const t = (key: TranslationKey): string => {
