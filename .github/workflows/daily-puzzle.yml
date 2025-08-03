@@ -1,15 +1,15 @@
-name: Daily Puzzle Advance
-
+name: Daily Puzzle Assignment
 on:
   schedule:
-    - cron: '0 8 * * *'  # 12:00 AM Pacific (8:00 AM UTC)
-  workflow_dispatch:  # Allows manual trigger
+    - cron: '0 23 * * *'
+  workflow_dispatch:
 
 jobs:
-  advance-puzzle:
+  assign-puzzle:
     runs-on: ubuntu-latest
     steps:
-      - name: Advance daily puzzle
+      - name: Call Supabase function
         run: |
-          curl -X POST https://${{ secrets.APP_DOMAIN }}/api/advance-puzzle \
+          curl -X POST https://kzdbsuhqlkgpoabt.supabase.co/functions/v1/daily-puzzle \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Content-Type: application/json"
