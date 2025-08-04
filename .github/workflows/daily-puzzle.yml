@@ -1,15 +1,105 @@
 name: Daily Puzzle Assignment
 on:
   schedule:
-    - cron: '0 23 * * *'
-  workflow_dispatch:
+    - cron: '0 23 * * *'  # 23:00 UTC daily (midnight Oslo time)
+  workflow_dispatch:      # Allow manual trigger
 
 jobs:
   assign-puzzle:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
     steps:
-      - name: Call Supabase function
+      - name: Assign Daily Puzzle
         run: |
-          curl -X POST https://kvkmdkvmbuiqicgoqabx.supabase.co/functions/v1/daily-puzzle \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Content-Type: application/json"
+          echo "Starting daily puzzle assignment for $(date -u)"
+          
+          # Call the Supabase Edge Function with timeout and retry logic
+          for attempt in 1 2 3; do
+            echo "Attempt $attempt of 3..."
+            
+            response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
+              --max-time 30 \
+              -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/daily-puzzle" \
+              -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+              -H "Content-Type: application/json")
+            
+            http_status=$(echo "$response" | grep "HTTP_STATUS:" | cut -d: -f2)
+            body=$(echo "$response" | grep -v "HTTP_STATUS:")
+            
+            echo "Response body: $body"
+            echo "HTTP Status: $http_status"
+            
+            # Check HTTP status
+            if [ "$http_status" -eq 200 ]; then
+              # Parse JSON response
+              if command -v jq >/dev/null 2>&1; then
+                success=$(echo "$body" | jq -r '.success // false')
+                puzzle_number=$(echo "$body" | jq -r '.puzzle_number // null')
+                fjord_id=$(echo "$body" | jq -r '.fjord_id // null')
+                date=$(echo "$body" | jq -r '.date // null')
+                verified=$(echo "$body" | jq -r '.verified // false')
+                
+                if [ "$success" = "true" ] && [ "$verified" = "true" ] && [ "$puzzle_number" != "null" ]; then
+                  echo "✅ Successfully assigned puzzle #$puzzle_number (fjord $fjord_id) for $date"
+                  echo "::notice::Puzzle assignment successful: #$puzzle_number for $date"
+                  exit 0
+                else
+                  echo "❌ Puzzle assignment reported failure or incomplete verification"
+                  echo "Success: $success, Verified: $verified, Puzzle: $puzzle_number"
+                fi
+              else
+                echo "❌ jq not available for JSON parsing"
+                exit 1
+              fi
+            else
+              echo "❌ HTTP request failed with status $http_status"
+            fi
+            
+            if [ $attempt -lt 3 ]; then
+              echo "Retrying in 10 seconds..."
+              sleep 10
+            fi
+          done
+          
+          # If we get here, all attempts failed
+          echo "::error::All 3 puzzle assignment attempts failed"
+          echo "Final response: $body"
+          echo "Final HTTP status: $http_status"
+          exit 1
+
+      - name: Verify Puzzle Assignment
+        if: success()
+        run: |
+          echo "Performing additional verification..."
+          
+          # Additional verification call to ensure puzzle exists
+          today=$(date -u +%Y-%m-%d)
+          verify_response=$(curl -s \
+            --max-time 15 \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/daily_puzzles?presented_date=eq.$today&select=puzzle_number,fjord_id" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+          
+          echo "Verification response: $verify_response"
+          
+          if command -v jq >/dev/null 2>&1; then
+            puzzle_count=$(echo "$verify_response" | jq '. | length')
+            if [ "$puzzle_count" -eq 1 ]; then
+              puzzle_info=$(echo "$verify_response" | jq -r '.[0]')
+              echo "✅ Verification successful: puzzle exists in database"
+              echo "::notice::Database verification passed: $puzzle_info"
+            else
+              echo "❌ Verification failed: expected 1 puzzle, found $puzzle_count"
+              echo "::error::Database verification failed: puzzle not found or duplicates exist"
+              exit 1
+            fi
+          else
+            echo "⚠️ jq not available for verification parsing, skipping detailed check"
+            if [[ "$verify_response" == *"puzzle_number"* ]]; then
+              echo "✅ Basic verification passed: response contains puzzle data"
+            else
+              echo "❌ Basic verification failed: no puzzle data in response"
+              exit 1
+            fi
+          fi
