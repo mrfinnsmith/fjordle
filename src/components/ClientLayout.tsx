@@ -37,7 +37,7 @@ function Header() {
       </div>
       <div className="text-center">
         <Link href="/" className="block">
-          <h1 className="text-4xl font-bold page-text mb-1">
+          <h1 className="text-4xl font-bold page-text mb-1 fjordle-title">
             Fjordle
           </h1>
         </Link>
