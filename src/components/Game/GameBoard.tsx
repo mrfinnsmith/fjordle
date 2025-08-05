@@ -104,7 +104,10 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   if (!gameState) {
     return (
       <div className="game-container">
-        <div className="loading-spinner">{t('loading')}</div>
+        <div className="flex flex-col items-center justify-center py-8">
+          <img src="/favicon-32x32.png" alt="Fjordle" className="w-12 h-12 mb-4 animate-pulse" />
+          <div className="text-lg">{t('loading')}</div>
+        </div>
       </div>
     )
   }
