@@ -2,11 +2,21 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import { useLanguage } from '@/lib/languageContext'
+import { useState, useEffect } from 'react'
 
 export default function DebugInfo() {
     const router = useRouter()
     const pathname = usePathname()
     const { language } = useLanguage()
+    const [url, setUrl] = useState<string>('')
+    const [userAgent, setUserAgent] = useState<string>('')
+    const [timestamp, setTimestamp] = useState<string>('')
+
+    useEffect(() => {
+        setUrl(window.location.href)
+        setUserAgent(navigator.userAgent.substring(0, 50))
+        setTimestamp(new Date().toISOString())
+    }, [])
 
     return (
         <div style={{
@@ -26,9 +36,8 @@ export default function DebugInfo() {
             <div>Pathname: {pathname}</div>
             <div>Router exists: {router ? 'YES' : 'NO'}</div>
             <div>Router.push exists: {typeof router?.push === 'function' ? 'YES' : 'NO'}</div>
-            <div>URL: {typeof window !== 'undefined' ? window.location.href : 'SSR'}</div>
-            <div>User Agent: {typeof navigator !== 'undefined' ? navigator.userAgent.substring(0, 50) : 'SSR'}</div>
-            <div>Timestamp: {new Date().toISOString()}</div>
+            <div>URL: {url || 'Loading...'}</div>
+            <div>User Agent: {userAgent || 'Loading...'}</div><div>Timestamp: {timestamp || 'Loading...'}</div>
         </div>
     )
 } 
