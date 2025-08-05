@@ -1,77 +1,38 @@
-/* DARK MODE IMPLEMENTATION NOTE
-* 
-* Dark mode was temporarily removed from this CSS file. Previously, it worked by:
-* 1. Defining light mode CSS variables in the :root selector
-* 2. Using @media (prefers-color-scheme: dark) to override those same variables with dark values
-* 3. All components automatically switched themes since they reference var(--variable-name)
-*
-* Current behavior: Only light mode colors are defined, so the game always uses light theme
-* regardless of browser/OS dark mode preference.
-*
-* TO RE-IMPLEMENT DARK MODE:
-* 1. Add back the @media (prefers-color-scheme: dark) block after the :root block
-* 2. Override these variables with dark versions:
-*    --surface-primary, --surface-secondary, --surface-interactive, etc.
-*    --text-primary, --text-secondary, --text-on-selected
-*    --border-primary, --border-interactive, --border-selected
-* 3. CRITICAL: Test all difficulty level colors for contrast against dark backgrounds:
-*    --level-easy (#f9df6d), --level-medium (#a0c35a), 
-*    --level-hard (#b0c4ef), --level-expert (#ba81c5)
-*    These may need darker variants (--level-easy-dark, etc.) in dark mode
-* 4. Test tile readability: selected state, hover states, solved state colors
-*
-* The infrastructure is already here - just need to define dark color values and test contrast.
-*/
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+  --norwegian-blue: #00205B;
+  --norwegian-red: #BA0C2F;
+  --norwegian-white: #FFFFFF;
 
-  /* Surface colors - for backgrounds */
   --surface-primary: #ffffff;
   --surface-secondary: #f8f8f8;
   --surface-interactive: #efefe6;
   --surface-interactive-hover: #cfcfbf;
-  --surface-selected: #5a594e;
-  --surface-selected-hover: #787668;
+  --surface-selected: var(--norwegian-blue);
+  --surface-selected-hover: #1a3f7a;
 
-  /* Border colors */
   --border-primary: #dadce0;
   --border-interactive: #9aa0a6;
-  --border-selected: #1976d2;
+  --border-selected: var(--norwegian-blue);
 
-  /* Text colors */
   --text-primary: #121212;
   --text-secondary: #5f6368;
-  --text-on-selected: #ffffff;
+  --text-on-selected: var(--norwegian-white);
 
-  /* Game-specific colors */
-  --game-surface: var(--surface-interactive);
-  --game-surface-hover: var(--surface-interactive-hover);
-  --game-surface-selected: var(--surface-selected);
-  --game-surface-selected-hover: var(--surface-selected-hover);
-  --game-border: var(--border-primary);
-  --game-border-hover: var(--border-interactive);
-  --game-border-selected: var(--border-selected);
-  --game-text: var(--text-primary);
-  --game-text-selected: var(--text-on-selected);
-
-  /* Difficulty level colors */
   --level-easy: #f9df6d;
   --level-medium: #a0c35a;
-  --level-hard: #b0c4ef;
-  --level-expert: #ba81c5;
+  --level-hard: #1a3f7a;
+  --level-expert: var(--norwegian-red);
+}
 
-  /* Difficulty level colors - dark variants */
-  --level-easy-dark: #847306;
-  --level-medium-dark: #267c30;
-  --level-hard-dark: #346eb7;
-  --level-expert-dark: #861cab;
+body {
+  font-family: 'Source Sans Pro', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  background: var(--surface-primary);
 }
 
 .page-container {
@@ -82,18 +43,26 @@
   background-color: var(--surface-primary);
 }
 
-.page-text {
-  color: var(--text-primary);
+.fjordle-title {
+  color: #00205B;
+  position: relative;
+  font-weight: 700;
+  display: inline-block;
+  -webkit-text-stroke: 2px #fff;
+  text-stroke: 2px #fff;
 }
 
-.page-link {
-  color: #c0362d;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-start-rgb));
-  font-family: system-ui, -apple-system, sans-serif;
+.fjordle-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 110%;
+  height: 120%;
+  background: #BA0C2F;
+  z-index: -1;
+  border-radius: 6px;
+  transform: translate(-50%, -50%);
 }
 
 @layer components {
@@ -109,20 +78,16 @@ body {
     text-transform: uppercase;
     transition: all 200ms;
     cursor: pointer;
-    position: relative;
     user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-    background-color: var(--game-surface);
-    border: 2px solid var(--game-border);
-    color: var(--game-text);
+    background-color: var(--surface-interactive);
+    border: 2px solid var(--border-primary);
+    color: var(--text-primary);
   }
 
   .game-tile:hover {
-    background-color: var(--game-surface-hover);
-    border-color: var(--game-border-hover);
+    background-color: var(--surface-interactive-hover);
+    border-color: var(--border-interactive);
   }
 
   .game-tile:active {
@@ -132,12 +97,8 @@ body {
   .game-tile.selected {
     background-color: #787c7e;
     border-color: #787c7e;
-    color: #ffffff;
+    color: var(--norwegian-white);
     transform: scale(0.95);
-  }
-
-  .game-tile.selected:hover {
-    background-color: #787c7e;
   }
 
   .game-tile.solved {
@@ -158,14 +119,14 @@ body {
 
   .game-tile.solved.difficulty-3 {
     background-color: var(--level-hard);
-    border-color: #3b82f6;
-    color: #1e40af;
+    border-color: var(--norwegian-blue);
+    color: var(--norwegian-white);
   }
 
   .game-tile.solved.difficulty-4 {
     background-color: var(--level-expert);
-    border-color: #8b5cf6;
-    color: #6b21a8;
+    border-color: #9a0b28;
+    color: var(--norwegian-white);
   }
 
   .game-tile:disabled {
@@ -179,19 +140,6 @@ body {
 
   .game-tile.bounce {
     animation: bounce ease-in 0.3s 1;
-    animation-fill-mode: forwards;
-  }
-
-  .game-tile.bounce-delay-1 {
-    animation-delay: 0.1s;
-  }
-
-  .game-tile.bounce-delay-2 {
-    animation-delay: 0.2s;
-  }
-
-  .game-tile.bounce-delay-3 {
-    animation-delay: 0.3s;
   }
 
   .game-button {
@@ -202,31 +150,31 @@ body {
     border: 2px solid;
     cursor: pointer;
 
-    background-color: var(--game-surface);
-    border-color: var(--game-border);
-    color: var(--game-text);
-  }
-
-  .game-button.primary {
-    background-color: var(--surface-primary);
-    border-color: var(--text-primary);
+    background-color: var(--surface-interactive);
+    border-color: var(--border-primary);
     color: var(--text-primary);
   }
 
+  .game-button.primary {
+    background-color: var(--norwegian-blue);
+    border-color: var(--norwegian-blue);
+    color: var(--norwegian-white);
+  }
+
   .game-button.primary:hover {
-    background-color: var(--text-primary);
-    color: var(--surface-primary);
+    background-color: var(--surface-selected-hover);
+    border-color: var(--surface-selected-hover);
   }
 
   .game-button.secondary {
     background-color: transparent;
-    border-color: var(--border-primary);
-    color: var(--text-secondary);
+    border-color: var(--norwegian-red);
+    color: var(--norwegian-red);
   }
 
   .game-button.secondary:hover {
-    background-color: var(--surface-interactive);
-    border-color: var(--border-interactive);
+    background-color: var(--norwegian-red);
+    color: var(--norwegian-white);
   }
 
   .game-button:disabled {
@@ -234,21 +182,9 @@ body {
     cursor: not-allowed;
   }
 
-  .game-button:disabled:hover {
-    background-color: var(--game-surface);
-    border-color: var(--game-border);
-  }
-
   .game-button:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--border-selected);
-  }
-
-  .difficulty-indicator {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 0.25rem;
-    flex-shrink: 0;
   }
 
   .solved-group {
@@ -273,100 +209,14 @@ body {
 
   .solved-group.difficulty-3 {
     background-color: var(--level-hard);
-    color: #1e40af;
+    color: var(--norwegian-white);
   }
 
   .solved-group.difficulty-4 {
     background-color: var(--level-expert);
-    color: #6b21a8;
+    color: var(--norwegian-white);
   }
 
-  @keyframes shake {
-
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-
-    25% {
-      transform: translateX(-5px);
-    }
-
-    75% {
-      transform: translateX(5px);
-    }
-  }
-
-  @keyframes bounce {
-
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scaleY(1) scaleX(1);
-      z-index: 4;
-    }
-
-    40% {
-      transform: scaleY(1.2) scaleX(1.2);
-    }
-
-    70% {
-      transform: scaleY(1.2) scaleX(1.2);
-    }
-
-    100% {
-      transform: scaleY(1) scaleX(1);
-      z-index: 4;
-    }
-  }
-
-  .toast-portal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 102;
-    pointer-events: none;
-  }
-
-  .game-toast {
-    position: absolute;
-    top: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgb(18, 18, 18);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-family: inherit;
-    transition: opacity 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  .game-toast h2 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .toast-visible {
-    opacity: 1;
-  }
-
-  .toast-hidden {
-    opacity: 0;
-  }
-
-  /* Fjord display styles */
   .fjord-display {
     background-color: var(--surface-primary);
     border: 2px solid var(--border-primary);
@@ -376,6 +226,18 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+  }
+
+  .fjord-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--norwegian-red) 0%, var(--norwegian-white) 50%, var(--norwegian-blue) 100%);
+    border-radius: 10px 10px 0 0;
   }
 
   .fjord-svg-container {
@@ -393,51 +255,7 @@ body {
   .fjord-svg {
     max-width: 100%;
     max-height: 100%;
-    width: auto;
-    height: auto;
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
-  }
-
-  .correct-answer-reveal {
-    margin-top: 1.5rem;
-    text-align: center;
-  }
-
-  .answer-label {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
-  }
-
-  .answer-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  /* Guess input styles */
-  .guess-input-section {
-    margin-bottom: 2rem;
-  }
-
-  .attempts-display {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .attempts-text {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    letter-spacing: 0.05em;
-  }
-
-  .guess-input-container {
-    position: relative;
-    max-width: 400px;
-    margin: 0 auto;
   }
 
   .guess-input {
@@ -453,12 +271,8 @@ body {
 
   .guess-input:focus {
     outline: none;
-    border-color: var(--border-selected);
-  }
-
-  .guess-input:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    border-color: var(--norwegian-blue);
+    box-shadow: 0 0 0 3px rgba(0, 32, 91, 0.1);
   }
 
   .guess-dropdown {
@@ -492,7 +306,6 @@ body {
     background-color: var(--surface-interactive);
   }
 
-  /* Guess history styles */
   .guess-history {
     background-color: var(--surface-primary);
     border: 2px solid var(--border-primary);
@@ -514,166 +327,101 @@ body {
   }
 
   .guess-row.correct {
-    background-color: rgba(34, 197, 94, 0.1);
+    background: linear-gradient(135deg, rgba(0, 32, 91, 0.05) 0%, rgba(186, 12, 47, 0.05) 100%);
+    border-left: 4px solid var(--norwegian-red);
     border-radius: 6px;
     padding: 0.75rem;
     margin: 0.25rem 0;
   }
 
-  .guess-fjord {
-    font-weight: 600;
-    color: var(--text-primary);
-    flex: 1;
+  .game-toast {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--norwegian-blue) 0%, #001a4d 100%);
+    color: var(--norwegian-white);
+    padding: 12px 24px;
+    border-radius: 8px;
+    border-left: 4px solid var(--norwegian-red);
+    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
-  .guess-distance {
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin: 0 0.5rem;
+  .toast-portal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 102;
+    pointer-events: none;
   }
 
-  .guess-direction {
-    font-size: 1.25rem;
-    margin: 0 0.5rem;
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    25% {
+      transform: translateX(-5px);
+    }
+
+    75% {
+      transform: translateX(5px);
+    }
   }
 
-  .guess-proximity {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0 0.5rem;
+  @keyframes bounce {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
-  .guess-correct {
-    font-weight: 600;
-    color: #16a34a;
-    flex: 1;
-    text-align: center;
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.05);
+    }
+
+    100% {
+      transform: scale(1);
+    }
   }
 
-  /* Game container */
-  .game-container {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .loading-spinner {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-secondary);
-  }
-
-  /* Mobile responsive styles */
   @media (max-width: 768px) {
-
-    /* Prevent horizontal scrolling */
-    body {
-      overflow-x: hidden;
-    }
-
-    /* Navigation improvements */
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-    }
-
-    nav a {
-      white-space: nowrap;
-      font-size: 0.875rem;
-    }
-
-    /* Header layout adjustments */
-    header {
-      margin-bottom: 1.5rem;
-    }
-
-    /* Main title sizing */
-    h1 {
-      font-size: 2.5rem !important;
-    }
-
-    /* Container padding */
-    .container {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    /* Game content centering */
-    .game-container {
-      text-align: center;
-    }
-
-    /* Fjord display adjustments */
     .fjord-display {
       padding: 1rem;
-      margin-bottom: 1.5rem;
     }
 
     .fjord-svg-container {
       height: 250px;
-      padding: 0.75rem;
-    }
-
-    /* Input and form adjustments */
-    .guess-input-container {
-      max-width: 100%;
     }
 
     .guess-input {
       font-size: 16px;
-      /* Prevents zoom on iOS */
-    }
-
-    /* History adjustments */
-    .guess-history {
-      padding: 0.75rem;
     }
 
     .guess-row {
       flex-direction: column;
       align-items: flex-start;
       gap: 0.25rem;
-      text-align: left;
     }
 
-    .guess-row>* {
-      margin: 0;
-    }
-
-    /* Button adjustments */
-    .game-button {
-      padding: 0.75rem 1rem;
-      font-size: 0.875rem;
-    }
-
-    /* Toast positioning */
     .game-toast {
-      top: 80px;
       left: 1rem;
       right: 1rem;
       transform: none;
-      width: auto;
-    }
-  }
-
-  @media (max-width: 480px) {
-
-    /* Extra small screens */
-    h1 {
-      font-size: 2rem !important;
-    }
-
-    nav a {
-      font-size: 0.8rem;
-    }
-
-    .fjord-svg-container {
-      height: 200px;
-    }
-
-    .guess-input {
-      padding: 0.875rem;
     }
   }
 }
