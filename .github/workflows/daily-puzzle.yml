@@ -20,8 +20,8 @@ jobs:
             
             response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
               --max-time 30 \
-              -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/daily-puzzle" \
-              -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+              -X POST "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/functions/v1/daily-puzzle" \
+              -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" \
               -H "Content-Type: application/json")
             
             http_status=$(echo "$response" | grep "HTTP_STATUS:" | cut -d: -f2)
@@ -77,9 +77,9 @@ jobs:
           today=$(date -u +%Y-%m-%d)
           verify_response=$(curl -s \
             --max-time 15 \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/daily_puzzles?presented_date=eq.$today&select=puzzle_number,fjord_id" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+            "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/rest/v1/daily_puzzles?presented_date=eq.$today&select=puzzle_number,fjord_id" \
+            -H "apikey: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}")
           
           echo "Verification response: $verify_response"
           
