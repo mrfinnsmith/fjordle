@@ -15,7 +15,7 @@ export async function GET(
             )
         }
 
-        const { data: puzzle, error } = await supabase.rpc('get_fjord_puzzle_by_number', {
+        const { data, error } = await supabase.rpc('get_fjord_puzzle_by_number', {
             puzzle_num: puzzleNumber
         })
 
@@ -24,8 +24,24 @@ export async function GET(
             return NextResponse.json({ error: 'Database error' }, { status: 500 })
         }
 
-        if (!puzzle) {
+        if (!data || data.length === 0) {
             return NextResponse.json({ error: 'Puzzle not found' }, { status: 404 })
+        }
+
+        const puzzleData = data[0]
+
+        // Structure the response to match Puzzle interface
+        const puzzle = {
+            id: puzzleData.puzzle_id,
+            date: puzzleData.date,
+            puzzle_number: puzzleData.puzzle_number,
+            fjord: {
+                id: puzzleData.fjord_id,
+                name: puzzleData.fjord_name,
+                svg_filename: puzzleData.svg_filename,
+                center_lat: puzzleData.center_lat,
+                center_lng: puzzleData.center_lng
+            }
         }
 
         return NextResponse.json(puzzle)
