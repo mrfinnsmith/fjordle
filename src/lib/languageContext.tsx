@@ -15,31 +15,29 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 interface LanguageProviderProps {
     children: ReactNode
-    initialLanguage: Language  // Accept language from server
+    initialLanguage: Language
 }
 
 export function LanguageProvider({ children, initialLanguage }: LanguageProviderProps) {
     const [language, setLanguageState] = useState<Language>(initialLanguage)
 
     const setLanguage = (lang: Language) => {
-        console.log('[DEBUG] setLanguage called with:', lang)
         setLanguageState(lang)
         setLanguageCookie(lang)
-        console.log('[DEBUG] Language updated to:', lang)
     }
 
     const t = (key: TranslationKey): string => {
         const translation = translations[language]?.[key] || translations.en[key]
 
         if (!translation) {
-            console.warn(`Missing translation for key: "${key}" in language: "${language}"`)
+            if (process.env.NODE_ENV === 'development') {
+                console.warn(`Missing translation for key: "${key}" in language: "${language}"`)
+            }
             return key
         }
 
         return translation
     }
-
-    console.log('[DEBUG] LanguageProvider providing context:', { language, setLanguage: '(function)', t: '(function)' })
 
     return (
         <LanguageContext.Provider value={{ language, setLanguage, t }}>
