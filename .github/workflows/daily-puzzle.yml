@@ -1,7 +1,7 @@
 name: Daily Puzzle Assignment
 on:
   schedule:
-    - cron: '0 23 * * *'  # 23:00 UTC daily (midnight Oslo time)
+    - cron: '0 1 * * *'   # 01:00 UTC daily (after midnight)
   workflow_dispatch:      # Allow manual trigger
 
 jobs:
