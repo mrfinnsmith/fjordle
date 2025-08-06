@@ -269,6 +269,10 @@ body {
     transition: border-color 0.2s;
   }
 
+  .guess-input-container {
+    position: relative;
+  }
+
   .guess-input:focus {
     outline: none;
     border-color: var(--norwegian-blue);
