@@ -48,7 +48,7 @@ export function calculateDirection(lat1: number, lng1: number, lat2: number, lng
 }
 
 // Calculate proximity percentage
-export function calculateProximity(distance: number, maxDistance: number = 4000): number {
+export function calculateProximity(distance: number): number {
   if (distance === 0) return 100
 
   // For distances under 20km, use a more granular scale
