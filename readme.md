@@ -47,7 +47,7 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 ## Daily Puzzle System
 
 ### Automatic Assignment
-- **Timing**: Daily at 23:00 UTC (midnight Oslo time)
+- **Timing**: Daily at 01:00 UTC (after midnight)
 - **Method**: GitHub Action calls Supabase Edge Function
 - **Logic**: 
   1. Check queue for today's date
@@ -103,13 +103,14 @@ LIMIT 10;
 
 ### Daily Automation
 - **File**: `.github/workflows/daily-puzzle.yml`
-- **Schedule**: `0 23 * * *` (23:00 UTC daily)
+- **Schedule**: `0 1 * * *` (01:00 UTC daily)
 - **Action**: Calls Supabase Edge Function to assign puzzle
 - **Manual Trigger**: Can be run manually from GitHub Actions tab
 
 ### Configuration
 Requires GitHub repository secret:
-- `SUPABASE_ANON_KEY` - Supabase anonymous public key
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous public key
+- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 
 ### Edge Function
 - **Location**: Supabase dashboard → Edge Functions → daily-puzzle
