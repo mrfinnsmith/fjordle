@@ -44,4 +44,26 @@ export const formatNumber = (number: number, language: Language): string => {
     
     const locale = language === 'no' ? 'no-NO' : 'en-US'
     return number.toLocaleString(locale)
+}
+
+/**
+ * Format a distance with appropriate units (meters for <1km, km for >=1km)
+ * @param distanceKm - The distance in kilometers
+ * @param language - The language to use for formatting
+ * @returns Formatted distance string
+ */
+export const formatDistance = (distanceKm: number, language: Language): string => {
+    // Only format on client-side to prevent hydration mismatch
+    if (typeof window === 'undefined') {
+        return distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${distanceKm}km`
+    }
+    
+    const locale = language === 'no' ? 'no-NO' : 'en-US'
+    
+    if (distanceKm < 1) {
+        const meters = Math.round(distanceKm * 1000)
+        return `${meters.toLocaleString(locale)}m`
+    } else {
+        return `${distanceKm.toLocaleString(locale)}km`
+    }
 } 

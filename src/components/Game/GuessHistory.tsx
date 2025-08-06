@@ -2,7 +2,7 @@
 
 import { Guess } from '@/types/game'
 import { useLanguage } from '@/lib/languageContext'
-import { formatNumber } from '@/lib/utils'
+import { formatDistance } from '@/lib/utils'
 import { useState, useEffect } from 'react'
 
 interface GuessHistoryProps {
@@ -17,11 +17,11 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
     const { language } = useLanguage()
     const [formattedGuesses, setFormattedGuesses] = useState<FormattedGuess[]>([])
 
-    // Format numbers when language or guesses change
+    // Format distances when language or guesses change
     useEffect(() => {
         const formatted = guesses.map(guess => ({
             ...guess,
-            formattedDistance: formatNumber(guess.distance, language)
+            formattedDistance: formatDistance(guess.distance, language)
         }))
         setFormattedGuesses(formatted)
     }, [guesses, language])
@@ -42,7 +42,7 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
                     {!guess.isCorrect && (
                         <>
                             <div className="guess-distance">
-                                {guess.formattedDistance}km
+                                {guess.formattedDistance}
                             </div>
 
                             <div className="guess-direction">

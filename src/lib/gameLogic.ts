@@ -50,7 +50,23 @@ export function calculateDirection(lat1: number, lng1: number, lat2: number, lng
 // Calculate proximity percentage
 export function calculateProximity(distance: number, maxDistance: number = 4000): number {
   if (distance === 0) return 100
-  const proximity = Math.max(0, (maxDistance - distance) / maxDistance * 100)
+
+  // For distances under 20km, use a more granular scale
+  if (distance <= 20) {
+    // 0km = 100%, 20km = 95%, linear scale
+    const granularProximity = 100 - (distance / 20) * 5
+
+    // For 5km or less, return with decimal points
+    if (distance <= 5) {
+      return Math.round(granularProximity * 100) / 100
+    }
+
+    return Math.round(granularProximity)
+  }
+
+  // For distances over 20km, use a more reasonable scale
+  // 20km = 95%, 100km = 90%, 500km = 75%, 4000km = 0%
+  const proximity = Math.max(0, 95 - (distance - 20) / 3980 * 95)
   return Math.round(proximity)
 }
 
