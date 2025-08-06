@@ -37,17 +37,37 @@ export async function getTodaysPuzzle(): Promise<Puzzle | null> {
 
 export async function getAllFjords(): Promise<FjordOption[]> {
   try {
-    const { data, error } = await supabase
+    // First, get the total count
+    const { count } = await supabase
       .from('fjords')
-      .select('id, name, center_lat, center_lng')
-      .order('name')
+      .select('*', { count: 'exact', head: true })
 
-    if (error) {
-      console.error('Error fetching fjords:', error)
+    if (!count) {
       return []
     }
 
-    return data || []
+    // Fetch all fjords using pagination to work around Supabase's 1000 row limit
+    const allFjords: FjordOption[] = []
+    const pageSize = 1000
+
+    for (let offset = 0; offset < count; offset += pageSize) {
+      const { data, error } = await supabase
+        .from('fjords')
+        .select('id, name, center_lat, center_lng')
+        .order('name')
+        .range(offset, offset + pageSize - 1)
+
+      if (error) {
+        console.error(`Error fetching fjords page ${offset}-${offset + pageSize - 1}:`, error)
+        continue
+      }
+
+      if (data) {
+        allFjords.push(...data)
+      }
+    }
+
+    return allFjords
   } catch (error) {
     console.error('Error fetching fjords:', error)
     return []
