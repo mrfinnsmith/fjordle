@@ -8,7 +8,7 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - Players have 6 attempts to guess correctly
 - Wrong guesses show distance (km) and direction arrow to correct fjord
 - Proximity percentage helps players triangulate the location
-- Shareable results with emoji patterns
+- Shareable results with proximity square patterns and streak tracking
 
 ## Internationalization
 
@@ -137,6 +137,8 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 - **Distance**: Kilometers from guess to correct answer
 - **Direction**: Arrow emoji pointing toward correct fjord
 - **Proximity**: Percentage (100% = correct, 0% = furthest possible)
+- **Results Display**: Guess history table with all attempts and Google Maps integration
+- **Share Format**: Proximity visualized as green/yellow/black squares with direction arrows
 
 ## Assets
 
@@ -218,7 +220,7 @@ public/
 - `FjordDisplay` - Shows fjord outline SVG
 - `GuessInput` - Autocomplete fjord name input
 - `GuessHistory` - Shows previous attempts with feedback
-- `ResultsModal` - End game stats and sharing
+- `ResultsModal` - End game stats, guess history table, and sharing with Google Maps integration
 - `LanguageProvider` - i18n context wrapper
 - `LanguageToggle` - Flag-based language switcher
 - `NavigationMenu` - Dropdown navigation menu
