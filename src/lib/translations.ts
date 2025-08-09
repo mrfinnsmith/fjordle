@@ -133,6 +133,22 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'contact_info': 'for å finne kontaktinformasjon.',
     'independent_project': 'Fjordle er et uavhengig prosjekt laget for pedagogisk underholdning om norsk geografi.',
 
+    // FAQ Page
+    'faq': 'Spørsmål og svar',
+    'faq_title': 'Spørsmål og svar',
+    'faq_what_is_fjordle': 'Hva er Fjordle?',
+    'faq_what_is_fjordle_answer': 'Fjordle er et daglig puslespill hvor du gjetter norske fjorder ut fra deres karakteristiske omriss. Du har 6 forsøk på å identifisere riktig fjord ved hjelp av avstands- og retningsledetråder.',
+    'faq_arrows_distances': 'Hva betyr pilene og avstandene?',
+    'faq_arrows_distances_answer': 'Pilen viser retningen fra ditt gjett til riktig fjord. Avstanden forteller deg hvor mange kilometer fra hverandre de er. For eksempel, hvis du gjetter "Geirangerfjord" og ser "127km ↗️", må du se etter fjorder omtrent 127 kilometer nordøst for Geirangerfjord.',
+    'faq_proximity_percentage': 'Hva er nærhetsprosenten?',
+    'faq_proximity_percentage_answer': 'Nærhetsprosenten er en annen måte å vise avstand på. Hvis gjettet ditt er på motsatt side av Norge fra riktig fjord, får du 0%. Hvis du gjetter riktig fjord, får du 100%. Denne prosenten hjelper deg med å vurdere hvor nær du er svaret.',
+    'faq_previous_puzzles': 'Kan jeg spille tidligere puslespill?',
+    'faq_previous_puzzles_answer': 'Ja! Du finner alle tidligere puslespill på tidligere puslespill-siden.',
+    'faq_share_results': 'Hvordan deler jeg resultatene mine?',
+    'faq_share_results_answer': 'Vi bruker firkanter for å visuelt representere nærhetsprosenten av gjettet ditt. Vi runder nærhetsprosenten ned til nærmeste 10, og representerer resultatet med grønne (🟩 = 20%) og/eller gule (🟨 = 10%) firkanter. Siden vi bruker totalt 5 firkanter, fyller vi resten med svarte firkanter (⬛). Så 72% blir representert som 🟩🟩🟩🟨⬛',
+    'faq_data_source': 'Hvor kommer fjorddataene fra?',
+    'faq_data_source_answer': 'Fjorddataene kommer fra Fjordkatalogen, som er en offisiell database fra Miljødirektoratet.',
+
     // Metadata
     'site_title': 'Fjordle - Daglig fjordpuslespill',
     'site_description': 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder.',
@@ -270,6 +286,22 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'contact_info': 'to find contact information.',
     'independent_project': 'Fjordle is an independent project created for educational entertainment about Norwegian geography.',
 
+    // FAQ Page
+    'faq': 'FAQ',
+    'faq_title': 'Frequently Asked Questions',
+    'faq_what_is_fjordle': 'What is Fjordle?',
+    'faq_what_is_fjordle_answer': 'Fjordle is a daily puzzle game where you guess Norwegian fjords from their distinctive outline shapes. You have 6 attempts to identify the correct fjord using distance and direction clues.',
+    'faq_arrows_distances': 'What do the arrows and distances mean?',
+    'faq_arrows_distances_answer': 'The arrow shows the direction from your guess to the correct fjord. The distance tells you how many kilometers apart they are. For example, if you guess "Geirangerfjord" and see "127km ↗️", you need to look for fjords about 127 kilometers northeast of Geirangerfjord.',
+    'faq_proximity_percentage': 'What is the proximity percentage?',
+    'faq_proximity_percentage_answer': 'The proximity percentage is another way to show distance. If your guess is on the opposite side of Norway from the correct fjord, you\'ll get 0%. If you guess the correct fjord, you\'ll get 100%. This percentage helps gauge how close you are to the answer.',
+    'faq_previous_puzzles': 'Can I play previous puzzles?',
+    'faq_previous_puzzles_answer': 'Yes! You can find all previous puzzles on our past puzzles page.',
+    'faq_share_results': 'How do I share my results?',
+    'faq_share_results_answer': 'We use squares to visually represent the proximity percent of your guess. We round the proximity percent down to the nearest 10, then represent your score with green (🟩 = 20%) and/or yellow (🟨 = 10%) squares. Since we use a total of 5 squares, we fill the remainder with black squares (⬛). Thus, 72% would be represented as 🟩🟩🟩🟨⬛',
+    'faq_data_source': 'Where does the fjord data come from?',
+    'faq_data_source_answer': 'The fjord data comes from Fjordkatalogen, which is an official database from the Norwegian Environment Agency.',
+
     // Metadata
     'site_title': 'Fjordle - Daily Norwegian Fjord Puzzle',
     'site_description': 'Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.',
@@ -279,4 +311,4 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
 export const getTranslation = (key: TranslationKey, language: Language = 'no'): string => {
   return translations[language]?.[key] || translations.en[key] || key
-} 
+}

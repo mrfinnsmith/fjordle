@@ -5,7 +5,7 @@ export function getOrCreateSessionId(): string {
   if (typeof window === 'undefined') {
     return 'ssr-session-id' // Safe fallback for SSR
   }
-  
+
   const key = 'fjordle-session-id'
   let sessionId = localStorage.getItem(key)
 
@@ -17,17 +17,18 @@ export function getOrCreateSessionId(): string {
   return sessionId
 }
 
-export function saveGameProgress(puzzleId: number, gameState: Partial<GameState>) {
+export function saveGameProgress(puzzleId: number, gameState: Partial<GameState & { statsUpdated?: boolean }>) {
   if (typeof window === 'undefined') {
     return // Safe no-op for SSR
   }
-  
+
   const progress: GameProgress = {
     sessionId: getOrCreateSessionId(),
     puzzleId,
     guesses: gameState.guesses || [],
     attemptsUsed: gameState.attemptsUsed || 0,
     gameStatus: gameState.gameStatus || 'playing',
+    statsUpdated: gameState.statsUpdated || false,
     timestamp: Date.now()
   }
 
@@ -35,11 +36,11 @@ export function saveGameProgress(puzzleId: number, gameState: Partial<GameState>
   localStorage.setItem(key, JSON.stringify(progress))
 }
 
-export function loadGameProgress(puzzleId: number): Partial<GameState> | null {
+export function loadGameProgress(puzzleId: number): Partial<GameState & { statsUpdated?: boolean }> | null {
   if (typeof window === 'undefined') {
     return null // Safe fallback for SSR
   }
-  
+
   const key = `fjordle_puzzle_${puzzleId}_progress`
   const saved = localStorage.getItem(key)
   if (!saved) return null
@@ -51,7 +52,8 @@ export function loadGameProgress(puzzleId: number): Partial<GameState> | null {
     return {
       guesses: progress.guesses,
       attemptsUsed: progress.attemptsUsed,
-      gameStatus: progress.gameStatus
+      gameStatus: progress.gameStatus,
+      statsUpdated: progress.statsUpdated || false
     }
   } catch {
     return null
@@ -62,7 +64,7 @@ export function clearGameProgress(puzzleId?: number) {
   if (typeof window === 'undefined') {
     return // Safe no-op for SSR
   }
-  
+
   if (puzzleId) {
     const key = `fjordle_puzzle_${puzzleId}_progress`
     localStorage.removeItem(key)
@@ -73,7 +75,7 @@ export function updateUserStats(won: boolean) {
   if (typeof window === 'undefined') {
     return // Safe no-op for SSR
   }
-  
+
   const stats = getUserStats()
   const today = new Date().toISOString().split('T')[0]
 
@@ -107,7 +109,7 @@ export function getUserStats(): UserStats {
       lastPlayedDate: ''
     } // Safe fallback for SSR
   }
-  
+
   const saved = localStorage.getItem('fjordle-stats')
   if (!saved) {
     return {

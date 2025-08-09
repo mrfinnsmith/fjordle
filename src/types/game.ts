@@ -7,6 +7,7 @@ export interface GameState {
   sessionId?: string
   showToast: boolean
   toastMessage: string
+  statsUpdated?: boolean
 }
 
 export interface Puzzle {
@@ -54,6 +55,7 @@ export interface GameProgress {
   guesses: Guess[]
   attemptsUsed: number
   gameStatus: 'playing' | 'won' | 'lost'
+  statsUpdated: boolean
   timestamp: number
 }
 
@@ -218,6 +220,22 @@ export type TranslationKey =
   | 'contact_text'
   | 'contact_info'
   | 'independent_project'
+
+  // FAQ Page
+  | 'faq'
+  | 'faq_title'
+  | 'faq_what_is_fjordle'
+  | 'faq_what_is_fjordle_answer'
+  | 'faq_arrows_distances'
+  | 'faq_arrows_distances_answer'
+  | 'faq_proximity_percentage'
+  | 'faq_proximity_percentage_answer'
+  | 'faq_previous_puzzles'
+  | 'faq_previous_puzzles_answer'
+  | 'faq_share_results'
+  | 'faq_share_results_answer'
+  | 'faq_data_source'
+  | 'faq_data_source_answer'
 
   // Metadata
   | 'site_title'

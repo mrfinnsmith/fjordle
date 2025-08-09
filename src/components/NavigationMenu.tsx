@@ -41,6 +41,7 @@ export default function NavigationMenu() {
   }
 
   const navigationLinks = [
+    { href: '/faq', label: t('faq') },
     { href: '/past', label: t('past_fjordles') },
     { href: '/about', label: t('about') },
     { href: '/how-to-play', label: t('how_to_play') },

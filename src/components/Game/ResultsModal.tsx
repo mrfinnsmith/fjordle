@@ -1,31 +1,20 @@
 'use client'
 
-import { GameState } from '@/types/game'
-import { useState, useEffect } from 'react'
-import { getUserStats } from '@/lib/localStorage'
+import { GameState, UserStats } from '@/types/game'
+import { useState } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDistance } from '@/lib/utils'
 
 interface ResultsModalProps {
   gameState: GameState
+  userStats: UserStats
   isOpen: boolean
   onClose: () => void
 }
 
-export default function ResultsModal({ gameState, isOpen, onClose }: ResultsModalProps) {
+export default function ResultsModal({ gameState, userStats, isOpen, onClose }: ResultsModalProps) {
   const { t, language } = useLanguage()
   const [showCopiedMessage, setShowCopiedMessage] = useState(false)
-  const [userStats, setUserStats] = useState({
-    gamesPlayed: 0,
-    gamesWon: 0,
-    currentStreak: 0,
-    maxStreak: 0,
-    lastPlayedDate: ''
-  })
-
-  useEffect(() => {
-    setUserStats(getUserStats())
-  }, [])
 
   if (!isOpen || !gameState.puzzle) return null
 

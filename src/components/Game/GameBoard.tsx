@@ -12,6 +12,7 @@ import GuessHistory from './GuessHistory'
 import ResultsModal from './ResultsModal'
 import { Toast } from './Toast'
 import { saveGameProgress, loadGameProgress, getOrCreateSessionId, updateUserStats } from '@/lib/localStorage'
+import { getUserStats } from '@/lib/localStorage'
 
 interface GameBoardProps {
   puzzle: Puzzle
@@ -24,6 +25,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [fjords, setFjords] = useState<FjordOption[]>([])
   const [showResultsModal, setShowResultsModal] = useState(false)
   const [sessionInitialized, setSessionInitialized] = useState(false)
+  const [userStats, setUserStats] = useState(getUserStats())
 
   const getEffectivePuzzleId = useCallback(() => puzzleId || puzzle.id, [puzzleId, puzzle.id])
 
@@ -84,10 +86,14 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
   // Update stats when game completes
   useEffect(() => {
-    if (gameState && (gameState.gameStatus === 'won' || gameState.gameStatus === 'lost')) {
+    if (gameState &&
+      (gameState.gameStatus === 'won' || gameState.gameStatus === 'lost') &&
+      !gameState.statsUpdated) {
       updateUserStats(gameState.gameStatus === 'won')
+      setUserStats(getUserStats())
+      setGameState(prev => prev ? { ...prev, statsUpdated: true } as GameState : null)
     }
-  }, [gameState?.gameStatus])
+  }, [gameState])
 
   const handleGuess = async (fjordId: number, fjordName: string, coords: { lat: number; lng: number }) => {
     if (!gameState) return
@@ -134,6 +140,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
       <ResultsModal
         gameState={gameState}
+        userStats={userStats}
         isOpen={showResultsModal}
         onClose={() => setShowResultsModal(false)}
       />
