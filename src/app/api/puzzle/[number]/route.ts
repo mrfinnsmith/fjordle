@@ -40,7 +40,9 @@ export async function GET(
                 name: puzzleData.fjord_name,
                 svg_filename: puzzleData.svg_filename,
                 center_lat: puzzleData.center_lat,
-                center_lng: puzzleData.center_lng
+                center_lng: puzzleData.center_lng,
+                wikipedia_url_no: puzzleData.wikipedia_url_no,
+                wikipedia_url_en: puzzleData.wikipedia_url_en
             }
         }
 

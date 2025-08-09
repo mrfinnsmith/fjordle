@@ -77,6 +77,10 @@ export default function ResultsModal({ gameState, userStats, isOpen, onClose }: 
     window.open(url, '_blank')
   }
 
+  const wikipediaUrl = language === 'no'
+    ? gameState.puzzle.fjord.wikipedia_url_no
+    : gameState.puzzle.fjord.wikipedia_url_en;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg p-6 max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
@@ -175,6 +179,17 @@ export default function ResultsModal({ gameState, userStats, isOpen, onClose }: 
                 <span>🗺️</span>
                 <span>Google Maps</span>
               </button>
+              {wikipediaUrl && (
+                <a
+                  href={wikipediaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  <span>📖</span>
+                  <span>Wikipedia</span>
+                </a>
+              )}
             </div>
 
             <button

@@ -24,7 +24,9 @@ export async function getTodaysPuzzle(): Promise<Puzzle | null> {
         name: puzzleData.fjord_name,
         svg_filename: puzzleData.svg_filename,
         center_lat: puzzleData.center_lat,
-        center_lng: puzzleData.center_lng
+        center_lng: puzzleData.center_lng,
+        wikipedia_url_no: puzzleData.wikipedia_url_no,
+        wikipedia_url_en: puzzleData.wikipedia_url_en
       }
     }
 
@@ -99,7 +101,9 @@ export async function getPuzzleByNumber(puzzleNumber: number): Promise<Puzzle | 
         name: puzzleData.fjord_name,
         svg_filename: puzzleData.svg_filename,
         center_lat: puzzleData.center_lat,
-        center_lng: puzzleData.center_lng
+        center_lng: puzzleData.center_lng,
+        wikipedia_url_no: puzzleData.wikipedia_url_no,
+        wikipedia_url_en: puzzleData.wikipedia_url_en
       }
     }
   } catch (error) {

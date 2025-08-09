@@ -23,6 +23,8 @@ export interface Fjord {
   svg_filename: string
   center_lat: number
   center_lng: number
+  wikipedia_url_no?: string
+  wikipedia_url_en?: string
 }
 
 export interface FjordOption {
