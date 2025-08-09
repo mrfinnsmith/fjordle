@@ -20,13 +20,19 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     // Results Modal
     'congratulations': 'Gratulerer!',
     'next_time': 'Neste gang!',
-    'the_answer_was': 'Svaret var:',
+    'the_answer_was': 'Svaret var',
     'played': 'Spilt',
     'win_percent': 'Vinn %',
     'current_streak': 'Nåværende rekke',
     'max_streak': 'Maks rekke',
     'share_results': 'Del resultatet ditt',
     'copied': 'Kopiert!',
+    'guessed_in_attempts': 'Du gjettet det på {count} forsøk!',
+    'current_streak_label': 'Nåværende rekke',
+    'days': 'dager',
+    'your_guesses': 'Dine gjetninger',
+    'statistics': 'Statistikk',
+    'close': 'Lukk',
 
     // Past Puzzles Page
     'back_to_today': 'Tilbake til dagens Fjordle',
@@ -151,13 +157,19 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     // Results Modal
     'congratulations': 'Congratulations!',
     'next_time': 'Next Time!',
-    'the_answer_was': 'The answer was:',
+    'the_answer_was': 'The answer was',
     'played': 'Played',
     'win_percent': 'Win %',
     'current_streak': 'Current Streak',
     'max_streak': 'Max Streak',
     'share_results': 'Share Your Results',
     'copied': 'Copied!',
+    'guessed_in_attempts': 'You guessed it in {count} attempts!',
+    'current_streak_label': 'Current Streak',
+    'days': 'days',
+    'your_guesses': 'Your Guesses',
+    'statistics': 'Statistics',
+    'close': 'Close',
 
     // Past Puzzles Page
     'back_to_today': 'Back to Today\'s Fjordle',

@@ -87,7 +87,7 @@ export interface Translations {
 export type Language = 'no' | 'en'
 
 // Type-safe translation keys
-export type TranslationKey = 
+export type TranslationKey =
   // Header
   | 'past_fjordles'
   | 'about'
@@ -96,13 +96,13 @@ export type TranslationKey =
   | 'no_puzzle_today'
   | 'no_puzzle_message'
   | 'game_description'
-  
+
   // Game
   | 'guesses'
   | 'enter_fjord_name'
   | 'loading'
   | 'play'
-  
+
   // Results Modal
   | 'congratulations'
   | 'next_time'
@@ -113,21 +113,27 @@ export type TranslationKey =
   | 'max_streak'
   | 'share_results'
   | 'copied'
-  
+  | 'guessed_in_attempts'
+  | 'current_streak_label'
+  | 'days'
+  | 'your_guesses'
+  | 'statistics'
+  | 'close'
+
   // Past Puzzles Page
   | 'back_to_today'
   | 'loading_past_puzzles'
   | 'error'
   | 'no_past_puzzles'
   | 'fjordle_number'
-  
+
   // About Page
   | 'about_title'
   | 'about_created'
   | 'about_inspired'
   | 'about_collaborate'
   | 'about_platforms'
-  
+
   // How to Play Page
   | 'how_to_play_title'
   | 'goal_title'
@@ -170,7 +176,7 @@ export type TranslationKey =
   | 'shape_matters_text'
   | 'winning_title'
   | 'winning_text'
-  
+
   // Privacy Page
   | 'privacy_title'
   | 'last_updated'
@@ -212,7 +218,7 @@ export type TranslationKey =
   | 'contact_text'
   | 'contact_info'
   | 'independent_project'
-  
+
   // Metadata
   | 'site_title'
   | 'site_description'

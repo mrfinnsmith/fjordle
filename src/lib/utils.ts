@@ -20,13 +20,13 @@ export const formatDate = (
     if (typeof window === 'undefined') {
         return date.toISOString().split('T')[0] // Safe server fallback: YYYY-MM-DD
     }
-    
+
     const locale = language === 'no' ? 'no-NO' : 'en-US'
     const defaultOptions = {
         timeZone: 'Europe/Oslo', // Consistent timezone
         ...options
     }
-    
+
     return date.toLocaleDateString(locale, defaultOptions)
 }
 
@@ -41,7 +41,7 @@ export const formatNumber = (number: number, language: Language): string => {
     if (typeof window === 'undefined') {
         return number.toString() // Safe server fallback
     }
-    
+
     const locale = language === 'no' ? 'no-NO' : 'en-US'
     return number.toLocaleString(locale)
 }
@@ -57,13 +57,13 @@ export const formatDistance = (distanceKm: number, language: Language): string =
     if (typeof window === 'undefined') {
         return distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${distanceKm}km`
     }
-    
+
     const locale = language === 'no' ? 'no-NO' : 'en-US'
-    
+
     if (distanceKm < 1) {
         const meters = Math.round(distanceKm * 1000)
         return `${meters.toLocaleString(locale)}m`
     } else {
         return `${distanceKm.toLocaleString(locale)}km`
     }
-} 
+}
