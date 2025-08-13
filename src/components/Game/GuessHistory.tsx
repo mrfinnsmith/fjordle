@@ -14,7 +14,7 @@ interface FormattedGuess extends Guess {
 }
 
 export default function GuessHistory({ guesses }: GuessHistoryProps) {
-    const { language } = useLanguage()
+    const { language, t } = useLanguage()
     const [formattedGuesses, setFormattedGuesses] = useState<FormattedGuess[]>([])
 
     // Format distances when language or guesses change
@@ -30,38 +30,51 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
 
     return (
         <div className="guess-history">
-            {formattedGuesses.map((guess, index) => (
-                <div
-                    key={index}
-                    className={`guess-row ${guess.isCorrect ? 'correct' : ''}`}
-                >
-                    <div className="guess-fjord">
-                        {guess.fjordName}
-                    </div>
-
-                    {!guess.isCorrect && (
-                        <>
-                            <div className="guess-distance">
-                                {guess.formattedDistance}
-                            </div>
-
-                            <div className="guess-direction">
-                                {guess.direction}
-                            </div>
-
-                            <div className="guess-proximity">
-                                {guess.proximityPercent}%
-                            </div>
-                        </>
-                    )}
-
-                    {guess.isCorrect && (
-                        <div className="guess-correct">
-                            🎯 Correct!
+            <div className="guess-history-grid">
+                {formattedGuesses.map((guess, index) => (
+                    <>
+                        <div
+                            key={`${index}-name`}
+                            className={`guess-item fjord-name ${guess.isCorrect ? 'correct' : ''}`}
+                        >
+                            {guess.fjordName}
                         </div>
-                    )}
-                </div>
-            ))}
+
+                        {!guess.isCorrect ? (
+                            <>
+                                <div
+                                    key={`${index}-distance`}
+                                    className="guess-item"
+                                >
+                                    {guess.formattedDistance}
+                                </div>
+
+                                <div
+                                    key={`${index}-direction`}
+                                    className="guess-item"
+                                >
+                                    {guess.direction}
+                                </div>
+
+                                <div
+                                    key={`${index}-proximity`}
+                                    className="guess-item"
+                                >
+                                    {guess.proximityPercent}%
+                                </div>
+                            </>
+                        ) : (
+                            <div
+                                key={`${index}-correct`}
+                                className="guess-item correct"
+                                style={{ gridColumn: 'span 3' }}
+                            >
+                                🎯 {t('correct')}
+                            </div>
+                        )}
+                    </>
+                ))}
+            </div>
         </div>
     )
-} 
+}

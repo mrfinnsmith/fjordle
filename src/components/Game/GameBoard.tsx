@@ -107,6 +107,16 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     }
   }
 
+  const handleInvalidGuess = () => {
+    if (!gameState) return
+
+    setGameState(prev => prev ? {
+      ...prev,
+      showToast: true,
+      toastMessage: t('unknown_fjord')
+    } : null)
+  }
+
   if (!gameState) {
     return (
       <div className="game-container">
@@ -130,6 +140,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         <GuessInput
           fjords={fjords}
           onGuess={handleGuess}
+          onInvalidGuess={handleInvalidGuess}
           disabled={gameState.gameStatus !== 'playing'}
           attemptsUsed={gameState.attemptsUsed}
           maxAttempts={6}

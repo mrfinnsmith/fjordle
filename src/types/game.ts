@@ -243,3 +243,6 @@ export type TranslationKey =
   | 'site_title'
   | 'site_description'
   | 'site_keywords'
+  | 'unknown_fjord'
+  | 'guess_button'
+  | 'correct'

@@ -15,6 +15,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'guesses': 'GJETNINGER',
     'enter_fjord_name': 'Skriv inn fjordnavn...',
     'loading': 'Laster...',
+    'unknown_fjord': 'Ukjent fjord',
+    'guess_button': 'Gjett',
+    'correct': 'Riktig!',
     'play': 'Spill',
 
     // Results Modal
@@ -168,6 +171,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'guesses': 'GUESSES',
     'enter_fjord_name': 'Enter fjord name...',
     'loading': 'Loading...',
+    'unknown_fjord': 'Unknown fjord',
+    'guess_button': 'Guess',
+    'correct': 'Correct!',
     'play': 'Play',
 
     // Results Modal

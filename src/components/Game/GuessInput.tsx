@@ -7,6 +7,7 @@ import { useLanguage } from '@/lib/languageContext'
 interface GuessInputProps {
     fjords: FjordOption[]
     onGuess: (fjordId: number, fjordName: string, coords: { lat: number; lng: number }) => void
+    onInvalidGuess: () => void
     disabled: boolean
     attemptsUsed: number
     maxAttempts: number
@@ -15,6 +16,7 @@ interface GuessInputProps {
 export default function GuessInput({
     fjords,
     onGuess,
+    onInvalidGuess,
     disabled,
     attemptsUsed,
     maxAttempts
@@ -24,6 +26,7 @@ export default function GuessInput({
     const [filteredFjords, setFilteredFjords] = useState<FjordOption[]>([])
     const [showDropdown, setShowDropdown] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(-1)
+    const [selectedFjord, setSelectedFjord] = useState<FjordOption | null>(null)
     const inputRef = useRef<HTMLInputElement>(null)
 
     // Filter fjords based on input
@@ -33,24 +36,68 @@ export default function GuessInput({
                 fjord.name.toLowerCase().includes(inputValue.toLowerCase())
             )
             setFilteredFjords(filtered)
-            setShowDropdown(true)
             setSelectedIndex(-1)
+
+            // Check if input exactly matches a fjord
+            const exactMatch = filtered.find(fjord =>
+                fjord.name.toLowerCase() === inputValue.toLowerCase()
+            )
+            setSelectedFjord(exactMatch || null)
+        } else if (showDropdown && !disabled) {
+            // Show all fjords when focused but empty
+            setFilteredFjords(fjords)
+            setSelectedIndex(-1)
+            setSelectedFjord(null)
         } else {
             setFilteredFjords([])
-            setShowDropdown(false)
             setSelectedIndex(-1)
+            setSelectedFjord(null)
         }
-    }, [inputValue, fjords, disabled])
+    }, [inputValue, fjords, disabled, showDropdown])
 
-    const handleSubmit = (fjord: FjordOption) => {
-        onGuess(fjord.id, fjord.name, { lat: fjord.center_lat, lng: fjord.center_lng })
+    const handleSubmit = (fjord?: FjordOption) => {
+        const fjordToSubmit = fjord || selectedFjord
+
+        if (fjordToSubmit) {
+            onGuess(fjordToSubmit.id, fjordToSubmit.name, {
+                lat: fjordToSubmit.center_lat,
+                lng: fjordToSubmit.center_lng
+            })
+        } else {
+            onInvalidGuess()
+        }
+
         setInputValue('')
         setShowDropdown(false)
         setSelectedIndex(-1)
+        setSelectedFjord(null)
+    }
+
+    const handleDropdownSelect = (fjord: FjordOption) => {
+        handleSubmit(fjord)
+    }
+
+    const handleFocus = () => {
+        if (!disabled) {
+            setShowDropdown(true)
+        }
+    }
+
+    const handleBlur = () => {
+        // Delay hiding dropdown to allow clicks
+        setTimeout(() => {
+            setShowDropdown(false)
+        }, 150)
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (!showDropdown || filteredFjords.length === 0) return
+        if (!showDropdown || filteredFjords.length === 0) {
+            if (e.key === 'Enter') {
+                e.preventDefault()
+                handleSubmit()
+            }
+            return
+        }
 
         if (e.key === 'ArrowDown') {
             e.preventDefault()
@@ -66,6 +113,8 @@ export default function GuessInput({
             e.preventDefault()
             if (selectedIndex >= 0) {
                 handleSubmit(filteredFjords[selectedIndex])
+            } else {
+                handleSubmit()
             }
         } else if (e.key === 'Escape') {
             setShowDropdown(false)
@@ -82,18 +131,30 @@ export default function GuessInput({
                 </span>
             </div>
 
-            {/* Input field */}
+            {/* Input field and button container */}
             <div className="guess-input-container">
-                <input
-                    ref={inputRef}
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={t('enter_fjord_name')}
-                    disabled={disabled}
-                    className="guess-input"
-                />
+                <div className="input-button-row">
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        placeholder={t('enter_fjord_name')}
+                        disabled={disabled}
+                        className="guess-input"
+                    />
+
+                    <button
+                        onClick={() => handleSubmit()}
+                        disabled={disabled}
+                        className="guess-button game-button primary"
+                    >
+                        {t('guess_button')}
+                    </button>
+                </div>
 
                 {/* Dropdown */}
                 {showDropdown && filteredFjords.length > 0 && (
@@ -101,7 +162,7 @@ export default function GuessInput({
                         {filteredFjords.map((fjord, index) => (
                             <button
                                 key={fjord.id}
-                                onClick={() => handleSubmit(fjord)}
+                                onMouseDown={() => handleDropdownSelect(fjord)}
                                 className={`dropdown-item ${index === selectedIndex ? 'selected' : ''}`}
                             >
                                 {fjord.name}

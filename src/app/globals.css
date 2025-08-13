@@ -271,6 +271,13 @@ body {
 
   .guess-input-container {
     position: relative;
+    margin-bottom: .75rem;
+  }
+
+  .input-button-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
   }
 
   .guess-input:focus {
@@ -318,31 +325,42 @@ body {
     margin-bottom: 2rem;
   }
 
-  .guess-row {
+  .guess-history-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr 1fr 1fr;
+    gap: 0.25rem;
+  }
+
+  .guess-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border-primary);
+    justify-content: center;
+    border: 2px solid var(--border-primary);
+    border-radius: 12px;
+    padding: 0.5rem;
+    height: 2rem;
+    font-size: 0.875rem;
+    background-color: var(--surface-primary);
   }
 
-  .guess-row:last-child {
-    border-bottom: none;
+  .guess-item.fjord-name {
+    justify-content: flex-start;
+    padding-left: 0.75rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
-  .guess-row.correct {
+  .guess-item.correct {
     background: linear-gradient(135deg, rgba(0, 32, 91, 0.05) 0%, rgba(186, 12, 47, 0.05) 100%);
-    border-left: 4px solid var(--norwegian-red);
-    border-radius: 6px;
-    padding: 0.75rem;
-    margin: 0.25rem 0;
+    border-color: var(--norwegian-red);
   }
 
   .game-toast {
-    position: absolute;
-    top: 60px;
+    position: fixed;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     background: linear-gradient(135deg, var(--norwegian-blue) 0%, #001a4d 100%);
     color: var(--norwegian-white);
     padding: 12px 24px;
@@ -350,6 +368,7 @@ body {
     border-left: 4px solid var(--norwegian-red);
     transition: opacity 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
   }
 
   .toast-portal {
@@ -416,10 +435,13 @@ body {
       font-size: 16px;
     }
 
-    .guess-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
+    .guess-history-grid {
+      gap: 0.125rem;
+    }
+
+    .guess-item {
+      font-size: 0.75rem;
+      height: 1.75rem;
     }
 
     .game-toast {
