@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import NavigationMenu from '@/components/NavigationMenu'
 import { useLanguage } from '@/lib/languageContext'
+import { useFormattedDate } from '@/lib/useFormattedDate'
 import DebugInfo from './DebugInfo'
 
 function LanguageToggle() {
@@ -29,18 +30,47 @@ function LanguageToggle() {
 }
 
 function Header() {
+  const { language } = useLanguage()
+  const formattedDate = useFormattedDate(language)
+
   return (
     <header className="mb-6">
-      <div className="flex justify-end items-center space-x-2 mb-4">
-        <NavigationMenu />
-        <LanguageToggle />
+      {/* Mobile layout */}
+      <div className="md:hidden">
+        <div className="flex justify-end items-center space-x-2 mb-4">
+          <NavigationMenu />
+          <LanguageToggle />
+        </div>
+        <div className="text-center">
+          <Link href="/" className="block">
+            <h1 className="text-4xl font-bold page-text mb-1 fjordle-title">
+              Fjordle
+            </h1>
+          </Link>
+        </div>
+        <div className="text-center mt-4">
+          <p className="text-gray-600 text-sm">
+            {formattedDate}
+          </p>
+        </div>
       </div>
-      <div className="text-center">
-        <Link href="/" className="block">
-          <h1 className="text-4xl font-bold page-text mb-1 fjordle-title">
-            Fjordle
-          </h1>
-        </Link>
+
+      {/* Desktop layout */}
+      <div className="hidden md:flex md:items-center md:justify-between md:mb-4">
+        <div className="text-gray-600 text-sm">
+          {formattedDate}
+        </div>
+        <div className="text-center">
+          <Link href="/" className="block">
+            <h1 className="text-4xl font-bold page-text fjordle-title">
+              Fjordle
+            </h1>
+          </Link>
+        </div>
+        <div className="flex items-center space-x-2">
+          <NavigationMenu />
+          <LanguageToggle />
+        </div>
       </div>
     </header>
   )
@@ -56,4 +86,4 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       {process.env.NODE_ENV === 'development' && <DebugInfo />}
     </div>
   )
-} 
+}

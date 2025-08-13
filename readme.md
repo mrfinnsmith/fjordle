@@ -201,6 +201,7 @@ src/
 │   ├── session_api.ts           # Session tracking API
 │   ├── supabase.ts              # Database connection
 │   ├── translations.ts          # Translation data
+│   ├── useFormattedDate.ts       # Custom hook for date formatting
 │   └── utils.ts                 # General utilities
 ├── types/              # TypeScript interfaces
 │   └── game.ts                  # Game-related types

@@ -5,7 +5,6 @@ import { getTodaysPuzzle } from '@/lib/puzzleApi'
 import { useLanguage } from '@/lib/languageContext'
 import { useEffect, useState } from 'react'
 import { Puzzle } from '@/types/game'
-import { formatDate } from '@/lib/utils'
 
 function NoPuzzleMessage() {
   const { t } = useLanguage()
@@ -23,17 +22,7 @@ function NoPuzzleMessage() {
 }
 
 function GameContent({ puzzle }: { puzzle: Puzzle }) {
-  const { t, language } = useLanguage()
-  const [formattedDate, setFormattedDate] = useState('')
-
-  useEffect(() => {
-    setFormattedDate(formatDate(new Date(), language, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      timeZone: 'Europe/Oslo'
-    }))
-  }, [language])
+  const { t } = useLanguage()
 
   return (
     <div className="space-y-4">
@@ -42,12 +31,6 @@ function GameContent({ puzzle }: { puzzle: Puzzle }) {
           {t('game_description')}
         </p>
       </div>
-      <div className="text-center mb-4">
-        <p className="text-gray-600 text-sm">
-          {formattedDate}
-        </p>
-      </div>
-
       <GameBoard puzzle={puzzle} />
     </div>
   )
