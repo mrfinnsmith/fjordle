@@ -130,6 +130,8 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const handleRevealFirstLetter = async () => {
     if (!gameState || hintsUsed.firstLetter) return
 
+    setShowHintModal(false)
+
     const newHints = { ...hintsUsed, firstLetter: true }
     setHintsUsed(newHints)
     setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
@@ -144,8 +146,6 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     if (gameState.sessionId) {
       await updateSessionHints(gameState.sessionId, newHints)
     }
-
-    setShowHintModal(false)
   }
 
   if (!gameState) {
@@ -196,27 +196,33 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
       {/* Hint Modal */}
       {showHintModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowHintModal(false)}
+        >
+          <div
+            className="bg-white rounded-lg p-6 max-w-md w-full relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowHintModal(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+            >
+              ×
+            </button>
             <h3 className="text-lg font-semibold mb-4 text-center">
               {t('need_hint')}
             </h3>
             <p className="text-gray-600 mb-6 text-center">
               {t('reveal_first_letter')}
             </p>
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={() => setShowHintModal(false)}
-                className="game-button secondary"
-              >
-                {t('close')}
-              </button>
+            <div className="flex justify-center">
               <button
                 onClick={handleRevealFirstLetter}
                 disabled={hintsUsed.firstLetter}
                 className="game-button primary disabled:opacity-50"
               >
-                {hintsUsed.firstLetter ? 'Already Used' : 'Reveal'}
+                {hintsUsed.firstLetter ? t('already_used') : t('reveal')}
               </button>
             </div>
           </div>

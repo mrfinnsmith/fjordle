@@ -254,3 +254,7 @@ export type TranslationKey =
   | 'need_hint'
   | 'reveal_first_letter'
   | 'hint_starts_with'
+  | 'hint_starts_with'
+  | 'reveal'
+  | 'already_used'
+  | 'get_hint'

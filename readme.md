@@ -10,6 +10,13 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - Proximity percentage helps players triangulate the location
 - Shareable results with proximity square patterns and streak tracking
 
+## Hints System
+
+- **First Letter Hint**: Reveals the first letter of the fjord name
+- **Hover Tooltip**: Hint button shows translated tooltip text
+- **Persistent State**: Hint usage saved per puzzle in localStorage
+- **Future Expansion**: Code structured for additional hint types (region, satellite image)
+
 ## Internationalization
 
 - **Default Language**: Norwegian (bokmål) 
@@ -160,6 +167,7 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 - Games played/won
 - Current/max streaks  
 - Win percentage
+- Hint usage per puzzle
 - Guess patterns for sharing
 
 ## File Structure

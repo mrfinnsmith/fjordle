@@ -21,8 +21,10 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'need_hint': 'Trenger du et hint?',
     'reveal_first_letter': 'Klikk for å avsløre første bokstav i fjordnavnet.',
     'hint_starts_with': 'Hint: Starter med',
+    'reveal': 'Avslør',
+    'already_used': 'Allerede brukt',
+    'get_hint': 'Få tips',
     'play': 'Spill',
-
     // Results Modal
     'congratulations': 'Gratulerer!',
     'next_time': 'Neste gang!',
@@ -180,6 +182,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'need_hint': 'Need a hint?',
     'reveal_first_letter': 'Click to reveal the first letter of this fjord\'s name.',
     'hint_starts_with': 'Hint: Starts with',
+    'reveal': 'Reveal',
+    'already_used': 'Already Used',
+    'get_hint': 'Get hint',
     'play': 'Play',
 
     // Results Modal

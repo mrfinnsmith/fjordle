@@ -166,7 +166,7 @@ export default function GuessInput({
                                 onClick={onHintClick}
                                 className="px-3 py-2 border-2 border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
                                 type="button"
-                                title="Get a hint"
+                                title={t('get_hint')}
                             >
                                 🛟
                             </button>
