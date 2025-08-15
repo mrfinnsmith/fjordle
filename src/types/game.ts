@@ -8,6 +8,7 @@ export interface GameState {
   showToast: boolean
   toastMessage: string
   statsUpdated?: boolean
+  hintsUsed?: HintState
 }
 
 export interface Puzzle {
@@ -49,6 +50,10 @@ export interface UserStats {
   currentStreak: number
   maxStreak: number
   lastPlayedDate: string
+}
+
+export interface HintState {
+  firstLetter: boolean
 }
 
 export interface GameProgress {
@@ -246,3 +251,6 @@ export type TranslationKey =
   | 'unknown_fjord'
   | 'guess_button'
   | 'correct'
+  | 'need_hint'
+  | 'reveal_first_letter'
+  | 'hint_starts_with'

@@ -102,3 +102,20 @@ export async function getSessionExists(sessionId: string, puzzleId: number): Pro
     return false
   }
 }
+
+export async function updateSessionHints(
+  sessionId: string,
+  hints: { firstLetter?: boolean }
+): Promise<boolean> {
+  try {
+    const { error } = await supabase
+      .from('game_sessions')
+      .update({ hints })
+      .eq('session_id', sessionId)
+
+    return !error
+  } catch (error) {
+    console.error('Error updating session hints:', error)
+    return false
+  }
+}

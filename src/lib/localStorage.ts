@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { GameState, UserStats, GameProgress } from '@/types/game'
+import { GameState, UserStats, GameProgress, HintState } from '@/types/game'
 
 export function getOrCreateSessionId(): string {
   if (typeof window === 'undefined') {
@@ -99,14 +99,41 @@ export function updateUserStats(won: boolean) {
   localStorage.setItem('fjordle-stats', JSON.stringify(stats))
 }
 
-export function getUserStats(): UserStats {
+export function saveHintsUsed(puzzleId: number, hints: HintState) {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  const stats = getUserStats()
+  const key = 'fjordle-stats'
+  const updatedStats = {
+    ...stats,
+    hintsUsed: {
+      ...stats.hintsUsed,
+      [puzzleId]: hints
+    }
+  }
+  localStorage.setItem(key, JSON.stringify(updatedStats))
+}
+
+export function getHintsUsed(puzzleId: number): HintState {
+  if (typeof window === 'undefined') {
+    return { firstLetter: false }
+  }
+
+  const stats = getUserStats()
+  return stats.hintsUsed?.[puzzleId] || { firstLetter: false }
+}
+
+export function getUserStats(): UserStats & { hintsUsed?: Record<number, HintState> } {
   if (typeof window === 'undefined') {
     return {
       gamesPlayed: 0,
       gamesWon: 0,
       currentStreak: 0,
       maxStreak: 0,
-      lastPlayedDate: ''
+      lastPlayedDate: '',
+      hintsUsed: {}
     } // Safe fallback for SSR
   }
 
@@ -117,19 +144,25 @@ export function getUserStats(): UserStats {
       gamesWon: 0,
       currentStreak: 0,
       maxStreak: 0,
-      lastPlayedDate: ''
+      lastPlayedDate: '',
+      hintsUsed: {}
     }
   }
 
   try {
-    return JSON.parse(saved) as UserStats
+    const parsed = JSON.parse(saved)
+    return {
+      ...parsed,
+      hintsUsed: parsed.hintsUsed || {}
+    }
   } catch {
     return {
       gamesPlayed: 0,
       gamesWon: 0,
       currentStreak: 0,
       maxStreak: 0,
-      lastPlayedDate: ''
+      lastPlayedDate: '',
+      hintsUsed: {}
     }
   }
 }

@@ -18,6 +18,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'unknown_fjord': 'Ukjent fjord',
     'guess_button': 'Gjett',
     'correct': 'Riktig!',
+    'need_hint': 'Trenger du et hint?',
+    'reveal_first_letter': 'Klikk for å avsløre første bokstav i fjordnavnet.',
+    'hint_starts_with': 'Hint: Starter med',
     'play': 'Spill',
 
     // Results Modal
@@ -174,6 +177,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'unknown_fjord': 'Unknown fjord',
     'guess_button': 'Guess',
     'correct': 'Correct!',
+    'need_hint': 'Need a hint?',
+    'reveal_first_letter': 'Click to reveal the first letter of this fjord\'s name.',
+    'hint_starts_with': 'Hint: Starts with',
     'play': 'Play',
 
     // Results Modal
