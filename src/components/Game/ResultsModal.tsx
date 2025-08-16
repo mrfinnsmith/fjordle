@@ -73,7 +73,7 @@ export default function ResultsModal({ gameState, userStats, isOpen, onClose }: 
   const openGoogleMaps = () => {
     if (!gameState.puzzle) return
     const { center_lat, center_lng } = gameState.puzzle.fjord
-    const url = `https://www.google.com/maps?q=${center_lat},${center_lng}`
+    const url = `https://www.google.com/maps/@${center_lat},${center_lng},11z`
     window.open(url, '_blank')
   }
 
