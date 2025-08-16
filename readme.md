@@ -39,14 +39,20 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 ## Database Schema
 
 ### Core Tables
-- `fjords` - 1,467 Norwegian fjords with names, coordinates, SVG filenames
+- `fjords` - 1,467 Norwegian fjords with names, coordinates, SVG filenames, and quarantine status
 - `daily_puzzles` - Daily puzzle assignments with fjord_id, puzzle_number, and last_presented_date
 - `puzzle_queue` - Manual queue for specific dates (optional)
 - `game_sessions` - Anonymous user sessions with completion stats
 - `guesses` - Individual guess attempts with distance/proximity data
 
+### Fjord Quarantine System
+Problematic fjords are quarantined in-place using flags rather than a separate table:
+- `quarantined` BOOLEAN DEFAULT FALSE - Whether fjord is quarantined
+- `quarantine_reason` TEXT - Reason for quarantine (duplicates, naming issues, etc.)
+- `quarantined_at` TIMESTAMP - When fjord was quarantined
+
 ### Key Functions
-- `assign_daily_puzzle()` - Automatically assigns puzzles with queue priority and recycling
+- `assign_daily_puzzle()` - Automatically assigns puzzles with queue priority and recycling (excludes quarantined fjords)
 - `get_daily_fjord_puzzle()` - Returns today's puzzle
 - `get_fjord_puzzle_by_number(puzzle_num)` - Returns specific puzzle
 - `get_past_puzzles()` - Returns all previous puzzles
@@ -59,8 +65,8 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **Logic**: 
   1. Check queue for today's date
   2. If queued fjord exists, use it and delete queue entry
-  3. If no queue, select unused fjord randomly
-  4. If all fjords used, recycle oldest by `last_presented_date`
+  3. If no queue, select unused non-quarantined fjord randomly
+  4. If all non-quarantined fjords used, recycle oldest by `last_presented_date`
 
 ### Manual Queue Management
 
@@ -86,6 +92,32 @@ ORDER BY pq.scheduled_date;
 
 -- Remove from queue
 DELETE FROM puzzle_queue WHERE scheduled_date = '2025-12-25';
+```
+
+### Quarantine Management
+
+Quarantine problematic fjords:
+
+```sql
+-- Quarantine a fjord
+UPDATE fjords 
+SET quarantined = TRUE, 
+    quarantine_reason = 'Duplicate naming in source data',
+    quarantined_at = NOW()
+WHERE id = 700;
+
+-- View quarantined fjords
+SELECT id, name, quarantine_reason, quarantined_at 
+FROM fjords 
+WHERE quarantined = TRUE
+ORDER BY quarantined_at DESC;
+
+-- Unquarantine a fjord
+UPDATE fjords 
+SET quarantined = FALSE, 
+    quarantine_reason = NULL,
+    quarantined_at = NULL
+WHERE id = 700;
 ```
 
 ### Manual Puzzle Creation
@@ -227,7 +259,7 @@ public/
 
 - `GameBoard` - Main game interface
 - `FjordDisplay` - Shows fjord outline SVG
-- `GuessInput` - Autocomplete fjord name input
+- `GuessInput` - Autocomplete fjord name input (excludes quarantined fjords)
 - `GuessHistory` - Shows previous attempts with feedback
 - `ResultsModal` - End game stats, guess history table, and sharing with Google Maps integration
 - `LanguageProvider` - i18n context wrapper
@@ -326,11 +358,17 @@ JOIN fjords f ON pq.fjord_id = f.id
 WHERE pq.scheduled_date >= CURRENT_DATE
 ORDER BY pq.scheduled_date;
 
--- Total fjords used
+-- Total fjords available (non-quarantined)
 SELECT COUNT(*) as total_fjords, 
        COUNT(DISTINCT dp.fjord_id) as used_fjords
 FROM fjords f
-LEFT JOIN daily_puzzles dp ON f.id = dp.fjord_id;
+LEFT JOIN daily_puzzles dp ON f.id = dp.fjord_id
+WHERE f.quarantined = FALSE;
+
+-- Quarantined fjords
+SELECT COUNT(*) as quarantined_count
+FROM fjords 
+WHERE quarantined = TRUE;
 ```
 
 ### Update GitHub Secrets

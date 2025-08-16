@@ -56,6 +56,7 @@ export async function getAllFjords(): Promise<FjordOption[]> {
       const { data, error } = await supabase
         .from('fjords')
         .select('id, name, center_lat, center_lng')
+        .eq('quarantined', false)
         .order('name')
         .range(offset, offset + pageSize - 1)
 
