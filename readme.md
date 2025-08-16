@@ -15,7 +15,7 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **First Letter Hint**: Reveals the first letter of the fjord name
 - **Hover Tooltip**: Hint button shows translated tooltip text
 - **Persistent State**: Hint usage saved per puzzle in localStorage
-- **Future Expansion**: Code structured for additional hint types (region, satellite image)
+- **Future Expansion**: Code structured for additional hint types (region, satellite images available)
 
 ## Internationalization
 
@@ -182,8 +182,21 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 ## Assets
 
 - **SVG Files**: `/public/fjord_svgs/` contains 1,467 fjord outline shapes
-- **Naming**: Files follow pattern `####_FjordName.svg`
+- **Satellite Images**: `/public/fjord_satellite/` contains satellite images for hint system
+- **Naming**: Files follow pattern `####_FjordName.svg` and `####_FjordName.png`
 - **Source**: Generated from Norwegian Mapping Authority (Kartverket) data
+- **Generation**: Use `python3 tools/generate_satellite_images.py` with Google Maps API key
+
+### Satellite Image Generation
+
+Generate satellite images for fjords:
+
+1. Set `GOOGLE_MAPS_API_KEY` in `.env.local`
+2. Export fjord data: `SELECT name, svg_filename, center_lat, center_lng FROM fjords;`
+3. Save as `tools/all_fjords.json`
+4. Run: `python3 tools/generate_satellite_images.py`
+
+Script skips existing files and includes error handling.
 
 ## User Data
 
