@@ -15,8 +15,9 @@ import LoadingSpinner from './LoadingSpinner'
 import FirstLetterHint from './FirstLetterHint'
 import SatelliteHint from './SatelliteHint'
 import SatelliteModal from './SatelliteModal'
-import { saveGameProgress, loadGameProgress, getOrCreateSessionId, updateUserStats, saveHintsUsed, getHintsUsed } from '@/lib/localStorage'
+import { saveGameProgress, loadGameProgress, getOrCreateSessionId, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
+import OnboardingModal from './OnboardingModal'
 
 interface GameBoardProps {
   puzzle: Puzzle
@@ -33,6 +34,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [showHintModal, setShowHintModal] = useState(false)
   const [showSatelliteModal, setShowSatelliteModal] = useState(false)
   const [firstLetterRevealed, setFirstLetterRevealed] = useState<string | null>(null)
+  const [showOnboarding, setShowOnboarding] = useState(false)
 
   const getEffectivePuzzleId = useCallback(() => puzzleId || puzzle.id, [puzzleId, puzzle.id])
 
@@ -44,13 +46,18 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     } : null)
   }
 
+  const handleOnboardingClose = () => {
+    setShowOnboarding(false)
+    markOnboardingSeen()
+  }
+
   const updateHint = async (hintType: keyof HintState) => {
     if (!gameState) return
 
-    const newHints: HintState = { 
-      firstLetter: gameState.hintsUsed?.firstLetter || false, 
+    const newHints: HintState = {
+      firstLetter: gameState.hintsUsed?.firstLetter || false,
       satellite: gameState.hintsUsed?.satellite || false,
-      [hintType]: true 
+      [hintType]: true
     }
 
     // Save to localStorage
@@ -98,7 +105,8 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         setGameState({
           ...initialState,
           ...savedProgress,
-          hintsUsed: savedHints
+          hintsUsed: savedHints,
+          fjords: fjordsList
         })
 
         if (savedProgress.gameStatus !== 'playing') {
@@ -107,8 +115,14 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       } else {
         setGameState({
           ...initialState,
-          hintsUsed: savedHints
+          hintsUsed: savedHints,
+          fjords: fjordsList
         })
+      }
+
+      // Check if onboarding should be shown
+      if (!hasSeenOnboarding()) {
+        setShowOnboarding(true)
       }
 
       setSessionInitialized(true)
@@ -262,6 +276,12 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           fjordName={puzzle.fjord.name}
         />
       )}
+
+      {/* Onboarding Modal */}
+      <OnboardingModal
+        isOpen={showOnboarding}
+        onClose={handleOnboardingClose}
+      />
     </div>
   )
 }

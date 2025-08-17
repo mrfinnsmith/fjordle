@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 import { GameState, UserStats, GameProgress, HintState } from '@/types/game'
 
+const ONBOARDING_VERSION = 1
+
 export function getOrCreateSessionId(): string {
   if (typeof window === 'undefined') {
     return 'ssr-session-id' // Safe fallback for SSR
@@ -118,11 +120,35 @@ export function saveHintsUsed(puzzleId: number, hints: HintState) {
 
 export function getHintsUsed(puzzleId: number): HintState {
   if (typeof window === 'undefined') {
-    return { firstLetter: false, satellite: false }
+    return { firstLetter: false, satellite: false } // Safe fallback for SSR
   }
 
-  const stats = getUserStats()
-  return stats.hintsUsed?.[puzzleId] || { firstLetter: false, satellite: false }
+  const key = `fjordle_hints_${puzzleId}`
+  const saved = localStorage.getItem(key)
+  if (!saved) return { firstLetter: false, satellite: false }
+
+  try {
+    return JSON.parse(saved)
+  } catch {
+    return { firstLetter: false, satellite: false }
+  }
+}
+
+export function hasSeenOnboarding(): boolean {
+  if (typeof window === 'undefined') {
+    return false // Safe fallback for SSR
+  }
+
+  const saved = localStorage.getItem('fjordle-onboarding-version')
+  return saved === ONBOARDING_VERSION.toString() // Convert number to string for localStorage
+}
+
+export function markOnboardingSeen(): void {
+  if (typeof window === 'undefined') {
+    return // Safe no-op for SSR
+  }
+
+  localStorage.setItem('fjordle-onboarding-version', ONBOARDING_VERSION.toString())
 }
 
 export function getUserStats(): UserStats & { hintsUsed?: Record<number, HintState> } {

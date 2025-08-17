@@ -190,6 +190,21 @@ export type TranslationKey =
   | 'winning_title'
   | 'winning_text'
 
+  // Onboarding Modal
+  | 'welcome_to_fjordle'
+  | 'onboarding_step1_title'
+  | 'onboarding_step1_text'
+  | 'onboarding_step2_title'
+  | 'onboarding_step2_text'
+  | 'onboarding_step3_title'
+  | 'onboarding_step3_text'
+  | 'onboarding_step4_title'
+  | 'onboarding_step4_text'
+  | 'onboarding_got_it'
+  | 'onboarding_back'
+  | 'onboarding_need_english'
+  | 'onboarding_need_norwegian'
+
   // Privacy Page
   | 'privacy_title'
   | 'last_updated'

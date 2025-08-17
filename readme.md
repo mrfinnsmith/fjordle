@@ -17,6 +17,19 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **Persistent State**: Hint usage saved per puzzle in localStorage
 - **Satellite Images**: Second hint type showing aerial view of fjord for identification help
 
+## Onboarding System
+
+- **First-Time User Experience**: Modal automatically appears for new users
+- **4-Step Tutorial**: Progressive explanation of game mechanics
+  1. **Fjord Outline**: Explains daily fjord puzzles and visual identification
+  2. **Typing & Selection**: Shows how to use autocomplete dropdown and submit guesses
+  3. **6 Guesses**: Explains attempt limit and feedback system
+  4. **Help & Hints**: Describes hint system and how-to-play access
+- **Bilingual Language Toggle**: Language switcher within modal (Want this in English?/Vil du ha dette på norsk?)
+- **Versioned Storage**: localStorage tracks onboarding version for future updates
+- **Navigation Controls**: Back button for previous steps, X close button in top-right
+- **Smart Persistence**: Only shows once per version, can be reset by clearing localStorage
+
 ## Internationalization
 
 - **Default Language**: Norwegian (bokmål) 
@@ -204,6 +217,8 @@ Script skips existing files and includes error handling.
 - `fjordle-session-id` - Anonymous session identifier
 - `fjordle-stats` - User statistics (games played, win rate, streaks)
 - `fjordle_puzzle_{id}_progress` - Individual puzzle progress
+- `fjordle-onboarding-version` - Onboarding tutorial version (current: 1)
+- `fjordle_hints_{puzzle_id}` - Hint usage per puzzle
 
 ### Cookie Storage
 - `fjordle-language` - User's preferred language ('no' or 'en')
@@ -239,8 +254,13 @@ src/
 │   │   ├── GameBoard.tsx         # Main game interface
 │   │   ├── GuessHistory.tsx      # Previous attempts with feedback
 │   │   ├── GuessInput.tsx        # Autocomplete fjord input
+│   │   ├── OnboardingModal.tsx   # First-time user tutorial modal
 │   │   ├── ResultsModal.tsx      # End game stats and sharing
-│   │   └── Toast.tsx             # Notification component
+│   │   ├── Toast.tsx             # Notification component
+│   │   ├── FirstLetterHint.tsx   # First letter hint component
+│   │   ├── SatelliteHint.tsx     # Satellite image hint component
+│   │   ├── SatelliteModal.tsx    # Satellite image display modal
+│   │   └── LoadingSpinner.tsx    # Loading state component
 │   ├── ClientLayout.tsx          # Client-side layout wrapper
 │   ├── DebugInfo.tsx            # Development debug panel
 │   └── NavigationMenu.tsx        # Main navigation menu
@@ -274,6 +294,7 @@ public/
 - `FjordDisplay` - Shows fjord outline SVG
 - `GuessInput` - Autocomplete fjord name input (excludes quarantined fjords)
 - `GuessHistory` - Shows previous attempts with feedback
+- `OnboardingModal` - First-time user tutorial with bilingual language toggle
 - `ResultsModal` - End game stats, guess history table, and sharing with Google Maps integration
 - `LanguageProvider` - i18n context wrapper
 - `LanguageToggle` - Flag-based language switcher
@@ -388,3 +409,8 @@ WHERE quarantined = TRUE;
 1. Go to GitHub repository → Settings → Secrets and variables → Actions
 2. Update `SUPABASE_ANON_KEY` if Supabase keys change
 3. Secrets are automatically used by GitHub Actions
+
+### Onboarding Functions
+- `hasSeenOnboarding()` - Checks if user has seen current onboarding version
+- `markOnboardingSeen()` - Marks onboarding as completed for current version
+- `ONBOARDING_VERSION` - Constant defining current onboarding version (currently 1)

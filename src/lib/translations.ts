@@ -105,7 +105,20 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'winning_title': 'Å vinne',
     'winning_text': 'Gjett riktig innen 6 forsøk for å vinne! Statistikken din sporer rekken og suksessraten din. Del resultatene dine med et emojimønster som viser gjetteeffektiviteten din.',
 
-    // Privacy Page
+    // Onboarding Modal
+    'welcome_to_fjordle': 'Velkommen til Fjordle!',
+    'onboarding_step1_title': 'Dette er omrisset av en fjord',
+    'onboarding_step1_text': 'Det er en ny fjord hver dag. Din oppgave er å gjette hvilken norsk fjord det er, bare ved å se på omrisset.',
+    'onboarding_step2_title': 'Skriv fjordnavn',
+    'onboarding_step2_text': 'Når du begynner å skrive, får du opp alle tilgjengelige fjordnavn. Velg ett og klikk "Gjett" for å se om du har rett.',
+    'onboarding_step3_title': 'Du får 6 forsøk',
+    'onboarding_step3_text': 'Hvis du ikke gjettet riktig, forteller vi deg retningen og avstanden fra ditt gjett til riktig svar.',
+    'onboarding_step4_title': 'Trenger du hjelp?',
+    'onboarding_step4_text': 'Trykk på 🛟 for hint. Du kan også klikke på ❓ når som helst for å se hvordan du spiller.',
+    'onboarding_got_it': 'Jeg forstår!',
+    'onboarding_back': 'Tilbake',
+    'onboarding_need_english': 'Want this in English?',
+    'onboarding_need_norwegian': 'Vil du ha dette på norsk?',
     'privacy_title': 'Personvernerklæring',
     'last_updated': 'Sist oppdatert:',
     'overview_title': 'Oversikt',
@@ -272,6 +285,21 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'shape_matters_text': 'Study the outline - some fjords have very distinctive shapes',
     'winning_title': 'Winning',
     'winning_text': 'Guess correctly within 6 attempts to win! Your stats track your streak and success rate. Share your results with an emoji pattern showing your guessing efficiency.',
+
+    // Onboarding Modal
+    'welcome_to_fjordle': 'Welcome to Fjordle!',
+    'onboarding_step1_title': 'This is a fjord outline',
+    'onboarding_step1_text': 'There\'s a new fjord every day. Guess which Norwegian fjord it is just by looking at the outline.',
+    'onboarding_step2_title': 'Type fjord names',
+    'onboarding_step2_text': 'As you start typing, you\'ll see all the available fjord names. Pick one and click "Guess" to see if you\'re right.',
+    'onboarding_step3_title': 'You get 6 guesses',
+    'onboarding_step3_text': 'If you don\'t guess correctly, we\'ll tell you the direction and distance from your guess to the correct answer.',
+    'onboarding_step4_title': 'Need help?',
+    'onboarding_step4_text': 'Click the 🛟 for hints. You can also click ❓ anytime to see how to play.',
+    'onboarding_got_it': 'Got it!',
+    'onboarding_back': 'Back',
+    'onboarding_need_english': 'Want this in English?',
+    'onboarding_need_norwegian': 'Vil du ha dette på norsk?',
 
     // Privacy Page
     'privacy_title': 'Privacy Policy',
