@@ -31,6 +31,7 @@ export default function RootLayout({
 
         <meta property="og:title" content="Fjordle - Daglig fjordpuslespill" />
         <meta property="og:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
+        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
         <meta name="twitter:title" content="Fjordle - Daglig fjordpuslespill" />
         <meta name="twitter:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
         <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
