@@ -47,7 +47,11 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const updateHint = async (hintType: keyof HintState) => {
     if (!gameState) return
 
-    const newHints = { ...gameState.hintsUsed, [hintType]: true }
+    const newHints: HintState = { 
+      firstLetter: gameState.hintsUsed?.firstLetter || false, 
+      satellite: gameState.hintsUsed?.satellite || false,
+      [hintType]: true 
+    }
 
     // Save to localStorage
     saveHintsUsed(getEffectivePuzzleId(), newHints)
@@ -81,7 +85,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       const savedHints = getHintsUsed(effectivePuzzleId)
 
       // Set first letter if already revealed
-      if (savedHints.firstLetter) {
+      if (savedHints?.firstLetter) {
         setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
       }
 
@@ -148,7 +152,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   }
 
   const handleRevealFirstLetter = async () => {
-    if (!gameState || gameState.hintsUsed.firstLetter) return
+    if (!gameState || gameState.hintsUsed?.firstLetter) return
 
     setShowHintModal(false)
     setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
@@ -158,7 +162,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const handleRevealSatellite = async () => {
     if (!gameState) return
 
-    if (!gameState.hintsUsed.satellite) {
+    if (!gameState.hintsUsed?.satellite) {
       await updateHint('satellite')
     }
 
@@ -234,13 +238,13 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
             <div className="space-y-4">
               <FirstLetterHint
-                isRevealed={gameState.hintsUsed.firstLetter}
+                isRevealed={gameState.hintsUsed?.firstLetter || false}
                 revealedLetter={firstLetterRevealed}
                 onReveal={handleRevealFirstLetter}
               />
               {puzzle.fjord.satellite_filename && (
                 <SatelliteHint
-                  isRevealed={gameState.hintsUsed.satellite}
+                  isRevealed={gameState.hintsUsed?.satellite || false}
                   onReveal={handleRevealSatellite}
                 />
               )}

@@ -105,7 +105,7 @@ export async function getSessionExists(sessionId: string, puzzleId: number): Pro
 
 export async function updateSessionHints(
   sessionId: string,
-  hints: { firstLetter?: boolean }
+  hints: { firstLetter?: boolean; satellite?: boolean }
 ): Promise<boolean> {
   try {
     const { error } = await supabase

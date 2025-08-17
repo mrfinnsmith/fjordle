@@ -10,7 +10,8 @@ export function createInitialGameState(puzzle: Puzzle, fjords: FjordOption[], se
     fjords,
     sessionId,
     showToast: false,
-    toastMessage: ""
+    toastMessage: "",
+    hintsUsed: { firstLetter: false, satellite: false }
   }
 }
 

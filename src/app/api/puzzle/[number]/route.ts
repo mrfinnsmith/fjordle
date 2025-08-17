@@ -39,6 +39,7 @@ export async function GET(
                 id: puzzleData.fjord_id,
                 name: puzzleData.fjord_name,
                 svg_filename: puzzleData.svg_filename,
+                satellite_filename: puzzleData.satellite_filename,
                 center_lat: puzzleData.center_lat,
                 center_lng: puzzleData.center_lng,
                 wikipedia_url_no: puzzleData.wikipedia_url_no,

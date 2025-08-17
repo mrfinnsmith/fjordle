@@ -118,11 +118,11 @@ export function saveHintsUsed(puzzleId: number, hints: HintState) {
 
 export function getHintsUsed(puzzleId: number): HintState {
   if (typeof window === 'undefined') {
-    return { firstLetter: false }
+    return { firstLetter: false, satellite: false }
   }
 
   const stats = getUserStats()
-  return stats.hintsUsed?.[puzzleId] || { firstLetter: false }
+  return stats.hintsUsed?.[puzzleId] || { firstLetter: false, satellite: false }
 }
 
 export function getUserStats(): UserStats & { hintsUsed?: Record<number, HintState> } {

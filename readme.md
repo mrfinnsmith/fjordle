@@ -15,7 +15,7 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **First Letter Hint**: Reveals the first letter of the fjord name
 - **Hover Tooltip**: Hint button shows translated tooltip text
 - **Persistent State**: Hint usage saved per puzzle in localStorage
-- **Future Expansion**: Code structured for additional hint types (region, satellite images available)
+- **Satellite Images**: Second hint type showing aerial view of fjord for identification help
 
 ## Internationalization
 
