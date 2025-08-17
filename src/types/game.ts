@@ -22,6 +22,7 @@ export interface Fjord {
   id: number
   name: string
   svg_filename: string
+  satellite_filename?: string
   center_lat: number
   center_lng: number
   wikipedia_url_no?: string
@@ -54,6 +55,7 @@ export interface UserStats {
 
 export interface HintState {
   firstLetter: boolean
+  satellite: boolean
 }
 
 export interface GameProgress {
@@ -111,6 +113,8 @@ export type TranslationKey =
   | 'enter_fjord_name'
   | 'loading'
   | 'play'
+  | 'no_fjord_to_display'
+  | 'answer_revealed'
 
   // Results Modal
   | 'congratulations'
@@ -258,3 +262,7 @@ export type TranslationKey =
   | 'reveal'
   | 'already_used'
   | 'get_hint'
+  | 'satellite_image_hint'
+  | 'first_letter_hint'
+  | 'satellite_hint_description'
+  | 'view_again'

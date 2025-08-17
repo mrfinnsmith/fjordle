@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
+import LoadingSpinner from './LoadingSpinner'
 
 interface FjordDisplayProps {
     svgFilename?: string
@@ -23,7 +24,8 @@ export default function FjordDisplay({
             <div className="fjord-display">
                 <div className="fjord-svg-container">
                     <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                        <div className="text-lg">No fjord to display</div>
+                        <LoadingSpinner />
+                        <div className="text-lg mt-4">{t('no_fjord_to_display')}</div>
                     </div>
                 </div>
             </div>
@@ -46,7 +48,7 @@ export default function FjordDisplay({
             {isGameOver && correctAnswer && (
                 <div className="mt-4 text-center">
                     <div className="text-lg font-semibold text-green-700 mb-2">
-                        Answer revealed!
+                        {t('answer_revealed')}
                     </div>
                     <div className="answer-name">{correctAnswer}</div>
                 </div>

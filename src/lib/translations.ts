@@ -24,7 +24,13 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'reveal': 'Avslør',
     'already_used': 'Allerede brukt',
     'get_hint': 'Få tips',
+    'first_letter_hint': 'Første bokstav',
+    'satellite_image_hint': 'Satellittbilde',
+    'view_again': 'Se igjen',
+    'satellite_hint_description': 'Se satellittbilde av fjorden for ekstra hjelp med identifikasjon.',
     'play': 'Spill',
+    'no_fjord_to_display': 'Ingen fjord å vise',
+    'answer_revealed': 'Svar avslørt!',
     // Results Modal
     'congratulations': 'Gratulerer!',
     'next_time': 'Neste gang!',
@@ -185,7 +191,13 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'reveal': 'Reveal',
     'already_used': 'Already Used',
     'get_hint': 'Get hint',
+    'first_letter_hint': 'First Letter',
+    'satellite_image_hint': 'Satellite Image',
+    'view_again': 'View Again',
+    'satellite_hint_description': 'View satellite image of the fjord for additional identification help.',
     'play': 'Play',
+    'no_fjord_to_display': 'No fjord to display',
+    'answer_revealed': 'Answer revealed!',
 
     // Results Modal
     'congratulations': 'Congratulations!',
