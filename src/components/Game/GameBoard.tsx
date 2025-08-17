@@ -11,6 +11,10 @@ import GuessInput from './GuessInput'
 import GuessHistory from './GuessHistory'
 import ResultsModal from './ResultsModal'
 import { Toast } from './Toast'
+import LoadingSpinner from './LoadingSpinner'
+import FirstLetterHint from './FirstLetterHint'
+import SatelliteHint from './SatelliteHint'
+import SatelliteModal from './SatelliteModal'
 import { saveGameProgress, loadGameProgress, getOrCreateSessionId, updateUserStats, saveHintsUsed, getHintsUsed } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
 
@@ -27,7 +31,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [sessionInitialized, setSessionInitialized] = useState(false)
   const [userStats, setUserStats] = useState(getUserStats())
   const [showHintModal, setShowHintModal] = useState(false)
-  const [hintsUsed, setHintsUsed] = useState<HintState>({ firstLetter: false })
+  const [showSatelliteModal, setShowSatelliteModal] = useState(false)
   const [firstLetterRevealed, setFirstLetterRevealed] = useState<string | null>(null)
 
   const getEffectivePuzzleId = useCallback(() => puzzleId || puzzle.id, [puzzleId, puzzle.id])
@@ -38,6 +42,23 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       showToast: false,
       toastMessage: ""
     } : null)
+  }
+
+  const updateHint = async (hintType: keyof HintState) => {
+    if (!gameState) return
+
+    const newHints = { ...gameState.hintsUsed, [hintType]: true }
+
+    // Save to localStorage
+    saveHintsUsed(getEffectivePuzzleId(), newHints)
+
+    // Update game state
+    setGameState(prev => prev ? { ...prev, hintsUsed: newHints } : null)
+
+    // Update session in database
+    if (gameState.sessionId) {
+      await updateSessionHints(gameState.sessionId, newHints)
+    }
   }
 
   // Initialize fjords list and session
@@ -58,7 +79,6 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
       // Load hints used
       const savedHints = getHintsUsed(effectivePuzzleId)
-      setHintsUsed(savedHints)
 
       // Set first letter if already revealed
       if (savedHints.firstLetter) {
@@ -128,31 +148,29 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   }
 
   const handleRevealFirstLetter = async () => {
-    if (!gameState || hintsUsed.firstLetter) return
+    if (!gameState || gameState.hintsUsed.firstLetter) return
 
     setShowHintModal(false)
-
-    const newHints = { ...hintsUsed, firstLetter: true }
-    setHintsUsed(newHints)
     setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
+    await updateHint('firstLetter')
+  }
 
-    // Save to localStorage
-    saveHintsUsed(getEffectivePuzzleId(), newHints)
+  const handleRevealSatellite = async () => {
+    if (!gameState) return
 
-    // Update game state
-    setGameState(prev => prev ? { ...prev, hintsUsed: newHints } : null)
-
-    // Update session in database
-    if (gameState.sessionId) {
-      await updateSessionHints(gameState.sessionId, newHints)
+    if (!gameState.hintsUsed.satellite) {
+      await updateHint('satellite')
     }
+
+    setShowHintModal(false)
+    setShowSatelliteModal(true)
   }
 
   if (!gameState) {
     return (
       <div className="game-container">
         <div className="flex flex-col items-center justify-center py-8">
-          <img src="/favicon-32x32.png" alt="Fjordle" className="w-12 h-12 mb-4 animate-pulse" />
+          <LoadingSpinner className="w-12 h-12 mb-4" />
           <div className="text-lg">{t('loading')}</div>
         </div>
       </div>
@@ -210,23 +228,35 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
             >
               ×
             </button>
-            <h3 className="text-lg font-semibold mb-4 text-center">
+            <h3 className="text-lg font-semibold mb-6 text-center">
               {t('need_hint')}
             </h3>
-            <p className="text-gray-600 mb-6 text-center">
-              {t('reveal_first_letter')}
-            </p>
-            <div className="flex justify-center">
-              <button
-                onClick={handleRevealFirstLetter}
-                disabled={hintsUsed.firstLetter}
-                className="game-button primary disabled:opacity-50"
-              >
-                {hintsUsed.firstLetter ? t('already_used') : t('reveal')}
-              </button>
+
+            <div className="space-y-4">
+              <FirstLetterHint
+                isRevealed={gameState.hintsUsed.firstLetter}
+                revealedLetter={firstLetterRevealed}
+                onReveal={handleRevealFirstLetter}
+              />
+              {puzzle.fjord.satellite_filename && (
+                <SatelliteHint
+                  isRevealed={gameState.hintsUsed.satellite}
+                  onReveal={handleRevealSatellite}
+                />
+              )}
             </div>
           </div>
         </div>
+      )}
+
+      {/* Satellite Modal */}
+      {puzzle.fjord.satellite_filename && (
+        <SatelliteModal
+          isOpen={showSatelliteModal}
+          onClose={() => setShowSatelliteModal(false)}
+          satelliteFilename={puzzle.fjord.satellite_filename}
+          fjordName={puzzle.fjord.name}
+        />
       )}
     </div>
   )
