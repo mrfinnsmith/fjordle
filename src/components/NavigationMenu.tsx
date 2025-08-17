@@ -41,11 +41,11 @@ export default function NavigationMenu() {
   }
 
   const navigationLinks = [
-    { href: '/faq', label: t('faq') },
-    { href: '/past', label: t('past_fjordles') },
-    { href: '/about', label: t('about') },
-    { href: '/how-to-play', label: t('how_to_play') },
-    { href: '/privacy', label: t('privacy') }
+    { href: '/spoersmaal-og-svar', label: t('faq') },
+    { href: '/tidligere', label: t('past_fjordles') },
+    { href: '/om', label: t('about') },
+    { href: '/hvordan-spille', label: t('how_to_play') },
+    { href: '/personvern', label: t('privacy') }
   ]
 
   return (

@@ -235,14 +235,27 @@ Script skips existing files and includes error handling.
 ```
 src/
 ├── app/                 # Next.js app router
-│   ├── about/           # About page
 │   ├── api/             # API routes
+│   │   ├── advance-puzzle/
 │   │   ├── past-puzzles/     # Past puzzles API
 │   │   └── puzzle/[number]/  # Specific puzzle API
-│   ├── how-to-play/     # How to play page
-│   ├── past/            # Past puzzles page
-│   ├── privacy/         # Privacy policy page
+│   ├── hvordan-spille/  # How to play page (Norwegian)
+│   │   ├── layout.tsx   # Page-specific metadata
+│   │   └── page.tsx
+│   ├── om/              # About page (Norwegian)
+│   │   ├── layout.tsx   # Page-specific metadata
+│   │   └── page.tsx
+│   ├── personvern/      # Privacy policy page (Norwegian)
+│   │   ├── layout.tsx   # Page-specific metadata
+│   │   └── page.tsx
+│   ├── spoersmaal-og-svar/ # FAQ page (Norwegian)
+│   │   ├── layout.tsx   # Page-specific metadata
+│   │   └── page.tsx
+│   ├── tidligere/       # Past puzzles page (Norwegian)
+│   │   ├── layout.tsx   # Page-specific metadata
+│   │   └── page.tsx
 │   ├── puzzle/[number]/ # Individual puzzle pages
+│   │   └── page.tsx
 │   ├── globals.css      # Global styles
 │   ├── layout.tsx       # Root layout with server-side language detection
 │   ├── page.tsx         # Home page
@@ -283,9 +296,17 @@ src/
     └── daily-puzzle.yml        # GitHub Action for daily automation
 public/
 ├── fjord_svgs/         # 1,467 fjord outline SVGs
+├── fjord_satellite/    # Satellite images for hint system
 ├── og-image.png        # Social media image
 ├── favicon files       # Various favicon formats
 └── site.webmanifest    # PWA manifest
+tools/
+├── all_fjords.json     # Fjord data for satellite image generation
+├── fjord_wikipedia_matcher.py  # Wikipedia URL matching script
+├── fjord_wikipedia_matches.csv # Wikipedia URL matches (generated)
+├── fjord_wikipedia_matches.json # Wikipedia URL matches (generated)
+├── generate_fjord_svgs.py      # SVG generation script
+└── generate_satellite_images.py # Satellite image generation script
 ```
 
 ## Key Components
@@ -299,6 +320,20 @@ public/
 - `LanguageProvider` - i18n context wrapper
 - `LanguageToggle` - Flag-based language switcher
 - `NavigationMenu` - Dropdown navigation menu
+
+## Page Structure
+
+The site uses Norwegian URLs by default, reflecting the primary Norwegian audience:
+
+- **Home**: `/` - Main game interface
+- **How to Play**: `/hvordan-spille/` - Game instructions and rules
+- **About**: `/om/` - About the game and project
+- **FAQ**: `/spoersmaal-og-svar/` - Frequently asked questions
+- **Past Puzzles**: `/tidligere/` - Archive of previous daily puzzles
+- **Privacy**: `/personvern/` - Privacy policy and data handling
+- **Individual Puzzles**: `/puzzle/[number]/` - Specific puzzle pages
+
+Each page includes Norwegian SEO metadata via layout.tsx files for optimal search visibility.
 
 ## Translation Management
 
