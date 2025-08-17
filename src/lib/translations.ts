@@ -105,6 +105,15 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'winning_title': 'Å vinne',
     'winning_text': 'Gjett riktig innen 6 forsøk for å vinne! Statistikken din sporer rekken og suksessraten din. Del resultatene dine med et emojimønster som viser gjetteeffektiviteten din.',
 
+    // Hint System
+    'hints_title': 'Hint',
+    'hint_button_text': 'Klikk på 🛟 når du sitter fast.',
+    'first_letter_hint_title': 'Første bokstav:',
+    'first_letter_hint_text': 'Avslører første bokstav i fjordnavnet for å hjelpe deg å komme i gang.',
+    'satellite_hint_title': 'Satellittbilde:',
+    'satellite_hint_text': 'Se et luftfoto av fjorden. Fjorden av dagen er i sentrum av bildet.',
+    'satellite_caption': 'Merk: Satellittbilder kan vise omkringliggende detaljer som ikke er synlige i hovedomrisset.',
+
     // Onboarding Modal
     'welcome_to_fjordle': 'Velkommen til Fjordle!',
     'onboarding_step1_title': 'Dette er omrisset av en fjord',
@@ -285,6 +294,15 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'shape_matters_text': 'Study the outline - some fjords have very distinctive shapes',
     'winning_title': 'Winning',
     'winning_text': 'Guess correctly within 6 attempts to win! Your stats track your streak and success rate. Share your results with an emoji pattern showing your guessing efficiency.',
+
+    // Hint System
+    'hints_title': 'Hints',
+    'hint_button_text': 'Click the 🛟 when you\'re stuck.',
+    'first_letter_hint_title': 'First Letter:',
+    'first_letter_hint_text': 'Reveals the first letter of the fjord name to help you get started.',
+    'satellite_hint_title': 'Satellite Image:',
+    'satellite_hint_text': 'View a satellite image of the fjord. The fjord of the day is in the center of the image.',
+    'satellite_caption': 'Note: Satellite images may show surrounding details not visible in the main outline.',
 
     // Onboarding Modal
     'welcome_to_fjordle': 'Welcome to Fjordle!',

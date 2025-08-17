@@ -190,6 +190,15 @@ export type TranslationKey =
   | 'winning_title'
   | 'winning_text'
 
+  // Hint System
+  | 'hints_title'
+  | 'hint_button_text'
+  | 'first_letter_hint_title'
+  | 'first_letter_hint_text'
+  | 'satellite_hint_title'
+  | 'satellite_hint_text'
+  | 'satellite_caption'
+
   // Onboarding Modal
   | 'welcome_to_fjordle'
   | 'onboarding_step1_title'
