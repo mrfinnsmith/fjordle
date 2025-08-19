@@ -3,10 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useLanguage } from '@/lib/languageContext'
-import Head from 'next/head'
 
 export default function HowToPlay() {
-    const { t, language } = useLanguage()
+    const { t } = useLanguage()
     const router = useRouter()
 
     console.log('[DEBUG] HowToPlayPage render - router:', router)
@@ -21,21 +20,6 @@ export default function HowToPlay() {
 
     return (
         <>
-            <Head>
-                {language === 'no' ? (
-                    <>
-                        <title>Hvordan spille Fjordle - Daglig fjordpuslespill</title>
-                        <meta name="description" content="Lær hvordan du spiller Fjordle, det daglige norske fjordpuslespillet. Gjett fjorder ut fra omriss, bruk hint og forstå spillets mekanikker." />
-                        <meta name="keywords" content="fjordle hvordan spille, norsk fjordpuslespill, fjord omriss, fjord hint, satellittbilde fjord, norsk geografi, daglig puslespill, fjord gjetting" />
-                    </>
-                ) : (
-                    <>
-                        <title>How to Play Fjordle - Daily Fjord Puzzle</title>
-                        <meta name="description" content="Learn how to play Fjordle, the daily Norwegian fjord puzzle game. Guess fjords from outlines, use hints, and understand game mechanics." />
-                        <meta name="keywords" content="fjordle how to play, norwegian fjord puzzle, fjord outline, fjord hints, satellite image fjord, norwegian geography, daily puzzle, fjord guessing" />
-                    </>
-                )}
-            </Head>
             <div className="space-y-6">
                 <h1 className="text-3xl font-bold">{t('how_to_play_title')}</h1>
 
