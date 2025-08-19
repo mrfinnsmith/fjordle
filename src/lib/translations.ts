@@ -186,7 +186,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'faq_data_source_answer': 'Fjorddataene kommer fra Fjordkatalogen, som er en offisiell database fra Miljødirektoratet.',
 
     // Metadata
-    'site_title': 'Fjordle - Daglig fjordpuslespill',
+    'site_title': 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
     'site_description': 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder.',
     'site_keywords': 'fjord, fjorder, fjord spill, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, norske fjorder, puslespill, geografi, fjordle'
   },
@@ -378,7 +378,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'faq_data_source_answer': 'The fjord data comes from Fjordkatalogen, which is an official database from the Norwegian Environment Agency.',
 
     // Metadata
-    'site_title': 'Fjordle - Daily Norwegian Fjord Puzzle',
+    'site_title': 'Fjordle | Fjord Game | Recognize Norwegian Fjords Daily',
     'site_description': 'Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.',
     'site_keywords': 'fjord, fjords, fjord game, norwegian fjords quiz, fjord recognition, norway geography game, fjord puzzle, norway geography, daily puzzle, norwegian fjords, puzzle, game, geography, fjordle'
   }

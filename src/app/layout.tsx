@@ -25,14 +25,14 @@ export default function RootLayout({
       <head>
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
 
-        <title>Fjordle - Daglig fjordpuslespill</title>
+        <title>Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig</title>
         <meta name="description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
-        <meta name="keywords" content="fjordpuslespill, norge geografi, daglig puslespill, norske fjorder, puslespill, geografi, fjordle" />
+        <meta name="keywords" content="fjord, fjorder, fjord spill, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, norske fjorder, puslespill, geografi, fjordle" />
 
-        <meta property="og:title" content="Fjordle - Daglig fjordpuslespill" />
+        <meta property="og:title" content="Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig" />
         <meta property="og:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
         <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
-        <meta name="twitter:title" content="Fjordle - Daglig fjordpuslespill" />
+        <meta name="twitter:title" content="Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig" />
         <meta name="twitter:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
         <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
 
@@ -58,7 +58,7 @@ export default function RootLayout({
               "applicationCategory": "Game",
               "operatingSystem": "Web Browser",
               "inLanguage": initialLanguage,
-              "keywords": "fjord puslespill, norge geografi, daglig puslespill, fjord spill, norske fjorder, puslespill, spill, geografi",
+              "keywords": "fjord, fjorder, fjord spill, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjord puslespill, norge geografi, daglig puslespill, norske fjorder, puslespill, spill, geografi",
               "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
             })
           }}
