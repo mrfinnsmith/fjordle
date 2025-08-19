@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next'
 import fs from 'fs'
 import path from 'path'
+import { getAllPuzzleNumbers } from '@/lib/puzzleApi'
 
-function getRoutes(): string[] {
+function getStaticRoutes(): string[] {
     const appDir = path.join(process.cwd(), 'src/app')
     const routes = ['/']
 
@@ -10,7 +11,7 @@ function getRoutes(): string[] {
         const items = fs.readdirSync(dir, { withFileTypes: true })
 
         for (const item of items) {
-            if (item.isDirectory() && !item.name.startsWith('_') && item.name !== 'api') {
+            if (item.isDirectory() && !item.name.startsWith('_') && !item.name.startsWith('[') && item.name !== 'api') {
                 const routePath = `${basePath}/${item.name}`
                 const fullPath = path.join(dir, item.name)
 
@@ -18,6 +19,9 @@ function getRoutes(): string[] {
                 if (fs.existsSync(path.join(fullPath, 'page.tsx'))) {
                     routes.push(routePath)
                 }
+
+                // Recursively scan subdirectories
+                scanDir(fullPath, routePath)
             }
         }
     }
@@ -26,13 +30,24 @@ function getRoutes(): string[] {
     return routes
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
-    const routes = getRoutes()
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
+    const staticRoutes = getStaticRoutes()
+    const puzzleNumbers = await getAllPuzzleNumbers()
 
-    return routes.map(route => ({
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}${route}`,
+    const staticSitemapEntries = staticRoutes.map(route => ({
+        url: `${baseUrl}${route}`,
         lastModified: new Date(),
-        changeFrequency: route === '/' ? 'daily' : 'monthly',
+        changeFrequency: route === '/' ? 'daily' as const : 'monthly' as const,
         priority: route === '/' ? 1 : 0.8,
     }))
+
+    const puzzleSitemapEntries = puzzleNumbers.map(number => ({
+        url: `${baseUrl}/puzzle/${number}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+    }))
+
+    return [...staticSitemapEntries, ...puzzleSitemapEntries]
 }

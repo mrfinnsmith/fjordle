@@ -114,3 +114,18 @@ export async function getPuzzleByNumber(puzzleNumber: number): Promise<Puzzle | 
     return null
   }
 }
+
+export async function getAllPuzzleNumbers(): Promise<number[]> {
+  try {
+    const { data, error } = await supabase
+      .from('daily_puzzles')
+      .select('puzzle_number')
+      .order('puzzle_number')
+
+    if (error || !data) return []
+    return data.map(p => p.puzzle_number)
+  } catch (error) {
+    console.error('Error fetching puzzle numbers:', error)
+    return []
+  }
+}
