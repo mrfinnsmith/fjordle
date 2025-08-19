@@ -31,12 +31,11 @@ export default function GuessInput({
     const dropdownRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (query.length >= 2) {
+        if (query.length >= 1) {
             const filtered = fjords
                 .filter(fjord =>
                     fjord.name.toLowerCase().includes(query.toLowerCase())
                 )
-                .slice(0, 10)
             setFilteredFjords(filtered)
             setShowDropdown(filtered.length > 0)
             setSelectedIndex(-1)
@@ -120,7 +119,10 @@ export default function GuessInput({
     }
 
     const handleInputFocus = () => {
-        if (query.length >= 2 && filteredFjords.length > 0) {
+        if (query.length === 0) {
+            setFilteredFjords(fjords)
+            setShowDropdown(true)
+        } else if (filteredFjords.length > 0) {
             setShowDropdown(true)
         }
     }
