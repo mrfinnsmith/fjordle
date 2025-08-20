@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import GameBoard from '@/components/Game/GameBoard'
 import { Puzzle } from '@/types/game'
+import { useLanguage } from '@/lib/languageContext'
 
 interface PuzzlePageProps {
     params: { number: string }
@@ -13,6 +14,7 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
     const [puzzle, setPuzzle] = useState<Puzzle | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const { t, language } = useLanguage()
 
     useEffect(() => {
         const fetchPuzzle = async () => {
@@ -20,7 +22,7 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
                 const response = await fetch(`/api/puzzle/${params.number}`)
                 if (!response.ok) {
                     if (response.status === 404) {
-                        throw new Error('Puzzle not found')
+                        throw new Error(t('no_past_puzzles'))
                     }
                     throw new Error('Failed to fetch puzzle')
                 }
@@ -34,12 +36,12 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
         }
 
         fetchPuzzle()
-    }, [params.number])
+    }, [params.number, t])
 
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-50 py-8">
-                <div className="text-center">Loading puzzle...</div>
+                <div className="text-center">{t('loading')}</div>
             </div>
         )
     }
@@ -48,13 +50,13 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
         return (
             <div className="min-h-screen bg-gray-50 py-8">
                 <div className="w-full max-w-lg mx-auto text-center">
-                    <h1 className="text-2xl font-bold mb-4">Error</h1>
-                    <p className="mb-6">{error || 'Puzzle not found'}</p>
+                    <h1 className="text-2xl font-bold mb-4">{t('error')}</h1>
+                    <p className="mb-6">{error || t('no_past_puzzles')}</p>
                     <Link
-                        href="/past"
+                        href={language === 'no' ? '/tidligere' : '/past-puzzles'}
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
-                        Back to Past Puzzles
+                        {t('back_to_today')}
                     </Link>
                 </div>
             </div>
@@ -65,8 +67,8 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="w-full max-w-lg mx-auto mb-6">
                 <div className="text-center mb-4">
-                    <h1 className="text-2xl font-bold">Fjordle #{puzzle.puzzle_number}</h1>
-                    <p className="text-gray-600">Past Fjordles</p>
+                    <h1 className="text-2xl font-bold">{t('fjordle_number').replace('{number}', puzzle.puzzle_number.toString())}</h1>
+                    <p className="text-gray-600">{t('past_fjordles')}</p>
                 </div>
 
                 <div className="flex justify-center gap-4 mb-6">
@@ -74,13 +76,13 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
                         href="/"
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
-                        Today&apos;s Fjordle
+                        {t('back_to_today')}
                     </Link>
                     <Link
-                        href="/past"
+                        href={language === 'no' ? '/tidligere' : '/past-puzzles'}
                         className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                     >
-                        All Past Puzzles
+                        {t('past_fjordles')}
                     </Link>
                 </div>
             </div>

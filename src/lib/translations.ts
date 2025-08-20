@@ -53,7 +53,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'loading_past_puzzles': 'Laster tidligere puslespill...',
     'error': 'Feil',
     'no_past_puzzles': 'Ingen tidligere puslespill tilgjengelig ennå.',
-    'fjordle_number': 'Fjordle #',
+    'fjordle_number': 'Fjordle #{number}',
 
     // About Page
     'about_title': 'Om',
@@ -247,7 +247,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'loading_past_puzzles': 'Loading past puzzles...',
     'error': 'Error',
     'no_past_puzzles': 'No past puzzles available yet.',
-    'fjordle_number': 'Fjordle #',
+    'fjordle_number': 'Fjordle #{number}',
 
     // About Page
     'about_title': 'About',
