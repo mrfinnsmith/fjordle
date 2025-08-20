@@ -391,7 +391,6 @@ Each page includes Norwegian SEO metadata via layout.tsx files for optimal searc
 - Ensure Supabase RLS policies allow anonymous access
 - Verify all 1,467 SVG files are deployed to `/public/fjord_svgs/`
 - Default language is Norwegian (bokmÃ¥l) for SEO and audience targeting
-- **Norwegian Flash**: Brief Norwegian text may appear before English loads (acceptable trade-off for working navigation)
 
 ## Troubleshooting
 
