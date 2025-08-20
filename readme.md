@@ -25,15 +25,15 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
   2. **Typing & Selection**: Shows how to use autocomplete dropdown and submit guesses
   3. **6 Guesses**: Explains attempt limit and feedback system
   4. **Help & Hints**: Describes hint system and how-to-play access
-- **Bilingual Language Toggle**: Language switcher within modal (Want this in English?/Vil du ha dette på norsk?)
+- **Bilingual Language Toggle**: Language switcher within modal (Want this in English?/Vil du ha dette pÃ¥ norsk?)
 - **Versioned Storage**: localStorage tracks onboarding version for future updates
 - **Navigation Controls**: Back button for previous steps, X close button in top-right
 - **Smart Persistence**: Only shows once per version, can be reset by clearing localStorage
 
 ## Internationalization
 
-- **Default Language**: Norwegian (bokmål) 
-- **Language Toggle**: Flag icons (🇳🇴/🇬🇧) in top-right corner
+- **Default Language**: Norwegian (bokmÃ¥l) 
+- **Language Toggle**: Flag icons (ðŸ‡³ðŸ‡´/ðŸ‡¬ðŸ‡§) in top-right corner
 - **Persistence**: Language preference saved in cookies
 - **Full Translation**: All UI text, page content, and metadata
 - **Natural Norwegian**: Written for Norwegian audience, not direct translation
@@ -48,6 +48,7 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **Storage**: Local storage for user stats and game progress
 - **i18n**: Server-side cookie detection with React Context for language switching
 - **Automation**: GitHub Actions for daily puzzle assignment
+- **Difficulty Assessment**: Monthly automated difficulty tier updates based on player performance
 
 ## Database Schema
 
@@ -69,6 +70,7 @@ Problematic fjords are quarantined in-place using flags rather than a separate t
 - `get_daily_fjord_puzzle()` - Returns today's puzzle
 - `get_fjord_puzzle_by_number(puzzle_num)` - Returns specific puzzle
 - `get_past_puzzles()` - Returns all previous puzzles
+- `update_difficulty_tiers()` - Monthly difficulty assessment function that updates fjord difficulty tiers based on actual player performance data
 
 ## Daily Puzzle System
 
@@ -151,6 +153,29 @@ ORDER BY dp.presented_date DESC
 LIMIT 10;
 ```
 
+## Difficulty Assessment System
+
+### Monthly Difficulty Updates
+- **Timing**: Monthly on 1st at 02:00 UTC
+- **Method**: GitHub Action calls Supabase Edge Function
+- **Function**: `update_difficulty_tiers()` analyzes player performance data
+- **Thresholds**: Dynamic percentile-based or fallback to fixed (45%/30%) for insufficient data
+- **Minimum Sessions**: 10+ sessions required per fjord for tier assignment
+
+### Difficulty Tiers
+- **Easy (1)**: High win rate fjords (67th percentile or 45%+ win rate)
+- **Medium (2)**: Moderate win rate fjords (33rd-67th percentile or 30-44% win rate)  
+- **Hard (3)**: Low win rate fjords (below 33rd percentile or <30% win rate)
+
+### Manual Difficulty Update
+Run difficulty assessment immediately:
+
+```sql
+SELECT * FROM update_difficulty_tiers();
+```
+
+Returns execution metrics: time, updated count, tier distribution, and changes.
+
 ## GitHub Actions
 
 ### Daily Automation
@@ -159,15 +184,25 @@ LIMIT 10;
 - **Action**: Calls Supabase Edge Function to assign puzzle
 - **Manual Trigger**: Can be run manually from GitHub Actions tab
 
+### Monthly Difficulty Update
+- **File**: `.github/workflows/monthly-difficulty-update.yml`
+- **Schedule**: `0 2 1 * *` (1st of every month at 02:00 UTC)
+- **Action**: Calls Supabase Edge Function to update difficulty tiers
+- **Manual Trigger**: Can be run manually from GitHub Actions tab
+
 ### Configuration
 Requires GitHub repository secret:
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous public key
 - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 
 ### Edge Function
-- **Location**: Supabase dashboard → Edge Functions → daily-puzzle
+- **Location**: Supabase dashboard â†' Edge Functions â†' daily-puzzle
 - **URL**: `https://kvkmdkvmbuiqicgoqabx.supabase.co/functions/v1/daily-puzzle`
 - **Purpose**: Executes `assign_daily_puzzle()` function
+
+### Edge Function
+- **Location**: Supabase dashboard → Edge Functions → update-difficulty
+- **Purpose**: Executes `update_difficulty_tiers()` function and returns execution metrics
 
 ## Local Development
 
@@ -234,79 +269,80 @@ Script skips existing files and includes error handling.
 
 ```
 src/
-├── app/                 # Next.js app router
-│   ├── api/             # API routes
-│   │   ├── advance-puzzle/
-│   │   ├── past-puzzles/     # Past puzzles API
-│   │   └── puzzle/[number]/  # Specific puzzle API
-│   ├── hvordan-spille/  # How to play page (Norwegian)
-│   │   ├── layout.tsx   # Page-specific metadata
-│   │   └── page.tsx
-│   ├── om/              # About page (Norwegian)
-│   │   ├── layout.tsx   # Page-specific metadata
-│   │   └── page.tsx
-│   ├── personvern/      # Privacy policy page (Norwegian)
-│   │   ├── layout.tsx   # Page-specific metadata
-│   │   └── page.tsx
-│   ├── spoersmaal-og-svar/ # FAQ page (Norwegian)
-│   │   ├── layout.tsx   # Page-specific metadata
-│   │   └── page.tsx
-│   ├── tidligere/       # Past puzzles page (Norwegian)
-│   │   ├── layout.tsx   # Page-specific metadata
-│   │   └── page.tsx
-│   ├── puzzle/[number]/ # Individual puzzle pages
-│   │   └── page.tsx
-│   ├── globals.css      # Global styles
-│   ├── layout.tsx       # Root layout with server-side language detection
-│   ├── page.tsx         # Home page
-│   ├── robots.ts        # Robots.txt generation
-│   └── sitemap.ts       # Sitemap generation
-├── components/          # React components
-│   ├── Game/            # Game-specific components
-│   │   ├── FjordDisplay.tsx      # Fjord outline display
-│   │   ├── GameBoard.tsx         # Main game interface
-│   │   ├── GuessHistory.tsx      # Previous attempts with feedback
-│   │   ├── GuessInput.tsx        # Autocomplete fjord input
-│   │   ├── OnboardingModal.tsx   # First-time user tutorial modal
-│   │   ├── ResultsModal.tsx      # End game stats and sharing
-│   │   ├── Toast.tsx             # Notification component
-│   │   ├── FirstLetterHint.tsx   # First letter hint component
-│   │   ├── SatelliteHint.tsx     # Satellite image hint component
-│   │   ├── SatelliteModal.tsx    # Satellite image display modal
-│   │   └── LoadingSpinner.tsx    # Loading state component
-│   ├── ClientLayout.tsx          # Client-side layout wrapper
-│   ├── DebugInfo.tsx            # Development debug panel
-│   └── NavigationMenu.tsx        # Main navigation menu
-├── lib/                # Utilities and API functions
-│   ├── cookies.ts               # Client-side cookie management
-│   ├── gameLogic.ts             # Core game mechanics
-│   ├── languageContext.tsx      # i18n context and translations
-│   ├── localStorage.ts          # Browser storage utilities
-│   ├── puzzleApi.ts             # Puzzle data API functions
-│   ├── serverCookies.ts         # Server-side cookie reading
-│   ├── session_api.ts           # Session tracking API
-│   ├── supabase.ts              # Database connection
-│   ├── translations.ts          # Translation data
-│   ├── useFormattedDate.ts       # Custom hook for date formatting
-│   └── utils.ts                 # General utilities
-├── types/              # TypeScript interfaces
-│   └── game.ts                  # Game-related types
+â"œâ"€â"€ app/                 # Next.js app router
+â"‚   â"œâ"€â"€ api/             # API routes
+â"‚   â"‚   â"œâ"€â"€ advance-puzzle/
+â"‚   â"‚   â"œâ"€â"€ past-puzzles/     # Past puzzles API
+â"‚   â"‚   â""â"€â"€ puzzle/[number]/  # Specific puzzle API
+â"‚   â"œâ"€â"€ hvordan-spille/  # How to play page (Norwegian)
+â"‚   â"‚   â"œâ"€â"€ layout.tsx   # Page-specific metadata
+â"‚   â"‚   â""â"€â"€ page.tsx
+â"‚   â"œâ"€â"€ om/              # About page (Norwegian)
+â"‚   â"‚   â"œâ"€â"€ layout.tsx   # Page-specific metadata
+â"‚   â"‚   â""â"€â"€ page.tsx
+â"‚   â"œâ"€â"€ personvern/      # Privacy policy page (Norwegian)
+â"‚   â"‚   â"œâ"€â"€ layout.tsx   # Page-specific metadata
+â"‚   â"‚   â""â"€â"€ page.tsx
+â"‚   â"œâ"€â"€ spoersmaal-og-svar/ # FAQ page (Norwegian)
+â"‚   â"‚   â"œâ"€â"€ layout.tsx   # Page-specific metadata
+â"‚   â"‚   â""â"€â"€ page.tsx
+â"‚   â"œâ"€â"€ tidligere/       # Past puzzles page (Norwegian)
+â"‚   â"‚   â"œâ"€â"€ layout.tsx   # Page-specific metadata
+â"‚   â"‚   â""â"€â"€ page.tsx
+â"‚   â"œâ"€â"€ puzzle/[number]/ # Individual puzzle pages
+â"‚   â"‚   â""â"€â"€ page.tsx
+â"‚   â"œâ"€â"€ globals.css      # Global styles
+â"‚   â"œâ"€â"€ layout.tsx       # Root layout with server-side language detection
+â"‚   â"œâ"€â"€ page.tsx         # Home page
+â"‚   â"œâ"€â"€ robots.ts        # Robots.txt generation
+â"‚   â""â"€â"€ sitemap.ts       # Sitemap generation
+â"œâ"€â"€ components/          # React components
+â"‚   â"œâ"€â"€ Game/            # Game-specific components
+â"‚   â"‚   â"œâ"€â"€ FjordDisplay.tsx      # Fjord outline display
+â"‚   â"‚   â"œâ"€â"€ GameBoard.tsx         # Main game interface
+â"‚   â"‚   â"œâ"€â"€ GuessHistory.tsx      # Previous attempts with feedback
+â"‚   â"‚   â"œâ"€â"€ GuessInput.tsx        # Autocomplete fjord input
+â"‚   â"‚   â"œâ"€â"€ OnboardingModal.tsx   # First-time user tutorial modal
+â"‚   â"‚   â"œâ"€â"€ ResultsModal.tsx      # End game stats and sharing
+â"‚   â"‚   â"œâ"€â"€ Toast.tsx             # Notification component
+â"‚   â"‚   â"œâ"€â"€ FirstLetterHint.tsx   # First letter hint component
+â"‚   â"‚   â"œâ"€â"€ SatelliteHint.tsx     # Satellite image hint component
+â"‚   â"‚   â"œâ"€â"€ SatelliteModal.tsx    # Satellite image display modal
+â"‚   â"‚   â""â"€â"€ LoadingSpinner.tsx    # Loading state component
+â"‚   â"œâ"€â"€ ClientLayout.tsx          # Client-side layout wrapper
+â"‚   â"œâ"€â"€ DebugInfo.tsx            # Development debug panel
+â"‚   â""â"€â"€ NavigationMenu.tsx        # Main navigation menu
+â"œâ"€â"€ lib/                # Utilities and API functions
+â"‚   â"œâ"€â"€ cookies.ts               # Client-side cookie management
+â"‚   â"œâ"€â"€ gameLogic.ts             # Core game mechanics
+â"‚   â"œâ"€â"€ languageContext.tsx      # i18n context and translations
+â"‚   â"œâ"€â"€ localStorage.ts          # Browser storage utilities
+â"‚   â"œâ"€â"€ puzzleApi.ts             # Puzzle data API functions
+â"‚   â"œâ"€â"€ serverCookies.ts         # Server-side cookie reading
+â"‚   â"œâ"€â"€ session_api.ts           # Session tracking API
+â"‚   â"œâ"€â"€ supabase.ts              # Database connection
+â"‚   â"œâ"€â"€ translations.ts          # Translation data
+â"‚   â"œâ"€â"€ useFormattedDate.ts       # Custom hook for date formatting
+â"‚   â""â"€â"€ utils.ts                 # General utilities
+â"œâ"€â"€ types/              # TypeScript interfaces
+â"‚   â""â"€â"€ game.ts                  # Game-related types
 .github/
-└── workflows/
-    └── daily-puzzle.yml        # GitHub Action for daily automation
+â""â"€â"€ workflows/
+    â"œâ"€â"€ daily-puzzle.yml        # GitHub Action for daily automation
+    â""â"€â"€ monthly-difficulty-update.yml # GitHub Action for monthly difficulty updates
 public/
-├── fjord_svgs/         # 1,467 fjord outline SVGs
-├── fjord_satellite/    # Satellite images for hint system
-├── og-image.png        # Social media image
-├── favicon files       # Various favicon formats
-└── site.webmanifest    # PWA manifest
+â"œâ"€â"€ fjord_svgs/         # 1,467 fjord outline SVGs
+â"œâ"€â"€ fjord_satellite/    # Satellite images for hint system
+â"œâ"€â"€ og-image.png        # Social media image
+â"œâ"€â"€ favicon files       # Various favicon formats
+â""â"€â"€ site.webmanifest    # PWA manifest
 tools/
-├── all_fjords.json     # Fjord data for satellite image generation
-├── fjord_wikipedia_matcher.py  # Wikipedia URL matching script
-├── fjord_wikipedia_matches.csv # Wikipedia URL matches (generated)
-├── fjord_wikipedia_matches.json # Wikipedia URL matches (generated)
-├── generate_fjord_svgs.py      # SVG generation script
-└── generate_satellite_images.py # Satellite image generation script
+â"œâ"€â"€ all_fjords.json     # Fjord data for satellite image generation
+â"œâ"€â"€ fjord_wikipedia_matcher.py  # Wikipedia URL matching script
+â"œâ"€â"€ fjord_wikipedia_matches.csv # Wikipedia URL matches (generated)
+â"œâ"€â"€ fjord_wikipedia_matches.json # Wikipedia URL matches (generated)
+â"œâ"€â"€ generate_fjord_svgs.py      # SVG generation script
+â""â"€â"€ generate_satellite_images.py # Satellite image generation script
 ```
 
 ## Key Components
@@ -354,7 +390,7 @@ Each page includes Norwegian SEO metadata via layout.tsx files for optimal searc
 - Set `NEXT_PUBLIC_SITE_URL` for proper OpenGraph/canonical URLs
 - Ensure Supabase RLS policies allow anonymous access
 - Verify all 1,467 SVG files are deployed to `/public/fjord_svgs/`
-- Default language is Norwegian (bokmål) for SEO and audience targeting
+- Default language is Norwegian (bokmÃ¥l) for SEO and audience targeting
 - **Norwegian Flash**: Brief Norwegian text may appear before English loads (acceptable trade-off for working navigation)
 
 ## Troubleshooting
@@ -408,7 +444,7 @@ SELECT assign_daily_puzzle();
 INSERT INTO puzzle_queue (fjord_id, scheduled_date) 
 VALUES 
   (SELECT id FROM fjords WHERE name = 'Geirangerfjorden' LIMIT 1, '2025-05-17'),
-  (SELECT id FROM fjords WHERE name = 'Nærøyfjorden' LIMIT 1, '2025-12-25');
+  (SELECT id FROM fjords WHERE name = 'NÃ¦rÃ¸yfjorden' LIMIT 1, '2025-12-25');
 ```
 
 ### Check System Status
@@ -441,7 +477,7 @@ WHERE quarantined = TRUE;
 ```
 
 ### Update GitHub Secrets
-1. Go to GitHub repository → Settings → Secrets and variables → Actions
+1. Go to GitHub repository â†' Settings â†' Secrets and variables â†' Actions
 2. Update `SUPABASE_ANON_KEY` if Supabase keys change
 3. Secrets are automatically used by GitHub Actions
 

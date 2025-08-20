@@ -1,0 +1,27 @@
+name: Monthly Difficulty Update
+
+on:
+  schedule:
+    - cron: '0 2 1 * *'
+  workflow_dispatch:
+
+jobs:
+  update-difficulty:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update difficulty tiers
+        run: |
+          response=$(curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_SERVICE_KEY }}" \
+            "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/functions/v1/update-difficulty")
+          
+          echo "Response: $response"
+          
+          if echo "$response" | jq -e '.success' > /dev/null; then
+            echo "✅ Difficulty update completed successfully"
+            echo "$response" | jq '.results'
+          else
+            echo "❌ Difficulty update failed"
+            echo "$response" | jq '.error // .'
+            exit 1
+          fi
