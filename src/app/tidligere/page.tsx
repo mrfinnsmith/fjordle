@@ -11,6 +11,7 @@ interface PastPuzzle {
     puzzle_number: number
     fjord_name: string
     date: string
+    difficulty_tier: number | null
 }
 
 interface FormattedPuzzle extends PastPuzzle {
@@ -24,6 +25,13 @@ export default function PastPuzzlesPage() {
     const [formattedPuzzles, setFormattedPuzzles] = useState<FormattedPuzzle[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+
+    const getDifficultyBadge = (tier: number | null) => {
+        if (tier === 1) return <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">{t('difficulty')}: {t('easy')}</span>
+        if (tier === 2) return <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded">{t('difficulty')}: {t('medium')}</span>
+        if (tier === 3) return <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">{t('difficulty')}: {t('hard')}</span>
+        return null
+    }
 
     console.log('[DEBUG] PastPuzzlesPage render - router:', router)
     console.log('[DEBUG] PastPuzzlesPage render - language:', language)
@@ -110,9 +118,12 @@ export default function PastPuzzlesPage() {
                     <div key={puzzle.puzzle_number} className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
                         <div>
                             <h3 className="font-semibold">{t('fjordle_number')}{puzzle.puzzle_number}</h3>
-                            <p className="text-sm text-gray-600">
-                                {puzzle.formattedDate}
-                            </p>
+                            <div className="flex items-center gap-2">
+                                <p className="text-sm text-gray-600">
+                                    {puzzle.formattedDate}
+                                </p>
+                                {getDifficultyBadge(puzzle.difficulty_tier)}
+                            </div>
                         </div>
                         <Link
                             href={`/puzzle/${puzzle.puzzle_number}`}

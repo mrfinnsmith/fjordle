@@ -290,3 +290,7 @@ export type TranslationKey =
   | 'first_letter_hint'
   | 'satellite_hint_description'
   | 'view_again'
+  | 'difficulty'
+  | 'easy'
+  | 'medium'
+  | 'hard'
