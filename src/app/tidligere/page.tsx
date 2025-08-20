@@ -117,7 +117,7 @@ export default function PastPuzzlesPage() {
                 {formattedPuzzles.map((puzzle) => (
                     <div key={puzzle.puzzle_number} className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
                         <div>
-                            <h3 className="font-semibold">{t('fjordle_number')}{puzzle.puzzle_number}</h3>
+                            <h3 className="font-semibold">{t('fjordle_number').replace('{number}', puzzle.puzzle_number.toString())}</h3>
                             <div className="flex items-center gap-2">
                                 <p className="text-sm text-gray-600">
                                     {puzzle.formattedDate}
