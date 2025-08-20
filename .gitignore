@@ -52,3 +52,5 @@ CLAUDE.md
 docs/status-memo.md
 .vercel
 tools/all_fjords.json
+fjord_wikipedia_matches.csv
+fjord_wikipedia_matches.json
