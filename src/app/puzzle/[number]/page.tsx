@@ -14,7 +14,7 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
     const [puzzle, setPuzzle] = useState<Puzzle | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    const { t, language } = useLanguage()
+    const { t } = useLanguage()
 
     useEffect(() => {
         const fetchPuzzle = async () => {
@@ -53,10 +53,10 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
                     <h1 className="text-2xl font-bold mb-4">{t('error')}</h1>
                     <p className="mb-6">{error || t('no_past_puzzles')}</p>
                     <Link
-                        href={language === 'no' ? '/tidligere' : '/past-puzzles'}
+                        href="/tidligere"
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
-                        {t('back_to_today')}
+                        {t('past_fjordles')}
                     </Link>
                 </div>
             </div>
@@ -79,7 +79,7 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
                         {t('back_to_today')}
                     </Link>
                     <Link
-                        href={language === 'no' ? '/tidligere' : '/past-puzzles'}
+                        href="/tidligere"
                         className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                     >
                         {t('past_fjordles')}

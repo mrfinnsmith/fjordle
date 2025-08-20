@@ -48,7 +48,7 @@ export default function FAQ() {
                 return (
                     <>
                         Yes! You can find all previous puzzles on our{' '}
-                        <Link href="/past" className="text-blue-600 hover:text-blue-800 underline">
+                        <Link href="/tidligere" className="text-blue-600 hover:text-blue-800 underline">
                             {linkText}
                         </Link>
                         {' '}page.
@@ -58,7 +58,7 @@ export default function FAQ() {
                 return (
                     <>
                         Ja! Du finner alle{' '}
-                        <Link href="/past" className="text-blue-600 hover:text-blue-800 underline">
+                        <Link href="/tidligere" className="text-blue-600 hover:text-blue-800 underline">
                             {linkText}
                         </Link>
                         {' '}på tidligere puslespill-siden.
