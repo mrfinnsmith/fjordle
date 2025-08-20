@@ -293,7 +293,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'use_geography': 'Use geography:',
     'use_geography_text': 'Norway runs north-south, so direction arrows help narrow regions',
     'learn_map': 'Learn the map:',
-    'learn_map_text': 'Familiarize yourself with major Norwegian regions',
+    'learn_map_text': 'Familiarise yourself with major Norwegian regions',
     'shape_matters': 'Shape matters:',
     'shape_matters_text': 'Study the outline - some fjords have very distinctive shapes',
     'winning_title': 'Winning',
@@ -382,7 +382,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'faq_data_source_answer': 'The fjord data comes from Fjordkatalogen, which is an official database from the Norwegian Environment Agency.',
 
     // Metadata
-    'site_title': 'Fjordle | Fjord Game | Recognize Norwegian Fjords Daily',
+    'site_title': 'Fjordle | Fjord Game | Recognise Norwegian Fjords Daily',
     'site_description': 'Daily Norwegian fjord puzzle game. Guess the fjord from its distinctive outline shape. New puzzle every day featuring Norwegian geography.',
     'site_keywords': 'fjord, fjords, fjord game, norwegian fjords quiz, fjord recognition, norway geography game, fjord puzzle, norway geography, daily puzzle, norwegian fjords, puzzle, game, geography, fjordle',
     'difficulty': 'Difficulty',

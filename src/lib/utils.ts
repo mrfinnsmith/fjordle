@@ -21,7 +21,7 @@ export const formatDate = (
         return date.toISOString().split('T')[0] // Safe server fallback: YYYY-MM-DD
     }
 
-    const locale = language === 'no' ? 'no-NO' : 'en-US'
+    const locale = language === 'no' ? 'no-NO' : 'en-GB'
     const defaultOptions = {
         timeZone: 'Europe/Oslo', // Consistent timezone
         ...options
@@ -42,7 +42,7 @@ export const formatNumber = (number: number, language: Language): string => {
         return number.toString() // Safe server fallback
     }
 
-    const locale = language === 'no' ? 'no-NO' : 'en-US'
+    const locale = language === 'no' ? 'no-NO' : 'en-GB'
     return number.toLocaleString(locale)
 }
 
@@ -58,7 +58,7 @@ export const formatDistance = (distanceKm: number, language: Language): string =
         return distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${distanceKm}km`
     }
 
-    const locale = language === 'no' ? 'no-NO' : 'en-US'
+    const locale = language === 'no' ? 'no-NO' : 'en-GB'
 
     if (distanceKm < 1) {
         const meters = Math.round(distanceKm * 1000)
