@@ -27,7 +27,10 @@ export async function getTodaysPuzzle(): Promise<Puzzle | null> {
         center_lat: puzzleData.center_lat,
         center_lng: puzzleData.center_lng,
         wikipedia_url_no: puzzleData.wikipedia_url_no,
-        wikipedia_url_en: puzzleData.wikipedia_url_en
+        wikipedia_url_en: puzzleData.wikipedia_url_en,
+        wikipedia_url_nn: puzzleData.wikipedia_url_nn,
+        wikipedia_url_da: puzzleData.wikipedia_url_da,
+        wikipedia_url_ceb: puzzleData.wikipedia_url_ceb
       }
     }
 
@@ -106,7 +109,10 @@ export async function getPuzzleByNumber(puzzleNumber: number): Promise<Puzzle | 
         center_lat: puzzleData.center_lat,
         center_lng: puzzleData.center_lng,
         wikipedia_url_no: puzzleData.wikipedia_url_no,
-        wikipedia_url_en: puzzleData.wikipedia_url_en
+        wikipedia_url_en: puzzleData.wikipedia_url_en,
+        wikipedia_url_nn: puzzleData.wikipedia_url_nn,
+        wikipedia_url_da: puzzleData.wikipedia_url_da,
+        wikipedia_url_ceb: puzzleData.wikipedia_url_ceb
       }
     }
   } catch (error) {

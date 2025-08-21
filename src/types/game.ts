@@ -27,6 +27,9 @@ export interface Fjord {
   center_lng: number
   wikipedia_url_no?: string
   wikipedia_url_en?: string
+  wikipedia_url_nn?: string
+  wikipedia_url_da?: string
+  wikipedia_url_ceb?: string
 }
 
 export interface FjordOption {
