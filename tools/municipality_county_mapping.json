@@ -1,0 +1,1066 @@
+[
+  {
+    "municipality_id": 1,
+    "municipality_name": "Alstahaug",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 2,
+    "municipality_name": "Alta",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 3,
+    "municipality_name": "Alver",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 4,
+    "municipality_name": "Andøy",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 5,
+    "municipality_name": "Arendal",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 6,
+    "municipality_name": "Askvoll",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 7,
+    "municipality_name": "Aure",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 8,
+    "municipality_name": "Austevoll",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 9,
+    "municipality_name": "Averøy",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 10,
+    "municipality_name": "Balsfjord",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 11,
+    "municipality_name": "Bamble",
+    "extracted_county": "Telemark",
+    "mapped_county_id": 5,
+    "mapped_county_name": "Telemark"
+  },
+  {
+    "municipality_id": 12,
+    "municipality_name": "Bergen",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 13,
+    "municipality_name": "Berlevåg",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 14,
+    "municipality_name": "Bindal",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 15,
+    "municipality_name": "Bjørnafjorden",
+    "extracted_county": null,
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 16,
+    "municipality_name": "Bodø",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 17,
+    "municipality_name": "Bremanger",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 18,
+    "municipality_name": "Brønnøy",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 19,
+    "municipality_name": "Bømlo",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 20,
+    "municipality_name": "Dyrøy",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 21,
+    "municipality_name": "Dønna",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 22,
+    "municipality_name": "Etne",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 23,
+    "municipality_name": "Farsund",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 24,
+    "municipality_name": "Fauske",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 25,
+    "municipality_name": "Flatanger",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 26,
+    "municipality_name": "Flekkefjord",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 27,
+    "municipality_name": "Frøya",
+    "extracted_county": null,
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 28,
+    "municipality_name": "Færder",
+    "extracted_county": "Vestfold",
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 29,
+    "municipality_name": "Gamvik",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 30,
+    "municipality_name": "Gildeskål",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 31,
+    "municipality_name": "Gjemnes",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 32,
+    "municipality_name": "Gloppen",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 33,
+    "municipality_name": "Gratangen",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 34,
+    "municipality_name": "Grimstad",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 35,
+    "municipality_name": "Gulen",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 36,
+    "municipality_name": "Hadsel",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 37,
+    "municipality_name": "Hamarøy",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 38,
+    "municipality_name": "Hammerfest",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 39,
+    "municipality_name": "Haram",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 41,
+    "municipality_name": "Harstad",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 42,
+    "municipality_name": "Hasvik",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 43,
+    "municipality_name": "Haugesund",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 44,
+    "municipality_name": "Heim",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 45,
+    "municipality_name": "Hemnes",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 46,
+    "municipality_name": "Herøy (Møre og Romsdal)",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 47,
+    "municipality_name": "Herøy i Nordland",
+    "extracted_county": null,
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 48,
+    "municipality_name": "Hitra",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 49,
+    "municipality_name": "Hjelmeland",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 50,
+    "municipality_name": "Hustadvika",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 51,
+    "municipality_name": "Hyllestad",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 52,
+    "municipality_name": "Høyanger",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 53,
+    "municipality_name": "Ibestad",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 54,
+    "municipality_name": "Inderøy",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 55,
+    "municipality_name": "Indre Fosen",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 56,
+    "municipality_name": "Karlsøy",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 57,
+    "municipality_name": "Karmøy",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 58,
+    "municipality_name": "Kinn",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 59,
+    "municipality_name": "Kragerø",
+    "extracted_county": "Telemark",
+    "mapped_county_id": 5,
+    "mapped_county_name": "Telemark"
+  },
+  {
+    "municipality_id": 60,
+    "municipality_name": "Kristiansand",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 61,
+    "municipality_name": "Kristiansund",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 62,
+    "municipality_name": "Kvam",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 63,
+    "municipality_name": "Kvinnherad",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 64,
+    "municipality_name": "Kvæfjord",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 65,
+    "municipality_name": "Kåfjord",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 66,
+    "municipality_name": "Larvik",
+    "extracted_county": "Vestfold",
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 67,
+    "municipality_name": "Lavangen",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 68,
+    "municipality_name": "Lebesby",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 69,
+    "municipality_name": "Leirfjord",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 70,
+    "municipality_name": "Leka",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 71,
+    "municipality_name": "Levanger",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 72,
+    "municipality_name": "Lillesand",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 73,
+    "municipality_name": "Lindesnes",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 74,
+    "municipality_name": "Loppa",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 75,
+    "municipality_name": "Lurøy",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 76,
+    "municipality_name": "Lyngdal",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 77,
+    "municipality_name": "Lyngen",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 78,
+    "municipality_name": "Lødingen",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 79,
+    "municipality_name": "Meløy",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 81,
+    "municipality_name": "Molde",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 82,
+    "municipality_name": "Moskenes",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 83,
+    "municipality_name": "Målselv",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 84,
+    "municipality_name": "Måsøy",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 85,
+    "municipality_name": "Namsos",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 86,
+    "municipality_name": "Narvik",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 87,
+    "municipality_name": "Nesna",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 88,
+    "municipality_name": "Nesseby",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 90,
+    "municipality_name": "Nordkapp",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 91,
+    "municipality_name": "Nordreisa",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 92,
+    "municipality_name": "Nærøysund",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 93,
+    "municipality_name": "Orkland",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 94,
+    "municipality_name": "Osen",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 95,
+    "municipality_name": "Osterøy",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 96,
+    "municipality_name": "Porsanger",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 97,
+    "municipality_name": "Porsgrunn",
+    "extracted_county": "Telemark",
+    "mapped_county_id": 5,
+    "mapped_county_name": "Telemark"
+  },
+  {
+    "municipality_id": 98,
+    "municipality_name": "Rana",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 99,
+    "municipality_name": "Rauma",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 100,
+    "municipality_name": "Rødøy",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 101,
+    "municipality_name": "Salangen",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 102,
+    "municipality_name": "Sandefjord",
+    "extracted_county": "Vestfold",
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 103,
+    "municipality_name": "Sandnes",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 104,
+    "municipality_name": "Senja kommune",
+    "extracted_county": null,
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 105,
+    "municipality_name": "Skjervøy",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 106,
+    "municipality_name": "Sogndal",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 107,
+    "municipality_name": "Sokndal",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 108,
+    "municipality_name": "Solund",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 109,
+    "municipality_name": "Sortland",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 110,
+    "municipality_name": "Stad",
+    "extracted_county": null,
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 111,
+    "municipality_name": "Stavanger",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 112,
+    "municipality_name": "Steigen",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 113,
+    "municipality_name": "Steinkjer",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 114,
+    "municipality_name": "Storfjord",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 115,
+    "municipality_name": "Strand",
+    "extracted_county": null,
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 116,
+    "municipality_name": "Stranda",
+    "extracted_county": "Norge",
+    "mapped_county_id": null,
+    "mapped_county_name": null
+  },
+  {
+    "municipality_id": 117,
+    "municipality_name": "Stryn",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 118,
+    "municipality_name": "Sula",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 119,
+    "municipality_name": "Suldal",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 120,
+    "municipality_name": "Sunndal",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 122,
+    "municipality_name": "Surnadal",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 123,
+    "municipality_name": "Sveio",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 124,
+    "municipality_name": "Sømna",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 125,
+    "municipality_name": "Sør-Varanger",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 126,
+    "municipality_name": "Sørfold",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 127,
+    "municipality_name": "Sørreisa",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 128,
+    "municipality_name": "Tana",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 129,
+    "municipality_name": "Tingvoll",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 130,
+    "municipality_name": "Tjeldsund",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 131,
+    "municipality_name": "Tromsø",
+    "extracted_county": "Troms",
+    "mapped_county_id": 10,
+    "mapped_county_name": "Troms"
+  },
+  {
+    "municipality_id": 132,
+    "municipality_name": "Trondheim",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 133,
+    "municipality_name": "Tvedestrand",
+    "extracted_county": "Agder",
+    "mapped_county_id": 11,
+    "mapped_county_name": "Agder"
+  },
+  {
+    "municipality_id": 134,
+    "municipality_name": "Tysnes",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 135,
+    "municipality_name": "Tysvær",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 136,
+    "municipality_name": "Ullensvang",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 137,
+    "municipality_name": "Ulstein",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 138,
+    "municipality_name": "Ulvik",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 139,
+    "municipality_name": "Vaksdal",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 140,
+    "municipality_name": "Vanylven",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 141,
+    "municipality_name": "Vardø",
+    "extracted_county": "Finnmark",
+    "mapped_county_id": 9,
+    "mapped_county_name": "Finnmark"
+  },
+  {
+    "municipality_id": 142,
+    "municipality_name": "Vefsn",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 143,
+    "municipality_name": "Vestnes",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 144,
+    "municipality_name": "Vestvågøy",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 145,
+    "municipality_name": "Vevelstad",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 146,
+    "municipality_name": "Vik",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 147,
+    "municipality_name": "Vindafjord",
+    "extracted_county": "Rogaland",
+    "mapped_county_id": 4,
+    "mapped_county_name": "Rogaland"
+  },
+  {
+    "municipality_id": 148,
+    "municipality_name": "Volda",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 149,
+    "municipality_name": "Voss",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  },
+  {
+    "municipality_id": 150,
+    "municipality_name": "Vågan",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 151,
+    "municipality_name": "Åfjord",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 152,
+    "municipality_name": "Ålesund",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 153,
+    "municipality_name": "Øksnes",
+    "extracted_county": "Nordland",
+    "mapped_county_id": 3,
+    "mapped_county_name": "Nordland"
+  },
+  {
+    "municipality_id": 154,
+    "municipality_name": "Ørland",
+    "extracted_county": "Trøndelag",
+    "mapped_county_id": 6,
+    "mapped_county_name": "Trøndelag"
+  },
+  {
+    "municipality_id": 155,
+    "municipality_name": "Ørsta",
+    "extracted_county": "Møre og Romsdal",
+    "mapped_county_id": 2,
+    "mapped_county_name": "Møre og Romsdal"
+  },
+  {
+    "municipality_id": 156,
+    "municipality_name": "Øygarden",
+    "extracted_county": "Vestland",
+    "mapped_county_id": 7,
+    "mapped_county_name": "Vestland"
+  }
+]
