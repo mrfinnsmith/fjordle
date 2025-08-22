@@ -10,6 +10,7 @@ export interface GameState {
   duplicateFjordName?: string
   statsUpdated?: boolean
   hintsUsed?: HintState
+  keepGoingMessageShown?: boolean
 }
 
 export interface Puzzle {
@@ -75,6 +76,7 @@ export interface GameProgress {
   gameStatus: 'playing' | 'won' | 'lost'
   statsUpdated: boolean
   timestamp: number
+  keepGoingMessageShown?: boolean
 }
 
 // Session tracking types
@@ -124,6 +126,7 @@ export type TranslationKey =
   | 'play'
   | 'no_fjord_to_display'
   | 'answer_revealed'
+  | 'keep_going_message'
 
   // Results Modal
   | 'congratulations'

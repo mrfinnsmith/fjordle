@@ -56,6 +56,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'municipalities': 'Kommuner',
     'counties': 'Fylker',
     'already_guessed_fjord': 'Du har allerede gjettet {fjordName}!',
+    'keep_going_message': 'Ikke gi opp! Du har 5 gjetninger igjen.',
 
     // Past Puzzles Page
     'back_to_today': 'Tilbake til dagens Fjordle',
@@ -259,6 +260,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'municipalities': 'Municipalities',
     'counties': 'Counties',
     'already_guessed_fjord': 'You have already guessed {fjordName}!',
+    'keep_going_message': 'Don\'t give up! You have 5 guesses left.',
 
     // Past Puzzles Page
     'back_to_today': 'Back to Today\'s Fjordle',

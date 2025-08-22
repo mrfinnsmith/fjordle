@@ -11,7 +11,8 @@ export function createInitialGameState(puzzle: Puzzle, fjords: FjordOption[], se
     sessionId,
     showToast: false,
     toastMessage: "",
-    hintsUsed: { firstLetter: false, satellite: false, municipalities: false, counties: false }
+    hintsUsed: { firstLetter: false, satellite: false, municipalities: false, counties: false },
+    keepGoingMessageShown: false
   }
 }
 
@@ -141,13 +142,29 @@ export async function makeGuess(
     newGameStatus = 'lost'
   }
 
+  // Check if this is the first wrong guess for a first-time player
+  const isFirstWrongGuess = newAttemptsUsed === 1 && !isCorrect
+  const shouldShowKeepGoingMessage = isFirstWrongGuess && !gameState.keepGoingMessageShown
+
+  let newToastMessage = ""
+  let newShowToast = false
+
+  if (shouldShowKeepGoingMessage) {
+    newToastMessage = 'KEEP_GOING_MESSAGE'
+    newShowToast = true
+  } else if (!isCorrect && proximityPercent > 95) {
+    newToastMessage = "So close!"
+    newShowToast = true
+  }
+
   const newGameState: GameState = {
     ...gameState,
     guesses: newGuesses,
     attemptsUsed: newAttemptsUsed,
     gameStatus: newGameStatus,
-    showToast: !isCorrect && proximityPercent > 95,
-    toastMessage: !isCorrect && proximityPercent > 95 ? "So close!" : ""
+    showToast: newShowToast,
+    toastMessage: newToastMessage,
+    keepGoingMessageShown: shouldShowKeepGoingMessage ? true : gameState.keepGoingMessageShown
   }
 
   // Record guess in database if session tracking is enabled

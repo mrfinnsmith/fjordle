@@ -271,6 +271,8 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         message={
           gameState.toastMessage === 'DUPLICATE_GUESS' && gameState.duplicateFjordName
             ? t('already_guessed_fjord').replace('{fjordName}', gameState.duplicateFjordName)
+            : gameState.toastMessage === 'KEEP_GOING_MESSAGE'
+            ? t('keep_going_message')
             : gameState.toastMessage
         }
         isVisible={gameState.showToast}

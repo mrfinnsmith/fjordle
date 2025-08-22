@@ -31,7 +31,8 @@ export function saveGameProgress(puzzleId: number, gameState: Partial<GameState 
     attemptsUsed: gameState.attemptsUsed || 0,
     gameStatus: gameState.gameStatus || 'playing',
     statsUpdated: gameState.statsUpdated || false,
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    keepGoingMessageShown: gameState.keepGoingMessageShown || false
   }
 
   const key = `fjordle_puzzle_${puzzleId}_progress`
@@ -55,7 +56,8 @@ export function loadGameProgress(puzzleId: number): Partial<GameState & { statsU
       guesses: progress.guesses,
       attemptsUsed: progress.attemptsUsed,
       gameStatus: progress.gameStatus,
-      statsUpdated: progress.statsUpdated || false
+      statsUpdated: progress.statsUpdated || false,
+      keepGoingMessageShown: progress.keepGoingMessageShown || false
     }
   } catch {
     return null
