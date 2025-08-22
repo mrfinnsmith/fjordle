@@ -3,7 +3,7 @@
 import { Guess } from '@/types/game'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDistance } from '@/lib/utils'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 interface GuessHistoryProps {
     guesses: Guess[]
@@ -32,9 +32,8 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
         <div className="guess-history">
             <div className="guess-history-grid">
                 {formattedGuesses.map((guess, index) => (
-                    <>
+                    <React.Fragment key={index}>
                         <div
-                            key={`${index}-name`}
                             className={`guess-item fjord-name ${guess.isCorrect ? 'correct' : ''}`}
                         >
                             {guess.fjordName}
@@ -43,21 +42,18 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
                         {!guess.isCorrect ? (
                             <>
                                 <div
-                                    key={`${index}-distance`}
                                     className="guess-item"
                                 >
                                     {guess.formattedDistance}
                                 </div>
 
                                 <div
-                                    key={`${index}-direction`}
                                     className="guess-item"
                                 >
                                     {guess.direction}
                                 </div>
 
                                 <div
-                                    key={`${index}-proximity`}
                                     className="guess-item"
                                 >
                                     {guess.proximityPercent}%
@@ -65,14 +61,13 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
                             </>
                         ) : (
                             <div
-                                key={`${index}-correct`}
                                 className="guess-item correct"
                                 style={{ gridColumn: 'span 3' }}
                             >
                                 🎯 {t('correct')}
                             </div>
                         )}
-                    </>
+                    </React.Fragment>
                 ))}
             </div>
         </div>
