@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { GameState, Puzzle, FjordOption, HintState } from '@/types/game'
 import { createInitialGameState, makeGuess } from '@/lib/gameLogic'
-import { createSession, getSessionExists, updateSessionHints } from '@/lib/session_api'
-import { getAllFjords } from '@/lib/puzzleApi'
+import { updateSessionHints } from '@/lib/session_api'
+import { getAllFjords, getFjordLocationData, fjordHasLocationData } from '@/lib/puzzleApi'
 import { useLanguage } from '@/lib/languageContext'
 import FjordDisplay from './FjordDisplay'
 import GuessInput from './GuessInput'
@@ -14,8 +14,10 @@ import { Toast } from './Toast'
 import LoadingSpinner from './LoadingSpinner'
 import FirstLetterHint from './FirstLetterHint'
 import SatelliteHint from './SatelliteHint'
+import MunicipalityHint from './MunicipalityHint'
+import CountyHint from './CountyHint'
 import SatelliteModal from './SatelliteModal'
-import { saveGameProgress, loadGameProgress, getOrCreateSessionId, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen } from '@/lib/localStorage'
+import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
 import OnboardingModal from './OnboardingModal'
 
@@ -29,11 +31,14 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [fjords, setFjords] = useState<FjordOption[]>([])
   const [showResultsModal, setShowResultsModal] = useState(false)
-  const [sessionInitialized, setSessionInitialized] = useState(false)
   const [userStats, setUserStats] = useState(getUserStats())
   const [showHintModal, setShowHintModal] = useState(false)
   const [showSatelliteModal, setShowSatelliteModal] = useState(false)
   const [firstLetterRevealed, setFirstLetterRevealed] = useState<string | null>(null)
+  const [municipalityHintRevealed, setMunicipalityHintRevealed] = useState<string[]>([])
+  const [countyHintRevealed, setCountyHintRevealed] = useState<string[]>([])
+  const [locationData, setLocationData] = useState<{ municipalities: string[], counties: string[] }>({ municipalities: [], counties: [] })
+  const [hasLocationData, setHasLocationData] = useState<{ hasMunicipalities: boolean, hasCounties: boolean }>({ hasMunicipalities: false, hasCounties: false })
   const [showOnboarding, setShowOnboarding] = useState(false)
 
   const getEffectivePuzzleId = useCallback(() => puzzleId || puzzle.id, [puzzleId, puzzle.id])
@@ -57,50 +62,37 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     const newHints: HintState = {
       firstLetter: gameState.hintsUsed?.firstLetter || false,
       satellite: gameState.hintsUsed?.satellite || false,
+      municipalities: gameState.hintsUsed?.municipalities || false,
+      counties: gameState.hintsUsed?.counties || false,
       [hintType]: true
     }
 
-    // Save to localStorage
     saveHintsUsed(getEffectivePuzzleId(), newHints)
-
-    // Update game state
     setGameState(prev => prev ? { ...prev, hintsUsed: newHints } : null)
 
-    // Update session in database
     if (gameState.sessionId) {
       await updateSessionHints(gameState.sessionId, newHints)
     }
   }
 
-  // Initialize fjords list and session
   useEffect(() => {
     const initialize = async () => {
-      // Load all fjords for autocomplete
-      const fjordsList = await getAllFjords()
+      const [fjordsList, locationExists] = await Promise.all([
+        getAllFjords(),
+        fjordHasLocationData(puzzle.fjord.id)
+      ])
       setFjords(fjordsList)
+      setHasLocationData(locationExists)
 
-      // Initialize session
-      const sessionId = getOrCreateSessionId()
-      const effectivePuzzleId = getEffectivePuzzleId()
-      const sessionExists = await getSessionExists(sessionId, effectivePuzzleId)
+      const savedHints = getHintsUsed(getEffectivePuzzleId())
 
-      if (!sessionExists) {
-        await createSession(sessionId, effectivePuzzleId)
-      }
-
-      // Load hints used
-      const savedHints = getHintsUsed(effectivePuzzleId)
-
-      // Set first letter if already revealed
       if (savedHints?.firstLetter) {
         setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
       }
 
-      // Create initial game state
-      const initialState = createInitialGameState(puzzle, fjordsList, sessionId)
+      const initialState = createInitialGameState(puzzle, fjordsList)
+      const savedProgress = loadGameProgress(getEffectivePuzzleId())
 
-      // Load saved progress
-      const savedProgress = loadGameProgress(effectivePuzzleId)
       if (savedProgress) {
         setGameState({
           ...initialState,
@@ -120,25 +112,32 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         })
       }
 
-      // Check if onboarding should be shown
       if (!hasSeenOnboarding()) {
         setShowOnboarding(true)
       }
-
-      setSessionInitialized(true)
     }
 
     initialize()
   }, [getEffectivePuzzleId, puzzle])
 
-  // Save progress when game state changes
+  // Load previously revealed hints after location data is available
   useEffect(() => {
-    if (gameState && sessionInitialized) {
+    if (locationData.municipalities.length > 0 && gameState?.hintsUsed) {
+      if (gameState.hintsUsed.municipalities) {
+        setMunicipalityHintRevealed(locationData.municipalities)
+      }
+      if (gameState.hintsUsed.counties) {
+        setCountyHintRevealed(locationData.counties)
+      }
+    }
+  }, [locationData, gameState?.hintsUsed])
+
+  useEffect(() => {
+    if (gameState) {
       saveGameProgress(getEffectivePuzzleId(), gameState)
     }
-  }, [gameState, getEffectivePuzzleId, sessionInitialized])
+  }, [gameState, getEffectivePuzzleId])
 
-  // Update stats when game completes
   useEffect(() => {
     if (gameState &&
       (gameState.gameStatus === 'won' || gameState.gameStatus === 'lost') &&
@@ -155,14 +154,22 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     const { newGameState } = await makeGuess(gameState, fjordId, fjordName, coords)
     setGameState(newGameState)
 
-    // Show results modal if game ended
     if (newGameState.gameStatus !== 'playing') {
       setTimeout(() => setShowResultsModal(true), 1000)
     }
   }
 
-  const handleHintClick = () => {
+  const handleHintClick = async () => {
+    // Show modal immediately - no waiting for data
     setShowHintModal(true)
+  }
+
+  const handleHintHover = async () => {
+    // Preload location data on hover if not already loaded
+    if (hasLocationData.hasMunicipalities && locationData.municipalities.length === 0) {
+      const locData = await getFjordLocationData(puzzle.fjord.id)
+      setLocationData(locData)
+    }
   }
 
   const handleRevealFirstLetter = async () => {
@@ -184,6 +191,28 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     setShowSatelliteModal(true)
   }
 
+  const handleRevealMunicipalities = async () => {
+    if (!gameState || gameState.hintsUsed?.municipalities) return
+
+    // Location data should already be loaded from handleHintClick
+    if (locationData.municipalities.length > 0) {
+      setMunicipalityHintRevealed(locationData.municipalities)
+      await updateHint('municipalities')
+      setShowHintModal(false)
+    }
+  }
+
+  const handleRevealCounties = async () => {
+    if (!gameState || gameState.hintsUsed?.counties) return
+
+    // Location data should already be loaded from handleHintClick
+    if (locationData.counties.length > 0) {
+      setCountyHintRevealed(locationData.counties)
+      await updateHint('counties')
+      setShowHintModal(false)
+    }
+  }
+
   if (!gameState) {
     return (
       <div className="game-container">
@@ -202,6 +231,8 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         isGameOver={gameState.gameStatus !== 'playing'}
         correctAnswer={gameState.gameStatus !== 'playing' ? puzzle.fjord.name : undefined}
         firstLetterHint={firstLetterRevealed}
+        municipalityHint={municipalityHintRevealed}
+        countyHint={countyHintRevealed}
       />
 
       {gameState.gameStatus === 'playing' && (
@@ -212,6 +243,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           attemptsUsed={gameState.attemptsUsed}
           maxAttempts={6}
           onHintClick={handleHintClick}
+          onHintHover={handleHintHover}
         />
       )}
 
@@ -230,7 +262,6 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         onComplete={handleToastComplete}
       />
 
-      {/* Hint Modal */}
       {showHintModal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
@@ -262,12 +293,25 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
                   onReveal={handleRevealSatellite}
                 />
               )}
+              {hasLocationData.hasMunicipalities && (
+                <MunicipalityHint
+                  isRevealed={gameState.hintsUsed?.municipalities || false}
+                  municipalities={municipalityHintRevealed.length > 0 ? municipalityHintRevealed : locationData.municipalities}
+                  onReveal={handleRevealMunicipalities}
+                />
+              )}
+              {hasLocationData.hasCounties && (
+                <CountyHint
+                  isRevealed={gameState.hintsUsed?.counties || false}
+                  counties={countyHintRevealed.length > 0 ? countyHintRevealed : locationData.counties}
+                  onReveal={handleRevealCounties}
+                />
+              )}
             </div>
           </div>
         </div>
       )}
 
-      {/* Satellite Modal */}
       {puzzle.fjord.satellite_filename && (
         <SatelliteModal
           isOpen={showSatelliteModal}
@@ -277,7 +321,6 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         />
       )}
 
-      {/* Onboarding Modal */}
       <OnboardingModal
         isOpen={showOnboarding}
         onClose={handleOnboardingClose}

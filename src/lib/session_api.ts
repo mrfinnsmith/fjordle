@@ -9,7 +9,8 @@ export async function createSession(sessionId: string, puzzleId: number): Promis
         puzzle_id: puzzleId,
         completed: false,
         attempts_used: 0,
-        won: false
+        won: false,
+        start_time: new Date().toISOString()
       })
 
     return !error

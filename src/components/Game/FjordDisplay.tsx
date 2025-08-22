@@ -9,13 +9,17 @@ interface FjordDisplayProps {
     isGameOver: boolean
     correctAnswer?: string
     firstLetterHint?: string | null
+    municipalityHint?: string[]
+    countyHint?: string[]
 }
 
 export default function FjordDisplay({
     svgFilename,
     isGameOver,
     correctAnswer,
-    firstLetterHint
+    firstLetterHint,
+    municipalityHint,
+    countyHint
 }: FjordDisplayProps) {
     const { t } = useLanguage()
 
@@ -57,6 +61,20 @@ export default function FjordDisplay({
                 <div className="mt-4 text-center">
                     <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-sm font-medium">
                         💡 {t('hint_starts_with')} &apos;{firstLetterHint}&apos;
+                    </div>
+                </div>
+            )}
+            {municipalityHint && municipalityHint.length > 0 && (
+                <div className="mt-4 text-center">
+                    <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-lg text-sm font-medium">
+                        🏘️ {t('municipality_hint')}: {municipalityHint.join(', ')}
+                    </div>
+                </div>
+            )}
+            {countyHint && countyHint.length > 0 && (
+                <div className="mt-2 text-center">
+                    <div className="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-lg text-sm font-medium">
+                        🏛️ {t('county_hint')}: {countyHint.join(', ')}
                     </div>
                 </div>
             )}

@@ -25,7 +25,7 @@ export function saveGameProgress(puzzleId: number, gameState: Partial<GameState 
   }
 
   const progress: GameProgress = {
-    sessionId: getOrCreateSessionId(),
+    sessionId: 'no-session',
     puzzleId,
     guesses: gameState.guesses || [],
     attemptsUsed: gameState.attemptsUsed || 0,
@@ -118,19 +118,44 @@ export function saveHintsUsed(puzzleId: number, hints: HintState) {
   localStorage.setItem(key, JSON.stringify(updatedStats))
 }
 
+// Location data cache
+export function getLocationDataCache(fjordId: number): { municipalities: string[], counties: string[] } | null {
+  try {
+    const cached = localStorage.getItem(`fjordle-location-${fjordId}`)
+    return cached ? JSON.parse(cached) : null
+  } catch {
+    return null
+  }
+}
+
+export function saveLocationDataCache(fjordId: number, data: { municipalities: string[], counties: string[] }): void {
+  try {
+    localStorage.setItem(`fjordle-location-${fjordId}`, JSON.stringify(data))
+  } catch {
+    // Ignore storage errors
+  }
+}
+
 export function getHintsUsed(puzzleId: number): HintState {
   if (typeof window === 'undefined') {
-    return { firstLetter: false, satellite: false } // Safe fallback for SSR
+    return { firstLetter: false, satellite: false, municipalities: false, counties: false } // Safe fallback for SSR
   }
 
   const key = `fjordle_hints_${puzzleId}`
   const saved = localStorage.getItem(key)
-  if (!saved) return { firstLetter: false, satellite: false }
+  if (!saved) return { firstLetter: false, satellite: false, municipalities: false, counties: false }
 
   try {
-    return JSON.parse(saved)
+    const parsed = JSON.parse(saved)
+    // Ensure all properties exist with defaults
+    return {
+      firstLetter: parsed.firstLetter || false,
+      satellite: parsed.satellite || false,
+      municipalities: parsed.municipalities || false,
+      counties: parsed.counties || false
+    }
   } catch {
-    return { firstLetter: false, satellite: false }
+    return { firstLetter: false, satellite: false, municipalities: false, counties: false }
   }
 }
 

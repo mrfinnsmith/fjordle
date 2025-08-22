@@ -25,6 +25,8 @@ export interface Fjord {
   satellite_filename?: string
   center_lat: number
   center_lng: number
+  municipalities?: string[]
+  counties?: string[]
   wikipedia_url_no?: string
   wikipedia_url_en?: string
   wikipedia_url_nn?: string
@@ -59,6 +61,8 @@ export interface UserStats {
 export interface HintState {
   firstLetter: boolean
   satellite: boolean
+  municipalities: boolean
+  counties: boolean
 }
 
 export interface GameProgress {
@@ -292,6 +296,10 @@ export type TranslationKey =
   | 'satellite_image_hint'
   | 'first_letter_hint'
   | 'satellite_hint_description'
+  | 'municipality_hint'
+  | 'municipality_hint_description'
+  | 'county_hint'
+  | 'county_hint_description'
   | 'view_again'
   | 'difficulty'
   | 'easy'

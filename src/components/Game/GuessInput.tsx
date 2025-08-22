@@ -11,6 +11,7 @@ interface GuessInputProps {
     attemptsUsed: number
     maxAttempts: number
     onHintClick: () => void
+    onHintHover?: () => void
 }
 
 export default function GuessInput({
@@ -19,7 +20,8 @@ export default function GuessInput({
     disabled,
     attemptsUsed,
     maxAttempts,
-    onHintClick
+    onHintClick,
+    onHintHover
 }: GuessInputProps) {
     const { t } = useLanguage()
     const [query, setQuery] = useState('')
@@ -166,6 +168,7 @@ export default function GuessInput({
                         <div className="flex gap-2">
                             <button
                                 onClick={onHintClick}
+                                onMouseEnter={onHintHover}
                                 className="px-3 py-2 border-2 border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
                                 type="button"
                                 title={t('get_hint')}

@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import { Puzzle, FjordOption } from '@/types/game'
+import { getLocationDataCache, saveLocationDataCache } from './localStorage'
 
 export async function getTodaysPuzzle(): Promise<Puzzle | null> {
   try {
@@ -133,5 +134,127 @@ export async function getAllPuzzleNumbers(): Promise<number[]> {
   } catch (error) {
     console.error('Error fetching puzzle numbers:', error)
     return []
+  }
+}
+
+export async function getFjordLocationData(fjordId: number): Promise<{ municipalities: string[], counties: string[] }> {
+  // Check cache first
+  const cached = getLocationDataCache(fjordId)
+  if (cached) {
+    return cached
+  }
+
+  try {
+    const [municipalityData, countyData] = await Promise.all([
+      supabase
+        .from('fjord_municipalities')
+        .select('municipality_id')
+        .eq('fjord_id', fjordId),
+      supabase
+        .from('fjord_counties')
+        .select('county_id')
+        .eq('fjord_id', fjordId)
+    ])
+
+    // Get municipality names
+    const municipalityIds = municipalityData.data?.map(fm => fm.municipality_id).filter(Boolean) || []
+    const municipalities: string[] = []
+
+    if (municipalityIds.length > 0) {
+      // Use explicit queries instead of .in() to avoid potential issues
+      for (const municipalityId of municipalityIds) {
+        const { data: municipalityName } = await supabase
+          .from('municipalities')
+          .select('name')
+          .eq('id', municipalityId)
+          .single()
+
+        if (municipalityName?.name) {
+          municipalities.push(municipalityName.name)
+        }
+      }
+    }
+
+    // Get county names
+    const countyIds = countyData.data?.map(fc => fc.county_id).filter(Boolean) || []
+    const counties: string[] = []
+
+    if (countyIds.length > 0) {
+      // Use explicit queries instead of .in() to avoid potential issues
+      for (const countyId of countyIds) {
+        const { data: countyName } = await supabase
+          .from('counties')
+          .select('name')
+          .eq('id', countyId)
+          .single()
+
+        if (countyName?.name) {
+          counties.push(countyName.name)
+        }
+      }
+    }
+
+    // Get counties from municipalities
+    if (municipalityIds.length > 0) {
+      for (const municipalityId of municipalityIds) {
+        const { data: municipalityCounty } = await supabase
+          .from('municipalities')
+          .select('county_id')
+          .eq('id', municipalityId)
+          .single()
+
+        if (municipalityCounty?.county_id) {
+          const { data: derivedCountyName } = await supabase
+            .from('counties')
+            .select('name')
+            .eq('id', municipalityCounty.county_id)
+            .single()
+
+          if (derivedCountyName?.name) {
+            counties.push(derivedCountyName.name)
+          }
+        }
+      }
+    }
+
+    // Combine and dedupe counties
+    const allCounties = Array.from(new Set(counties))
+
+    const result = {
+      municipalities: municipalities.sort(),
+      counties: allCounties.sort()
+    }
+
+    // Cache the result
+    saveLocationDataCache(fjordId, result)
+
+    return result
+  } catch (error) {
+    console.error('Error fetching location data:', error)
+    return { municipalities: [], counties: [] }
+  }
+}
+
+export async function fjordHasLocationData(fjordId: number): Promise<{ hasMunicipalities: boolean, hasCounties: boolean }> {
+  try {
+    const [municipalityData, countyData] = await Promise.all([
+      supabase
+        .from('fjord_municipalities')
+        .select('municipality_id')
+        .eq('fjord_id', fjordId)
+        .limit(1),
+      supabase
+        .from('fjord_counties')
+        .select('county_id')
+        .eq('fjord_id', fjordId)
+        .limit(1)
+    ])
+
+    return {
+      hasMunicipalities: (municipalityData.data?.length || 0) > 0,
+      hasCounties: (countyData.data?.length || 0) > 0 || (municipalityData.data?.length || 0) > 0
+    }
+  } catch {
+    return { hasMunicipalities: false, hasCounties: false }
   }
 }
