@@ -134,6 +134,8 @@ export type TranslationKey =
   | 'share_results'
   | 'copied'
   | 'guessed_in_attempts'
+  | 'guessed_in_attempt'
+  | 'guessed_in_attempts_plural'
   | 'current_streak_label'
   | 'days'
   | 'your_guesses'

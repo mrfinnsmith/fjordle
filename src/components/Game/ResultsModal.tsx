@@ -100,7 +100,10 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
           {gameState.gameStatus === "won" && (
             <div className="mb-4">
               <p className="text-lg page-text">
-                {t('guessed_in_attempts').replace('{count}', gameState.guesses.length.toString())}
+                {gameState.guesses.length === 1
+                  ? t('guessed_in_attempt')
+                  : t('guessed_in_attempts_plural').replace('{count}', gameState.guesses.length.toString())
+                }
               </p>
             </div>
           )}
