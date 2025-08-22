@@ -139,6 +139,8 @@ export type TranslationKey =
   | 'your_guesses'
   | 'statistics'
   | 'close'
+  | 'municipalities'
+  | 'counties'
 
   // Past Puzzles Page
   | 'back_to_today'

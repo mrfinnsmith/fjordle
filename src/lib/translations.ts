@@ -51,6 +51,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'your_guesses': 'Dine gjetninger',
     'statistics': 'Statistikk',
     'close': 'Lukk',
+    'municipalities': 'Kommuner',
+    'counties': 'Fylker',
 
     // Past Puzzles Page
     'back_to_today': 'Tilbake til dagens Fjordle',
@@ -249,6 +251,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'your_guesses': 'Your Guesses',
     'statistics': 'Statistics',
     'close': 'Close',
+    'municipalities': 'Municipalities',
+    'counties': 'Counties',
 
     // Past Puzzles Page
     'back_to_today': 'Back to Today\'s Fjordle',

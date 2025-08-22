@@ -103,6 +103,11 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
         if (savedProgress.gameStatus !== 'playing') {
           setShowResultsModal(true)
+          // Load location data for results display if game has ended
+          if (locationExists.hasMunicipalities) {
+            const locData = await getFjordLocationData(puzzle.fjord.id)
+            setLocationData(locData)
+          }
         }
       } else {
         setGameState({
@@ -155,6 +160,11 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     setGameState(newGameState)
 
     if (newGameState.gameStatus !== 'playing') {
+      // Load location data for results display if not already loaded
+      if (locationData.municipalities.length === 0 && hasLocationData.hasMunicipalities) {
+        const locData = await getFjordLocationData(puzzle.fjord.id)
+        setLocationData(locData)
+      }
       setTimeout(() => setShowResultsModal(true), 1000)
     }
   }
@@ -252,6 +262,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       <ResultsModal
         gameState={gameState}
         userStats={userStats}
+        locationData={locationData}
         isOpen={showResultsModal}
         onClose={() => setShowResultsModal(false)}
       />

@@ -8,11 +8,12 @@ import { formatDistance } from '@/lib/utils'
 interface ResultsModalProps {
   gameState: GameState
   userStats: UserStats
+  locationData: { municipalities: string[], counties: string[] }
   isOpen: boolean
   onClose: () => void
 }
 
-export default function ResultsModal({ gameState, userStats, isOpen, onClose }: ResultsModalProps) {
+export default function ResultsModal({ gameState, userStats, locationData, isOpen, onClose }: ResultsModalProps) {
   const { t, language } = useLanguage()
   const [showCopiedMessage, setShowCopiedMessage] = useState(false)
 
@@ -108,6 +109,22 @@ export default function ResultsModal({ gameState, userStats, isOpen, onClose }: 
             <p className="text-sm text-gray-600 page-text">
               {t('the_answer_was')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
             </p>
+
+            {/* Location Information */}
+            {(locationData.municipalities.length > 0 || locationData.counties.length > 0) && (
+              <div className="mt-2 text-xs text-gray-500">
+                {locationData.municipalities.length > 0 && (
+                  <div className="mb-1">
+                    <span className="font-medium">{t('municipalities')}:</span> {locationData.municipalities.join(', ')}
+                  </div>
+                )}
+                {locationData.counties.length > 0 && (
+                  <div>
+                    <span className="font-medium">{t('counties')}:</span> {locationData.counties.join(', ')}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Guess History Table */}
