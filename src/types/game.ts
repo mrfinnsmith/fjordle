@@ -7,6 +7,7 @@ export interface GameState {
   sessionId?: string
   showToast: boolean
   toastMessage: string
+  duplicateFjordName?: string
   statsUpdated?: boolean
   hintsUsed?: HintState
 }
@@ -42,6 +43,7 @@ export interface FjordOption {
 }
 
 export interface Guess {
+  fjordId: number
   fjordName: string
   distance: number
   direction: string
@@ -143,6 +145,7 @@ export type TranslationKey =
   | 'close'
   | 'municipalities'
   | 'counties'
+  | 'already_guessed_fjord'
 
   // Past Puzzles Page
   | 'back_to_today'

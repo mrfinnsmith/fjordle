@@ -81,6 +81,23 @@ export async function makeGuess(
     return { newGameState: gameState, isCorrect: false }
   }
 
+  // Check if this fjord has already been guessed
+  const alreadyGuessed = gameState.guesses.some(guess =>
+    'fjordId' in guess && guess.fjordId === fjordId
+  )
+
+  if (alreadyGuessed) {
+    return {
+      newGameState: {
+        ...gameState,
+        showToast: true,
+        toastMessage: 'DUPLICATE_GUESS',
+        duplicateFjordName: fjordName
+      },
+      isCorrect: false
+    }
+  }
+
   const isCorrect = fjordId === gameState.puzzle.fjord.id
   const newAttemptsUsed = gameState.attemptsUsed + 1
 
@@ -106,6 +123,7 @@ export async function makeGuess(
   }
 
   const guess: Guess = {
+    fjordId,
     fjordName,
     distance,
     direction,
