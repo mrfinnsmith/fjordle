@@ -58,3 +58,7 @@ supabase/functions/
 tools/fjord_wikipedia_matches.json
 fjord_wikipedia_matches.json
 fjord_wikipedia_matches.csv
+tools/fjord_categories.json
+tools/extraction_log.txt
+tools/fjord_measurements.csv
+tools/fjord_measurements.json
