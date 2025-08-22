@@ -34,7 +34,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'county_hint_description': 'Se hvilke fylker fjorden ligger i.',
     'play': 'Spill',
     'no_fjord_to_display': 'Ingen fjord å vise',
-    'answer_revealed': 'Svar avslørt!',
+    'keep_going_message': 'Ikke gi opp! Du har 5 gjetninger igjen.',
+
     // Results Modal
     'congratulations': 'Gratulerer!',
     'next_time': 'Neste gang!',
@@ -56,7 +57,6 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'municipalities': 'Kommuner',
     'counties': 'Fylker',
     'already_guessed_fjord': 'Du har allerede gjettet {fjordName}!',
-    'keep_going_message': 'Ikke gi opp! Du har 5 gjetninger igjen.',
 
     // Past Puzzles Page
     'back_to_today': 'Tilbake til dagens Fjordle',
@@ -237,7 +237,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'county_hint_description': 'See which counties the fjord is located in.',
     'play': 'Play',
     'no_fjord_to_display': 'No fjord to display',
-    'answer_revealed': 'Answer revealed!',
+    'keep_going_message': 'Don\'t give up! You have 5 guesses left.',
 
     // Results Modal
     'congratulations': 'Congratulations!',
@@ -260,7 +260,6 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'municipalities': 'Municipalities',
     'counties': 'Counties',
     'already_guessed_fjord': 'You have already guessed {fjordName}!',
-    'keep_going_message': 'Don\'t give up! You have 5 guesses left.',
 
     // Past Puzzles Page
     'back_to_today': 'Back to Today\'s Fjordle',

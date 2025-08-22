@@ -51,10 +51,9 @@ export default function FjordDisplay({
 
             {isGameOver && correctAnswer && (
                 <div className="mt-4 text-center">
-                    <div className="text-lg font-semibold text-green-700 mb-2">
-                        {t('answer_revealed')}
+                    <div className="text-2xl font-bold text-green-700 mb-2">
+                        {correctAnswer}
                     </div>
-                    <div className="answer-name">{correctAnswer}</div>
                 </div>
             )}
             {firstLetterHint && (

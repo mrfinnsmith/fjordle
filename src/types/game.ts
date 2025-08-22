@@ -125,7 +125,6 @@ export type TranslationKey =
   | 'loading'
   | 'play'
   | 'no_fjord_to_display'
-  | 'answer_revealed'
   | 'keep_going_message'
 
   // Results Modal
