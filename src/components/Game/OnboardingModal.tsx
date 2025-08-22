@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 import { TranslationKey } from '@/types/game'
+import { shouldUseEmojiFallback } from '@/lib/platformDetection'
 
 interface OnboardingModalProps {
     isOpen: boolean
@@ -36,6 +37,7 @@ const steps: OnboardingStep[] = [
 export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProps) {
     const { t, language, setLanguage } = useLanguage()
     const [currentStep, setCurrentStep] = useState(0)
+    const useFallback = shouldUseEmojiFallback()
 
     if (!isOpen) return null
 
@@ -66,22 +68,40 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
                     {language === 'no' ? (
                         <div className="flex items-center justify-center space-x-2">
                             <span className="text-sm text-gray-600">{t('onboarding_need_english')}</span>
-                            <button
-                                onClick={() => setLanguage('en')}
-                                className="text-2xl hover:scale-110 transition-transform"
-                            >
-                                🇬🇧
-                            </button>
+                            {useFallback ? (
+                                <button
+                                    onClick={() => setLanguage('en')}
+                                    className="px-3 py-1 rounded-md text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                                >
+                                    English
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => setLanguage('en')}
+                                    className="text-2xl hover:scale-110 transition-transform"
+                                >
+                                    🇬🇧
+                                </button>
+                            )}
                         </div>
                     ) : (
                         <div className="flex items-center justify-center space-x-2">
                             <span className="text-sm text-gray-600">{t('onboarding_need_norwegian')}</span>
-                            <button
-                                onClick={() => setLanguage('no')}
-                                className="text-2xl hover:scale-110 transition-transform"
-                            >
-                                🇳🇴
-                            </button>
+                            {useFallback ? (
+                                <button
+                                    onClick={() => setLanguage('no')}
+                                    className="px-3 py-1 rounded-md text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                                >
+                                    Norsk
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => setLanguage('no')}
+                                    className="text-2xl hover:scale-110 transition-transform"
+                                >
+                                    🇳🇴
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>
