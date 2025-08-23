@@ -30,21 +30,24 @@ export async function GET(
 
         const puzzleData = data[0]
 
+        // Fetch full fjord data including measurements
+        const { data: fjordData, error: fjordError } = await supabase
+            .from('fjords')
+            .select('id, name, svg_filename, satellite_filename, center_lat, center_lng, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, length_km, width_km, depth_m, measurement_source_url')
+            .eq('id', puzzleData.fjord_id)
+            .single()
+
+        if (fjordError) {
+            console.error('Error fetching fjord data:', fjordError)
+            return NextResponse.json({ error: 'Error fetching fjord data' }, { status: 500 })
+        }
+
         // Structure the response to match Puzzle interface
         const puzzle = {
             id: puzzleData.puzzle_id,
             date: puzzleData.date,
             puzzle_number: puzzleData.puzzle_number,
-            fjord: {
-                id: puzzleData.fjord_id,
-                name: puzzleData.fjord_name,
-                svg_filename: puzzleData.svg_filename,
-                satellite_filename: puzzleData.satellite_filename,
-                center_lat: puzzleData.center_lat,
-                center_lng: puzzleData.center_lng,
-                wikipedia_url_no: puzzleData.wikipedia_url_no,
-                wikipedia_url_en: puzzleData.wikipedia_url_en
-            }
+            fjord: fjordData
         }
 
         return NextResponse.json(puzzle)

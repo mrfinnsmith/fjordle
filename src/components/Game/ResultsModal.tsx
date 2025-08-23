@@ -128,6 +128,44 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
                 )}
               </div>
             )}
+
+            {/* Measurements Information */}
+            {(gameState.puzzle.fjord.length_km || gameState.puzzle.fjord.width_km || gameState.puzzle.fjord.depth_m) && (
+              <div className="mt-2 text-xs text-gray-500">
+                <div className="font-medium">
+                  {t('measurements_hint')}: {(() => {
+                    const parts = []
+                    if (gameState.puzzle.fjord.length_km) {
+                      if (language === 'no') {
+                        // Norwegian format: "1,5 km lengde" (comma as decimal separator, no colon)
+                        const formattedLength = gameState.puzzle.fjord.length_km.toString().replace('.', ',')
+                        parts.push(`${formattedLength} km ${t('length')}`)
+                      } else {
+                        // English format: "1.5 km length" (period as decimal separator, no colon)
+                        parts.push(`${gameState.puzzle.fjord.length_km} km ${t('length')}`)
+                      }
+                    }
+                    if (gameState.puzzle.fjord.width_km) {
+                      if (language === 'no') {
+                        const formattedWidth = gameState.puzzle.fjord.width_km.toString().replace('.', ',')
+                        parts.push(`${formattedWidth} km ${t('width')}`)
+                      } else {
+                        parts.push(`${gameState.puzzle.fjord.width_km} km ${t('width')}`)
+                      }
+                    }
+                    if (gameState.puzzle.fjord.depth_m) {
+                      if (language === 'no') {
+                        const formattedDepth = gameState.puzzle.fjord.depth_m.toString().replace('.', ',')
+                        parts.push(`${formattedDepth} m ${t('depth')}`)
+                      } else {
+                        parts.push(`${gameState.puzzle.fjord.depth_m} m ${t('depth')}`)
+                      }
+                    }
+                    return parts.join(', ')
+                  })()}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Guess History Table */}

@@ -7,10 +7,7 @@ export function getLanguageFromCookies(): Language {
     const defaultLanguage: Language = 'no'
 
     try {
-        // Check if we're in a server context
-        if (typeof window !== 'undefined') {
-            return defaultLanguage
-        }
+        // We're in a server context, proceed to read cookies
 
         const cookieStore = cookies()
         const languageCookie = cookieStore.get(LANGUAGE_COOKIE_NAME)

@@ -140,12 +140,12 @@ export function saveLocationDataCache(fjordId: number, data: { municipalities: s
 
 export function getHintsUsed(puzzleId: number): HintState {
   if (typeof window === 'undefined') {
-    return { firstLetter: false, satellite: false, municipalities: false, counties: false } // Safe fallback for SSR
+    return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false } // Safe fallback for SSR
   }
 
   const key = `fjordle_hints_${puzzleId}`
   const saved = localStorage.getItem(key)
-  if (!saved) return { firstLetter: false, satellite: false, municipalities: false, counties: false }
+  if (!saved) return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false }
 
   try {
     const parsed = JSON.parse(saved)
@@ -154,10 +154,11 @@ export function getHintsUsed(puzzleId: number): HintState {
       firstLetter: parsed.firstLetter || false,
       satellite: parsed.satellite || false,
       municipalities: parsed.municipalities || false,
-      counties: parsed.counties || false
+      counties: parsed.counties || false,
+      measurements: parsed.measurements || false
     }
   } catch {
-    return { firstLetter: false, satellite: false, municipalities: false, counties: false }
+    return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false }
   }
 }
 

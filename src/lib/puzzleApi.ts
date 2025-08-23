@@ -2,6 +2,42 @@ import { supabase } from './supabase'
 import { Puzzle, FjordOption } from '@/types/game'
 import { getLocationDataCache, saveLocationDataCache } from './localStorage'
 
+export async function getFjordWithMeasurements(fjordId: number): Promise<{
+  id: number
+  name: string
+  svg_filename: string
+  satellite_filename?: string
+  center_lat: number
+  center_lng: number
+  wikipedia_url_no?: string
+  wikipedia_url_en?: string
+  wikipedia_url_nn?: string
+  wikipedia_url_da?: string
+  wikipedia_url_ceb?: string
+  length_km?: number
+  width_km?: number
+  depth_m?: number
+  measurement_source_url?: string
+} | null> {
+  try {
+    const { data, error } = await supabase
+      .from('fjords')
+      .select('id, name, svg_filename, satellite_filename, center_lat, center_lng, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, length_km, width_km, depth_m, measurement_source_url')
+      .eq('id', fjordId)
+      .single()
+
+    if (error) {
+      console.error('Error fetching fjord with measurements:', error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Error fetching fjord with measurements:', error)
+    return null
+  }
+}
+
 export async function getTodaysPuzzle(): Promise<Puzzle | null> {
   try {
     const { data, error } = await supabase.rpc('get_daily_fjord_puzzle')
@@ -16,23 +52,19 @@ export async function getTodaysPuzzle(): Promise<Puzzle | null> {
     }
 
     const puzzleData = data[0]
+    
+    // Fetch full fjord data including measurements
+    const fjordData = await getFjordWithMeasurements(puzzleData.fjord_id)
+    if (!fjordData) {
+      console.error('Error fetching fjord data for puzzle')
+      return null
+    }
+
     const puzzle: Puzzle = {
       id: puzzleData.puzzle_id,
       date: new Date().toISOString().split('T')[0],
       puzzle_number: puzzleData.puzzle_number,
-      fjord: {
-        id: puzzleData.fjord_id,
-        name: puzzleData.fjord_name,
-        svg_filename: puzzleData.svg_filename,
-        satellite_filename: puzzleData.satellite_filename,
-        center_lat: puzzleData.center_lat,
-        center_lng: puzzleData.center_lng,
-        wikipedia_url_no: puzzleData.wikipedia_url_no,
-        wikipedia_url_en: puzzleData.wikipedia_url_en,
-        wikipedia_url_nn: puzzleData.wikipedia_url_nn,
-        wikipedia_url_da: puzzleData.wikipedia_url_da,
-        wikipedia_url_ceb: puzzleData.wikipedia_url_ceb
-      }
+      fjord: fjordData
     }
 
     return puzzle
@@ -98,23 +130,19 @@ export async function getPuzzleByNumber(puzzleNumber: number): Promise<Puzzle | 
     }
 
     const puzzleData = data[0]
+    
+    // Fetch full fjord data including measurements
+    const fjordData = await getFjordWithMeasurements(puzzleData.fjord_id)
+    if (!fjordData) {
+      console.error('Error fetching fjord data for puzzle')
+      return null
+    }
+
     return {
       id: puzzleData.puzzle_id,
       date: puzzleData.date,
       puzzle_number: puzzleData.puzzle_number,
-      fjord: {
-        id: puzzleData.fjord_id,
-        name: puzzleData.fjord_name,
-        svg_filename: puzzleData.svg_filename,
-        satellite_filename: puzzleData.satellite_filename,
-        center_lat: puzzleData.center_lat,
-        center_lng: puzzleData.center_lng,
-        wikipedia_url_no: puzzleData.wikipedia_url_no,
-        wikipedia_url_en: puzzleData.wikipedia_url_en,
-        wikipedia_url_nn: puzzleData.wikipedia_url_nn,
-        wikipedia_url_da: puzzleData.wikipedia_url_da,
-        wikipedia_url_ceb: puzzleData.wikipedia_url_ceb
-      }
+      fjord: fjordData
     }
   } catch (error) {
     console.error('Error fetching puzzle by number:', error)

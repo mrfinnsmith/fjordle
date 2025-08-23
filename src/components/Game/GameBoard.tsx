@@ -16,6 +16,7 @@ import FirstLetterHint from './FirstLetterHint'
 import SatelliteHint from './SatelliteHint'
 import MunicipalityHint from './MunicipalityHint'
 import CountyHint from './CountyHint'
+import MeasurementsHint from './MeasurementsHint'
 import SatelliteModal from './SatelliteModal'
 import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
@@ -34,9 +35,10 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [userStats, setUserStats] = useState(getUserStats())
   const [showHintModal, setShowHintModal] = useState(false)
   const [showSatelliteModal, setShowSatelliteModal] = useState(false)
-  const [firstLetterRevealed, setFirstLetterRevealed] = useState<string | null>(null)
+  const [firstLetterRevealed, setFirstLetterRevealed] = useState<string | undefined>(undefined)
   const [municipalityHintRevealed, setMunicipalityHintRevealed] = useState<string[]>([])
   const [countyHintRevealed, setCountyHintRevealed] = useState<string[]>([])
+
   const [locationData, setLocationData] = useState<{ municipalities: string[], counties: string[] }>({ municipalities: [], counties: [] })
   const [hasLocationData, setHasLocationData] = useState<{ hasMunicipalities: boolean, hasCounties: boolean }>({ hasMunicipalities: false, hasCounties: false })
   const [showOnboarding, setShowOnboarding] = useState(false)
@@ -64,6 +66,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       satellite: gameState.hintsUsed?.satellite || false,
       municipalities: gameState.hintsUsed?.municipalities || false,
       counties: gameState.hintsUsed?.counties || false,
+      measurements: gameState.hintsUsed?.measurements || false,
       [hintType]: true
     }
 
@@ -223,6 +226,13 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     }
   }
 
+  const handleRevealMeasurements = async () => {
+    if (!gameState || gameState.hintsUsed?.measurements) return
+
+    await updateHint('measurements')
+    setShowHintModal(false)
+  }
+
   if (!gameState) {
     return (
       <div className="game-container">
@@ -243,6 +253,11 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         firstLetterHint={firstLetterRevealed}
         municipalityHint={municipalityHintRevealed}
         countyHint={countyHintRevealed}
+        measurementsData={gameState.hintsUsed?.measurements ? {
+          length_km: puzzle.fjord.length_km,
+          width_km: puzzle.fjord.width_km,
+          depth_m: puzzle.fjord.depth_m
+        } : undefined}
       />
 
       {gameState.gameStatus === 'playing' && (
@@ -272,8 +287,8 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           gameState.toastMessage === 'DUPLICATE_GUESS' && gameState.duplicateFjordName
             ? t('already_guessed_fjord').replace('{fjordName}', gameState.duplicateFjordName)
             : gameState.toastMessage === 'KEEP_GOING_MESSAGE'
-            ? t('keep_going_message')
-            : gameState.toastMessage
+              ? t('keep_going_message')
+              : gameState.toastMessage
         }
         isVisible={gameState.showToast}
         onComplete={handleToastComplete}
@@ -301,7 +316,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
             <div className="space-y-4">
               <FirstLetterHint
                 isRevealed={gameState.hintsUsed?.firstLetter || false}
-                revealedLetter={firstLetterRevealed}
+                revealedLetter={firstLetterRevealed ?? null}
                 onReveal={handleRevealFirstLetter}
               />
               {puzzle.fjord.satellite_filename && (
@@ -322,6 +337,17 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
                   isRevealed={gameState.hintsUsed?.counties || false}
                   counties={countyHintRevealed.length > 0 ? countyHintRevealed : locationData.counties}
                   onReveal={handleRevealCounties}
+                />
+              )}
+              {(puzzle.fjord.length_km || puzzle.fjord.width_km || puzzle.fjord.depth_m) && (
+                <MeasurementsHint
+                  isRevealed={gameState.hintsUsed?.measurements || false}
+                  measurements={{
+                    length_km: puzzle.fjord.length_km,
+                    width_km: puzzle.fjord.width_km,
+                    depth_m: puzzle.fjord.depth_m
+                  }}
+                  onReveal={handleRevealMeasurements}
                 />
               )}
             </div>

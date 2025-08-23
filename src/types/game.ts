@@ -34,6 +34,10 @@ export interface Fjord {
   wikipedia_url_nn?: string
   wikipedia_url_da?: string
   wikipedia_url_ceb?: string
+  length_km?: number
+  width_km?: number
+  depth_m?: number
+  measurement_source_url?: string
 }
 
 export interface FjordOption {
@@ -66,6 +70,7 @@ export interface HintState {
   satellite: boolean
   municipalities: boolean
   counties: boolean
+  measurements: boolean
 }
 
 export interface GameProgress {
@@ -310,6 +315,11 @@ export type TranslationKey =
   | 'county_hint'
   | 'county_hint_description'
   | 'view_again'
+  | 'measurements_hint'
+  | 'measurements_hint_description'
+  | 'length'
+  | 'width'
+  | 'depth'
   | 'difficulty'
   | 'easy'
   | 'medium'
