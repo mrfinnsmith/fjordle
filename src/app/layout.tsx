@@ -76,6 +76,62 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-H8KHXYN6MC');
+            
+            // Error tracking
+            window.addEventListener('error', function(e) {
+              if (typeof gtag !== 'undefined') {
+                if (e.target !== window && (e.target.tagName === 'IMG' || e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) {
+                  // Resource loading error
+                  gtag('event', 'resource_load_failed', {
+                    'event_category': 'Resource Loading',
+                    'event_label': e.target.src || e.target.href,
+                    'resource_type': e.target.tagName
+                  });
+                } else {
+                  // JavaScript error
+                  gtag('event', 'exception', {
+                    'description': e.message + ' at ' + e.filename + ':' + e.lineno,
+                    'fatal': false,
+                    'user_agent': navigator.userAgent,
+                    'page_url': window.location.href
+                  });
+                }
+              }
+            }, true);
+
+            window.addEventListener('unhandledrejection', function(e) {
+              if (typeof gtag !== 'undefined') {
+                gtag('event', 'exception', {
+                  'description': 'Unhandled Promise Rejection: ' + e.reason,
+                  'fatal': false,
+                  'user_agent': navigator.userAgent
+                });
+              }
+            });
+
+            // Track browser capabilities
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'browser_capabilities', {
+                'event_category': 'Environment',
+                'webgl_supported': !!window.WebGLRenderingContext,
+                'canvas_supported': !!document.createElement('canvas').getContext,
+                'local_storage_supported': !!window.localStorage,
+                'service_worker_supported': !!navigator.serviceWorker
+              });
+            }
+
+            // Track page load performance
+            window.addEventListener('load', function() {
+              if (typeof gtag !== 'undefined') {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                gtag('event', 'page_load_performance', {
+                  'event_category': 'Performance',
+                  'dom_complete': perfData.domComplete,
+                  'load_complete': perfData.loadEventEnd,
+                  'dns_time': perfData.domainLookupEnd - perfData.domainLookupStart
+                });
+              }
+            });
           `}
         </Script>
 

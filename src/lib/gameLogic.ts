@@ -1,7 +1,27 @@
 import { GameState, Puzzle, Guess, FjordOption, MAX_ATTEMPTS } from '@/types/game'
 import { recordGuess, updateSession, completeSession } from './session_api'
 
+// Track game events
+function trackGameEvent(eventName: string, additionalData: Record<string, unknown> = {}) {
+  if (typeof gtag !== 'undefined') {
+    gtag('event', eventName, {
+      'event_category': 'Game',
+      ...additionalData
+    });
+  }
+}
+
+// Declare gtag for TypeScript
+declare global {
+  function gtag(...args: unknown[]): void;
+}
+
+// Make trackGameEvent available globally
+(globalThis as Record<string, unknown>).trackGameEvent = trackGameEvent;
+
 export function createInitialGameState(puzzle: Puzzle, fjords: FjordOption[], sessionId?: string): GameState {
+  trackGameEvent('game_started', { puzzle_id: puzzle.id });
+
   return {
     puzzle,
     guesses: [],
@@ -140,6 +160,13 @@ export async function makeGuess(
     newGameStatus = 'won'
   } else if (newAttemptsUsed >= MAX_ATTEMPTS) {
     newGameStatus = 'lost'
+  }
+
+  // Track game completion
+  if (newGameStatus === 'won') {
+    trackGameEvent('game_won', { attempts: newAttemptsUsed, puzzle_id: gameState.puzzle.fjord.id });
+  } else if (newGameStatus === 'lost') {
+    trackGameEvent('game_lost', { attempts: newAttemptsUsed, puzzle_id: gameState.puzzle.fjord.id });
   }
 
   // Check if this is the first wrong guess for a first-time player

@@ -22,6 +22,8 @@ import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, get
 import { getUserStats } from '@/lib/localStorage'
 import OnboardingModal from './OnboardingModal'
 
+declare const trackGameEvent: (eventName: string, additionalData?: Record<string, unknown>) => void;
+
 interface GameBoardProps {
   puzzle: Puzzle
   puzzleId?: number
@@ -80,6 +82,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
   useEffect(() => {
     const initialize = async () => {
+      trackGameEvent('instructions_shown');
       const [fjordsList, locationExists] = await Promise.all([
         getAllFjords(),
         fjordHasLocationData(puzzle.fjord.id)
@@ -103,6 +106,8 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           hintsUsed: savedHints,
           fjords: fjordsList
         })
+
+        trackGameEvent('game_loaded_successfully');
 
         if (savedProgress.gameStatus !== 'playing') {
           setShowResultsModal(true)
