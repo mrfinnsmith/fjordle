@@ -13,9 +13,13 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 ## Hints System
 
 - **First Letter Hint**: Reveals the first letter of the fjord name
+- **Satellite Images**: Aerial view of fjord for identification help
+- **Municipality Hint**: Shows which municipalities the fjord is located in
+- **County Hint**: Shows which counties the fjord is located in
+- **Measurements Hint**: Displays fjord length, width, and depth data
+- **Weather Hint**: Current weather conditions at the fjord location
 - **Hover Tooltip**: Hint button shows translated tooltip text
 - **Persistent State**: Hint usage saved per puzzle in localStorage
-- **Satellite Images**: Second hint type showing aerial view of fjord for identification help
 
 ## Onboarding System
 
@@ -25,15 +29,15 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
   2. **Typing & Selection**: Shows how to use autocomplete dropdown and submit guesses
   3. **6 Guesses**: Explains attempt limit and feedback system
   4. **Help & Hints**: Describes hint system and how-to-play access
-- **Bilingual Language Toggle**: Language switcher within modal (Want this in English?/Vil du ha dette pÃ¥ norsk?)
+- **Bilingual Language Toggle**: Language switcher within modal (Want this in English?/Vil du ha dette på norsk?)
 - **Versioned Storage**: localStorage tracks onboarding version for future updates
 - **Navigation Controls**: Back button for previous steps, X close button in top-right
 - **Smart Persistence**: Only shows once per version, can be reset by clearing localStorage
 
 ## Internationalization
 
-- **Default Language**: Norwegian (bokmÃ¥l) 
-- **Language Toggle**: Flag icons (ðŸ‡³ðŸ‡´/ðŸ‡¬ðŸ‡§) in top-right corner
+- **Default Language**: Norwegian (bokmål) 
+- **Language Toggle**: Flag icons (🇳🇴/🇬🇧) in top-right corner
 - **Persistence**: Language preference saved in cookies
 - **Full Translation**: All UI text, page content, and metadata
 - **Natural Norwegian**: Written for Norwegian audience, not direct translation
@@ -44,6 +48,7 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 
 - **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
 - **Database**: Supabase (PostgreSQL)
+- **Weather API**: Open-Meteo (free, no API key required)
 - **Assets**: 1,467 Norwegian fjord SVG outlines
 - **Storage**: Local storage for user stats and game progress
 - **i18n**: Server-side cookie detection with React Context for language switching
@@ -192,6 +197,39 @@ SELECT * FROM update_difficulty_tiers();
 
 Returns execution metrics: time, updated count, tier distribution, and changes.
 
+## Weather System
+
+### Weather Data Source
+- **API**: Open-Meteo (https://api.open-meteo.com)
+- **Cost**: Completely free, no API key required
+- **Data**: Current temperature, wind speed/direction, weather conditions
+- **Coverage**: Global coverage including all Norwegian fjord coordinates
+
+### Caching Implementation
+- **Type**: In-memory server-side cache using Map
+- **Duration**: 30-minute TTL per fjord and language
+- **Cache Key**: `weather_{fjordId}_{language}`
+- **Benefits**: Reduces API calls from ~50/day to ~2-3/day per fjord
+- **Scope**: Shared across all users hitting same server instance
+
+### Weather API Endpoint
+```
+GET /api/weather/[fjordId]?lang={language}
+```
+
+### Cache Management
+Monitor cache usage:
+```typescript
+import { getCacheStats, clearWeatherCache } from '@/lib/weatherApi'
+
+// Check cache status
+const stats = getCacheStats()
+console.log(`Cache size: ${stats.size}, Keys: ${stats.keys}`)
+
+// Clear cache if needed
+clearWeatherCache()
+```
+
 ## GitHub Actions
 
 ### Daily Automation
@@ -212,7 +250,7 @@ Requires GitHub repository secret:
 - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 
 ### Edge Function
-- **Location**: Supabase dashboard â†' Edge Functions â†' daily-puzzle
+- **Location**: Supabase dashboard → Edge Functions → daily-puzzle
 - **URL**: `https://kvkmdkvmbuiqicgoqabx.supabase.co/functions/v1/daily-puzzle`
 - **Purpose**: Executes `assign_daily_puzzle()` function
 
@@ -269,7 +307,7 @@ Script skips existing files and includes error handling.
 - `fjordle-stats` - User statistics (games played, win rate, streaks)
 - `fjordle_puzzle_{id}_progress` - Individual puzzle progress
 - `fjordle-onboarding-version` - Onboarding tutorial version (current: 1)
-- `fjordle_hints_{puzzle_id}` - Hint usage per puzzle
+- `fjordle_hints_{puzzle_id}` - Hint usage per puzzle (6 hint types)
 
 ### Cookie Storage
 - `fjordle-language` - User's preferred language ('no' or 'en')
@@ -278,7 +316,7 @@ Script skips existing files and includes error handling.
 - Games played/won
 - Current/max streaks  
 - Win percentage
-- Hint usage per puzzle
+- Hint usage per puzzle (6 types)
 - Guess patterns for sharing
 
 ## File Structure
@@ -288,7 +326,8 @@ src/
 │   ├── api/             # API routes
 │   │   ├── advance-puzzle/
 │   │   ├── past-puzzles/     # Past puzzles API
-│   │   └── puzzle/[number]/  # Specific puzzle API
+│   │   ├── puzzle/[number]/  # Specific puzzle API
+│   │   └── weather/[fjordId]/ # Weather data API
 │   ├── hvordan-spille/  # How to play page (Norwegian)
 │   │   ├── layout.tsx   # Page-specific metadata
 │   │   └── page.tsx
@@ -323,6 +362,11 @@ src/
 │   │   ├── FirstLetterHint.tsx   # First letter hint component
 │   │   ├── SatelliteHint.tsx     # Satellite image hint component
 │   │   ├── SatelliteModal.tsx    # Satellite image display modal
+│   │   ├── MunicipalityHint.tsx  # Municipality hint component
+│   │   ├── CountyHint.tsx        # County hint component
+│   │   ├── MeasurementsHint.tsx  # Measurements hint component
+│   │   ├── WeatherHint.tsx       # Weather hint component
+│   │   ├── WeatherModal.tsx      # Weather display modal
 │   │   └── LoadingSpinner.tsx    # Loading state component
 │   ├── ClientLayout.tsx          # Client-side layout wrapper
 │   ├── DebugInfo.tsx            # Development debug panel
@@ -338,9 +382,11 @@ src/
 │   ├── supabase.ts              # Database connection
 │   ├── translations.ts          # Translation data
 │   ├── useFormattedDate.ts       # Custom hook for date formatting
-│   └── utils.ts                 # General utilities
+│   ├── utils.ts                 # General utilities
+│   └── weatherApi.ts            # Weather data fetching and caching
 ├── types/              # TypeScript interfaces
-│   └── game.ts                  # Game-related types
+│   ├── game.ts                  # Game-related types
+│   └── weather.ts               # Weather data types
 .github/
 └── workflows/
    ├── daily-puzzle.yml        # GitHub Action for daily automation
@@ -365,11 +411,13 @@ tools/
 ## Key Components
 
 - `GameBoard` - Main game interface
-- `FjordDisplay` - Shows fjord outline SVG
+- `FjordDisplay` - Shows fjord outline SVG with hint overlays
 - `GuessInput` - Autocomplete fjord name input (excludes quarantined fjords)
 - `GuessHistory` - Shows previous attempts with feedback
 - `OnboardingModal` - First-time user tutorial with bilingual language toggle
 - `ResultsModal` - End game stats, guess history table, and sharing with Google Maps integration
+- `WeatherHint` - Weather conditions hint with modal display
+- `WeatherModal` - Detailed weather information display
 - `LanguageProvider` - i18n context wrapper
 - `LanguageToggle` - Flag-based language switcher
 - `NavigationMenu` - Dropdown navigation menu
@@ -407,7 +455,8 @@ Each page includes Norwegian SEO metadata via layout.tsx files for optimal searc
 - Set `NEXT_PUBLIC_SITE_URL` for proper OpenGraph/canonical URLs
 - Ensure Supabase RLS policies allow anonymous access
 - Verify all 1,467 SVG files are deployed to `/public/fjord_svgs/`
-- Default language is Norwegian (bokmÃ¥l) for SEO and audience targeting
+- Weather API requires no additional configuration (no API key needed)
+- Default language is Norwegian (bokmål) for SEO and audience targeting
 
 ## Troubleshooting
 
@@ -440,6 +489,12 @@ SELECT assign_daily_puzzle();
 - Check filename matches database `svg_filename` field exactly
 - Ensure proper file permissions after deployment
 
+### Weather Hint Issues
+- Check browser network tab for failed API calls to `/api/weather/`
+- Verify fjord has valid `center_lat` and `center_lng` coordinates
+- Open-Meteo API has 99.9% uptime, temporary failures are rare
+- Check server logs for weather API errors
+
 ### Language/Translation Issues
 - Check browser cookies for `fjordle-language` key
 - Verify `useLanguage` hook is used within `LanguageProvider`
@@ -460,7 +515,7 @@ SELECT assign_daily_puzzle();
 INSERT INTO puzzle_queue (fjord_id, scheduled_date) 
 VALUES 
   (SELECT id FROM fjords WHERE name = 'Geirangerfjorden' LIMIT 1, '2025-05-17'),
-  (SELECT id FROM fjords WHERE name = 'NÃ¦rÃ¸yfjorden' LIMIT 1, '2025-12-25');
+  (SELECT id FROM fjords WHERE name = 'Nærøyfjorden' LIMIT 1, '2025-12-25');
 ```
 
 ### Check System Status
@@ -493,7 +548,7 @@ WHERE quarantined = TRUE;
 ```
 
 ### Update GitHub Secrets
-1. Go to GitHub repository â†' Settings â†' Secrets and variables â†' Actions
+1. Go to GitHub repository → Settings → Secrets and variables → Actions
 2. Update `SUPABASE_ANON_KEY` if Supabase keys change
 3. Secrets are automatically used by GitHub Actions
 
