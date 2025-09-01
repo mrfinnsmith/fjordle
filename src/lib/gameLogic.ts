@@ -31,7 +31,7 @@ export function createInitialGameState(puzzle: Puzzle, fjords: FjordOption[], se
     sessionId,
     showToast: false,
     toastMessage: "",
-    hintsUsed: { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false },
+    hintsUsed: { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false, weather: false },
     keepGoingMessageShown: false
   }
 }

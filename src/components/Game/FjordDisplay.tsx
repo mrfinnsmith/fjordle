@@ -16,6 +16,7 @@ interface FjordDisplayProps {
         width_km?: number
         depth_m?: number
     } | undefined
+    weatherHint?: { temperature: number; conditions: string; icon: string } | null
 }
 
 export default function FjordDisplay({
@@ -25,7 +26,8 @@ export default function FjordDisplay({
     firstLetterHint,
     municipalityHint,
     countyHint,
-    measurementsData
+    measurementsData,
+    weatherHint
 }: FjordDisplayProps) {
     const { t, language } = useLanguage()
 
@@ -116,6 +118,13 @@ export default function FjordDisplay({
                             }
                             return parts.join(', ')
                         })()}
+                    </div>
+                </div>
+            )}
+            {weatherHint && (
+                <div className="mt-2 text-center">
+                    <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-sm font-medium">
+                        🌤️ {t('weather_hint')}: {weatherHint.icon} {weatherHint.temperature}°C - {weatherHint.conditions}
                     </div>
                 </div>
             )}

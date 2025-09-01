@@ -17,6 +17,7 @@ import SatelliteHint from './SatelliteHint'
 import MunicipalityHint from './MunicipalityHint'
 import CountyHint from './CountyHint'
 import MeasurementsHint from './MeasurementsHint'
+import WeatherHint from './WeatherHint'
 import SatelliteModal from './SatelliteModal'
 import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
@@ -30,7 +31,7 @@ interface GameBoardProps {
 }
 
 export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [fjords, setFjords] = useState<FjordOption[]>([])
   const [showResultsModal, setShowResultsModal] = useState(false)
@@ -40,6 +41,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [firstLetterRevealed, setFirstLetterRevealed] = useState<string | undefined>(undefined)
   const [municipalityHintRevealed, setMunicipalityHintRevealed] = useState<string[]>([])
   const [countyHintRevealed, setCountyHintRevealed] = useState<string[]>([])
+  const [weatherHintRevealed, setWeatherHintRevealed] = useState<{ temperature: number; conditions: string; icon: string } | null>(null)
 
   const [locationData, setLocationData] = useState<{ municipalities: string[], counties: string[] }>({ municipalities: [], counties: [] })
   const [hasLocationData, setHasLocationData] = useState<{ hasMunicipalities: boolean, hasCounties: boolean }>({ hasMunicipalities: false, hasCounties: false })
@@ -69,6 +71,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       municipalities: gameState.hintsUsed?.municipalities || false,
       counties: gameState.hintsUsed?.counties || false,
       measurements: gameState.hintsUsed?.measurements || false,
+      weather: gameState.hintsUsed?.weather || false,
       [hintType]: true
     }
 
@@ -238,6 +241,49 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     setShowHintModal(false)
   }
 
+  const handleRevealWeather = async (weatherData: { temperature: number; conditions: string; icon: string }) => {
+    if (!gameState || gameState.hintsUsed?.weather) return
+
+    setWeatherHintRevealed(weatherData)
+    await updateHint('weather')
+    setShowHintModal(false)
+  }
+
+  // Refetch weather data when language changes
+  useEffect(() => {
+    if (weatherHintRevealed && gameState?.hintsUsed?.weather) {
+      // Refetch weather data in the new language
+      const refetchWeather = async () => {
+        try {
+          const response = await fetch(`/api/weather/${gameState?.puzzle?.fjord?.id}?lang=${language}`)
+          if (response.ok) {
+            const data = await response.json()
+            const getWeatherIcon = (conditions: string): string => {
+              const condition = conditions.toLowerCase()
+              if (condition.includes('klart') || condition.includes('clear')) return '☀️'
+              if (condition.includes('skyet') || condition.includes('cloudy')) return '⛅'
+              if (condition.includes('overskyet') || condition.includes('overcast')) return '☁️'
+              if (condition.includes('regn') || condition.includes('rain')) return '🌧️'
+              if (condition.includes('snø') || condition.includes('snow')) return '❄️'
+              if (condition.includes('tåke') || condition.includes('fog')) return '🌫️'
+              if (condition.includes('torden') || condition.includes('thunder')) return '⛈️'
+              if (condition.includes('duskregn') || condition.includes('drizzle')) return '🌦️'
+              return '🌤️'
+            }
+            setWeatherHintRevealed({
+              temperature: data.temperature,
+              conditions: data.conditions,
+              icon: getWeatherIcon(data.conditions)
+            })
+          }
+        } catch (error) {
+          console.error('Error refetching weather:', error)
+        }
+      }
+      refetchWeather()
+    }
+  }, [language, gameState?.puzzle?.fjord?.id, gameState?.hintsUsed?.weather, weatherHintRevealed])
+
   if (!gameState) {
     return (
       <div className="game-container">
@@ -263,6 +309,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           width_km: puzzle.fjord.width_km,
           depth_m: puzzle.fjord.depth_m
         } : undefined}
+        weatherHint={weatherHintRevealed}
       />
 
       {gameState.gameStatus === 'playing' && (
@@ -355,6 +402,12 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
                   onReveal={handleRevealMeasurements}
                 />
               )}
+              <WeatherHint
+                fjordId={puzzle.fjord.id}
+                isRevealed={gameState.hintsUsed?.weather || false}
+                weatherData={weatherHintRevealed}
+                onReveal={handleRevealWeather}
+              />
             </div>
           </div>
         </div>

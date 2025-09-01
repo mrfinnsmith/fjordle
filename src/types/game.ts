@@ -71,6 +71,7 @@ export interface HintState {
   municipalities: boolean
   counties: boolean
   measurements: boolean
+  weather: boolean
 }
 
 export interface GameProgress {
@@ -317,6 +318,8 @@ export type TranslationKey =
   | 'view_again'
   | 'measurements_hint'
   | 'measurements_hint_description'
+  | 'weather_hint'
+  | 'weather_hint_description'
   | 'length'
   | 'width'
   | 'depth'
