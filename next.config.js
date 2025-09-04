@@ -3,6 +3,29 @@ const nextConfig = {
   images: {
     domains: [],
   },
+  // Performance optimizations
+  experimental: {
+    // optimizeCss: true, // Disabled due to critters dependency issue
+  },
+  // Enable compression
+  compress: true,
+  // Optimize bundle
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      // Reduce bundle size in production
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+        },
+      }
+    }
+    return config
+  },
   async redirects() {
     return [
       { source: '/about', destination: '/om', permanent: true },

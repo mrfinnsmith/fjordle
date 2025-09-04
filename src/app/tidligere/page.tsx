@@ -55,7 +55,7 @@ export default function PastPuzzlesPage() {
                     throw new Error('Failed to fetch puzzles')
                 }
                 const data = await response.json()
-                console.log('[DEBUG] Past puzzles fetched:', data)
+                console.log(`[DEBUG] Past puzzles fetched: ${data.length} puzzles`)
                 setPuzzles(data)
             } catch (err) {
                 console.error('[DEBUG] Error fetching puzzles:', err)
@@ -77,7 +77,7 @@ export default function PastPuzzlesPage() {
                 ...puzzle,
                 formattedDate: formatDate(new Date(puzzle.date), language)
             }))
-            console.log('[DEBUG] Formatted puzzles:', formatted)
+            console.log(`[DEBUG] Formatted ${formatted.length} puzzles`)
             setFormattedPuzzles(formatted)
         }
     }, [puzzles, language])

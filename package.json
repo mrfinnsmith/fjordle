@@ -7,7 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "build:analyze": "ANALYZE=true next build",
+    "lighthouse:local": "npm run build && npm run start & sleep 5 && npx lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-flags='--headless' && pkill -f 'next start'",
+    "perf:test": "npm run build && npm run start",
+    "test:performance": "node scripts/test-performance.js",
+    "quick:perf": "./scripts/quick-perf-test.sh",
+    "dev:test": "npm run dev"
   },
   "dependencies": {
     "next": "14.2.15",
