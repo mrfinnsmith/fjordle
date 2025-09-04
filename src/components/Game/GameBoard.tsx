@@ -86,51 +86,61 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   useEffect(() => {
     const initialize = async () => {
       trackGameEvent('instructions_shown');
-      const [fjordsList, locationExists] = await Promise.all([
-        getAllFjords(),
-        fjordHasLocationData(puzzle.fjord.id)
-      ])
-      setFjords(fjordsList)
-      setHasLocationData(locationExists)
-
+      
+      // Fast path: Set up game state immediately for SVG rendering
       const savedHints = getHintsUsed(getEffectivePuzzleId())
+      const savedProgress = loadGameProgress(getEffectivePuzzleId())
 
       if (savedHints?.firstLetter) {
         setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
       }
 
-      const initialState = createInitialGameState(puzzle, fjordsList)
-      const savedProgress = loadGameProgress(getEffectivePuzzleId())
-
+      // Initialize with empty fjords - SVG doesn't need them
+      const initialState = createInitialGameState(puzzle, [])
+      
       if (savedProgress) {
         setGameState({
           ...initialState,
           ...savedProgress,
           hintsUsed: savedHints,
-          fjords: fjordsList
+          fjords: []
         })
-
         trackGameEvent('game_loaded_successfully');
-
+        
         if (savedProgress.gameStatus !== 'playing') {
           setShowResultsModal(true)
-          // Load location data for results display if game has ended
-          if (locationExists.hasMunicipalities) {
-            const locData = await getFjordLocationData(puzzle.fjord.id)
-            setLocationData(locData)
-          }
         }
       } else {
         setGameState({
           ...initialState,
           hintsUsed: savedHints,
-          fjords: fjordsList
+          fjords: []
         })
       }
 
       if (!hasSeenOnboarding()) {
         setShowOnboarding(true)
       }
+
+      // Heavy operations run after gameState is set - don't block SVG
+      setTimeout(async () => {
+        const [fjordsList, locationExists] = await Promise.all([
+          getAllFjords(),
+          fjordHasLocationData(puzzle.fjord.id)
+        ])
+        
+        setFjords(fjordsList)
+        setHasLocationData(locationExists)
+
+        // Update gameState with fjords for GuessInput
+        setGameState(prev => prev ? { ...prev, fjords: fjordsList } : null)
+
+        // Load location data for completed games
+        if (savedProgress?.gameStatus !== 'playing' && locationExists.hasMunicipalities) {
+          const locData = await getFjordLocationData(puzzle.fjord.id)
+          setLocationData(locData)
+        }
+      }, 0)
     }
 
     initialize()
@@ -312,7 +322,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         weatherHint={weatherHintRevealed}
       />
 
-      {gameState.gameStatus === 'playing' && (
+      {gameState.gameStatus === 'playing' && fjords.length > 0 && (
         <GuessInput
           fjords={fjords}
           onGuess={handleGuess}
@@ -322,6 +332,12 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           onHintClick={handleHintClick}
           onHintHover={handleHintHover}
         />
+      )}
+      
+      {gameState.gameStatus === 'playing' && fjords.length === 0 && (
+        <div className="flex justify-center py-4">
+          <LoadingSpinner className="w-6 h-6" />
+        </div>
       )}
 
       <GuessHistory guesses={gameState.guesses} />
