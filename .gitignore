@@ -68,3 +68,6 @@ tools/check_categories.py
 tools/update_categories.py
 tools/update_municipalities.py
 *.sql
+
+# Lighthouse reports
+lighthouse-report.html
