@@ -5,6 +5,7 @@ import Link from 'next/link'
 import GameBoard from '@/components/Game/GameBoard'
 import { Puzzle } from '@/types/game'
 import { useLanguage } from '@/lib/languageContext'
+import LoadingSpinner from '@/components/Game/LoadingSpinner'
 
 interface PuzzlePageProps {
     params: { number: string }
@@ -41,7 +42,10 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-50 py-8">
-                <div className="text-center">{t('loading')}</div>
+                <div className="flex flex-col items-center justify-center py-8">
+                    <LoadingSpinner className="w-12 h-12 mb-4" />
+                    <div className="text-lg">{t('loading')}</div>
+                </div>
             </div>
         )
     }

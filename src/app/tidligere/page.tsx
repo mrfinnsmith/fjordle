@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDate } from '@/lib/utils'
+import LoadingSpinner from '@/components/Game/LoadingSpinner'
 
 interface PastPuzzle {
     puzzle_id: number
@@ -86,7 +87,10 @@ export default function PastPuzzlesPage() {
         return (
             <div className="space-y-6">
                 <h1 className="text-3xl font-bold">{t('past_fjordles')}</h1>
-                <div className="text-center">{t('loading_past_puzzles')}</div>
+                <div className="flex flex-col items-center justify-center py-8">
+                    <LoadingSpinner className="w-12 h-12 mb-4" />
+                    <div className="text-lg">{t('loading_past_puzzles')}</div>
+                </div>
             </div>
         )
     }
