@@ -1,28 +1,34 @@
+'use client'
+
 import GameBoard from '@/components/Game/GameBoard'
 import { getTodaysPuzzle } from '@/lib/puzzleApi'
+import { useLanguage } from '@/lib/languageContext'
+import { useEffect, useState } from 'react'
 import { Puzzle } from '@/types/game'
-import { Suspense } from 'react'
-import LoadingSpinner from '@/components/Game/LoadingSpinner'
 
 function NoPuzzleMessage() {
+  const { t } = useLanguage()
+
   return (
     <div className="text-center space-y-4">
       <h2 className="text-xl font-semibold text-gray-800">
-        Ingen puslespill i dag
+        {t('no_puzzle_today')}
       </h2>
       <p className="text-gray-600">
-        Det er ingen puslespill tilgjengelig for i dag. Prøv igjen senere.
+        {t('no_puzzle_message')}
       </p>
     </div>
   )
 }
 
 function GameContent({ puzzle }: { puzzle: Puzzle }) {
+  const { t } = useLanguage()
+
   return (
     <div className="space-y-4">
       <div className="text-center">
         <p className="text-gray-700 mb-4">
-          Gjett fjorden ut fra omrisset. Nytt puslespill hver dag!
+          {t('game_description')}
         </p>
       </div>
       <GameBoard puzzle={puzzle} />
@@ -30,25 +36,36 @@ function GameContent({ puzzle }: { puzzle: Puzzle }) {
   )
 }
 
-async function PuzzleLoader() {
-  try {
-    const puzzle = await getTodaysPuzzle()
+export default function Home() {
+  const [puzzle, setPuzzle] = useState<Puzzle | null>(null)
+  const [loading, setLoading] = useState(true)
 
-    if (!puzzle) {
-      return <NoPuzzleMessage />
+  useEffect(() => {
+    async function loadPuzzle() {
+      try {
+        const todaysPuzzle = await getTodaysPuzzle()
+        setPuzzle(todaysPuzzle)
+      } catch (error) {
+        console.error('Failed to load puzzle:', error)
+      } finally {
+        setLoading(false)
+      }
     }
 
-    return <GameContent puzzle={puzzle} />
-  } catch (error) {
-    console.error('Failed to load puzzle:', error)
+    loadPuzzle()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="text-center">
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    )
+  }
+
+  if (!puzzle) {
     return <NoPuzzleMessage />
   }
-}
 
-export default function Home() {
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <PuzzleLoader />
-    </Suspense>
-  )
+  return <GameContent puzzle={puzzle} />
 }
