@@ -1,8 +1,13 @@
 import { WeatherData, WeatherCacheEntry, OpenMeteoResponse, WeatherCode, WEATHER_CODE_MAP } from '@/types/weather'
 
-// Module-level cache with 30-minute TTL
+// Module-level cache with 2-hour TTL for multi-language weather data
 const weatherCache = new Map<string, WeatherCacheEntry>()
-const CACHE_TTL = 30 * 60 * 1000 // 30 minutes in milliseconds
+const CACHE_TTL = 2 * 60 * 60 * 1000 // 2 hours in milliseconds
+
+interface MultiLanguageWeatherData {
+    no: WeatherData
+    en: WeatherData
+}
 
 export async function fetchWeatherData(latitude: number, longitude: number, language: 'no' | 'en' = 'en'): Promise<WeatherData | null> {
     try {
@@ -70,13 +75,40 @@ export function setCachedWeatherData(fjordId: number, data: WeatherData, languag
 }
 
 export async function getWeatherForFjord(fjordId: number, latitude: number, longitude: number, language: 'no' | 'en' = 'en'): Promise<WeatherData | null> {
-    // Check cache first
-    const cached = getCachedWeatherData(fjordId, language)
-    if (cached) {
-        return cached
+    // Check if we have multi-language cached data
+    const multiLangCacheKey = `weather_${fjordId}_multilang`
+    const multiLangCached = weatherCache.get(multiLangCacheKey)
+
+    if (multiLangCached) {
+        const now = Date.now()
+        if (now - multiLangCached.timestamp < CACHE_TTL) {
+            const multiLangData = multiLangCached.data as MultiLanguageWeatherData
+            return multiLangData[language]
+        }
     }
 
-    // Fetch fresh data
+    // Fetch both languages at once
+    const [noData, enData] = await Promise.all([
+        fetchWeatherData(latitude, longitude, 'no'),
+        fetchWeatherData(latitude, longitude, 'en')
+    ])
+
+    if (noData && enData) {
+        const multiLangData: MultiLanguageWeatherData = {
+            no: noData,
+            en: enData
+        }
+
+        // Cache both languages together
+        weatherCache.set(multiLangCacheKey, {
+            data: multiLangData,
+            timestamp: Date.now()
+        })
+
+        return multiLangData[language]
+    }
+
+    // Fallback to single language if multi-language fails
     const weatherData = await fetchWeatherData(latitude, longitude, language)
     if (weatherData) {
         setCachedWeatherData(fjordId, weatherData, language)
