@@ -197,7 +197,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
   const handleHintHover = async () => {
     // Preload location data on hover if not already loaded
-    if (hasLocationData.hasMunicipalities && locationData.municipalities.length === 0) {
+    if ((hasLocationData.hasMunicipalities || hasLocationData.hasCounties) && locationData.municipalities.length === 0) {
       const locData = await getFjordLocationData(puzzle.fjord.id)
       setLocationData(locData)
     }
@@ -225,8 +225,17 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const handleRevealMunicipalities = async () => {
     if (!gameState || gameState.hintsUsed?.municipalities) return
 
-    // Location data should already be loaded from handleHintClick
-    if (locationData.municipalities.length > 0) {
+    // Load location data if not already available
+    if (locationData.municipalities.length === 0 && hasLocationData.hasMunicipalities) {
+      const locData = await getFjordLocationData(puzzle.fjord.id)
+      setLocationData(locData)
+
+      if (locData.municipalities.length > 0) {
+        setMunicipalityHintRevealed(locData.municipalities)
+        await updateHint('municipalities')
+        setShowHintModal(false)
+      }
+    } else if (locationData.municipalities.length > 0) {
       setMunicipalityHintRevealed(locationData.municipalities)
       await updateHint('municipalities')
       setShowHintModal(false)
@@ -236,8 +245,17 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const handleRevealCounties = async () => {
     if (!gameState || gameState.hintsUsed?.counties) return
 
-    // Location data should already be loaded from handleHintClick
-    if (locationData.counties.length > 0) {
+    // Load location data if not already available
+    if (locationData.counties.length === 0 && hasLocationData.hasCounties) {
+      const locData = await getFjordLocationData(puzzle.fjord.id)
+      setLocationData(locData)
+
+      if (locData.counties.length > 0) {
+        setCountyHintRevealed(locData.counties)
+        await updateHint('counties')
+        setShowHintModal(false)
+      }
+    } else if (locationData.counties.length > 0) {
       setCountyHintRevealed(locationData.counties)
       await updateHint('counties')
       setShowHintModal(false)
