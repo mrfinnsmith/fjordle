@@ -9,6 +9,11 @@ interface MultiLanguageWeatherData {
     en: WeatherData
 }
 
+interface MultiLanguageWeatherCacheEntry {
+    data: MultiLanguageWeatherData
+    timestamp: number
+}
+
 export async function fetchWeatherData(latitude: number, longitude: number, language: 'no' | 'en' = 'en'): Promise<WeatherData | null> {
     try {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
@@ -77,13 +82,12 @@ export function setCachedWeatherData(fjordId: number, data: WeatherData, languag
 export async function getWeatherForFjord(fjordId: number, latitude: number, longitude: number, language: 'no' | 'en' = 'en'): Promise<WeatherData | null> {
     // Check if we have multi-language cached data
     const multiLangCacheKey = `weather_${fjordId}_multilang`
-    const multiLangCached = weatherCache.get(multiLangCacheKey)
-
+    const multiLangCached = weatherCache.get(multiLangCacheKey) as MultiLanguageWeatherCacheEntry | undefined
+    
     if (multiLangCached) {
         const now = Date.now()
         if (now - multiLangCached.timestamp < CACHE_TTL) {
-            const multiLangData = multiLangCached.data as MultiLanguageWeatherData
-            return multiLangData[language]
+            return multiLangCached.data[language]
         }
     }
 
@@ -101,7 +105,7 @@ export async function getWeatherForFjord(fjordId: number, latitude: number, long
 
         // Cache both languages together
         weatherCache.set(multiLangCacheKey, {
-            data: multiLangData,
+            data: multiLangData as unknown as WeatherData,
             timestamp: Date.now()
         })
 

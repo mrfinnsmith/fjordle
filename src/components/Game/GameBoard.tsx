@@ -86,7 +86,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   useEffect(() => {
     const initialize = async () => {
       trackGameEvent('instructions_shown');
-      
+
       // Fast path: Set up game state immediately for SVG rendering
       const savedHints = getHintsUsed(getEffectivePuzzleId())
       const savedProgress = loadGameProgress(getEffectivePuzzleId())
@@ -97,7 +97,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
       // Initialize with empty fjords - SVG doesn't need them
       const initialState = createInitialGameState(puzzle, [])
-      
+
       if (savedProgress) {
         setGameState({
           ...initialState,
@@ -106,7 +106,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           fjords: []
         })
         trackGameEvent('game_loaded_successfully');
-        
+
         if (savedProgress.gameStatus !== 'playing') {
           setShowResultsModal(true)
         }
@@ -128,7 +128,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           getAllFjords(),
           fjordHasLocationData(puzzle.fjord.id)
         ])
-        
+
         setFjords(fjordsList)
         setHasLocationData(locationExists)
 
@@ -292,7 +292,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       }
       refetchWeather()
     }
-  }, [language, gameState?.puzzle?.fjord?.id, gameState?.hintsUsed?.weather, weatherHintRevealed])
+  }, [language, gameState?.puzzle?.fjord?.id, gameState?.hintsUsed?.weather])
 
   if (!gameState) {
     return (
@@ -333,7 +333,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           onHintHover={handleHintHover}
         />
       )}
-      
+
       {gameState.gameStatus === 'playing' && fjords.length === 0 && (
         <div className="flex justify-center py-4">
           <LoadingSpinner className="w-6 h-6" />
