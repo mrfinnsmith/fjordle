@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { GameState, Puzzle, FjordOption, HintState } from '@/types/game'
 import { createInitialGameState, makeGuess } from '@/lib/gameLogic'
-import { updateSessionHints } from '@/lib/session_api'
+import { createSession, getSessionExists, updateSessionHints } from '@/lib/session_api'
 import { getAllFjords, getFjordLocationData, fjordHasLocationData } from '@/lib/puzzleApi'
 import { useLanguage } from '@/lib/languageContext'
 import FjordDisplay from './FjordDisplay'
@@ -19,7 +19,7 @@ import CountyHint from './CountyHint'
 import MeasurementsHint from './MeasurementsHint'
 import WeatherHint from './WeatherHint'
 import SatelliteModal from './SatelliteModal'
-import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen } from '@/lib/localStorage'
+import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen, getOrCreateSessionId } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
 import OnboardingModal from './OnboardingModal'
 
@@ -95,8 +95,18 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
       }
 
+      // Generate session ID and check if session exists
+      const sessionId = getOrCreateSessionId()
+      const effectivePuzzleId = getEffectivePuzzleId()
+
+      // Check if session already exists, only create if it doesn't
+      const sessionExists = await getSessionExists(sessionId, effectivePuzzleId)
+      if (!sessionExists) {
+        await createSession(sessionId, effectivePuzzleId)
+      }
+
       // Initialize with empty fjords - SVG doesn't need them
-      const initialState = createInitialGameState(puzzle, [])
+      const initialState = createInitialGameState(puzzle, [], sessionId)
 
       if (savedProgress) {
         setGameState({
