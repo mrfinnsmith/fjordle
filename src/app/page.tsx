@@ -37,6 +37,7 @@ function GameContent({ puzzle }: { puzzle: Puzzle }) {
 }
 
 export default function Home() {
+  const { t } = useLanguage()
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -58,7 +59,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="text-center">
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-600">{t('loading')}</p>
       </div>
     )
   }

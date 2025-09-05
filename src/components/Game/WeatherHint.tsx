@@ -119,7 +119,7 @@ export default function WeatherHint({ fjordId, isRevealed, weatherData, onReveal
                                 <>
                                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
                                     <span className="text-sm">
-                                        {language === 'no' ? 'Henter...' : 'Loading...'}
+                                        {t('loading')}
                                     </span>
                                 </>
                             ) : (

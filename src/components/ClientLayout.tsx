@@ -16,22 +16,20 @@ function LanguageToggle() {
       <div className="flex items-center space-x-2">
         <button
           onClick={() => setLanguage('no')}
-          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-            language === 'no' 
-              ? 'bg-blue-500 text-white' 
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${language === 'no'
+            ? 'bg-blue-500 text-white'
+            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
           title="Norsk"
         >
           Norsk
         </button>
         <button
           onClick={() => setLanguage('en')}
-          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-            language === 'en' 
-              ? 'bg-blue-500 text-white' 
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${language === 'en'
+            ? 'bg-blue-500 text-white'
+            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
           title="English"
         >
           English

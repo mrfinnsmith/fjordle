@@ -151,6 +151,7 @@ export type TranslationKey =
   | 'your_guesses'
   | 'statistics'
   | 'close'
+  | 'satellite_hint_example'
   | 'municipalities'
   | 'counties'
   | 'already_guessed_fjord'

@@ -68,7 +68,7 @@ export default function HowToPlay() {
                             <div className="mt-4">
                                 <img
                                     src="/fjord_satellite/1617_Indre-oslofjord.png"
-                                    alt="Eksempel på satellittbilde som brukeren kan se når de ber om hint"
+                                    alt={t('satellite_hint_example')}
                                     className="w-full max-w-md mx-auto rounded-lg shadow-md"
                                     onError={(e) => {
                                         e.currentTarget.style.display = 'none';

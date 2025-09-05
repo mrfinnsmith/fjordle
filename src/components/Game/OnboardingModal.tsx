@@ -58,7 +58,7 @@ export default function OnboardingModal({ isOpen, onClose }: OnboardingModalProp
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
-                    aria-label="Close"
+                    aria-label={t('close')}
                 >
                     ×
                 </button>

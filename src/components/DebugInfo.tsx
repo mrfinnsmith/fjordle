@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 export default function DebugInfo() {
     const router = useRouter()
     const pathname = usePathname()
-    const { language } = useLanguage()
+    const { language, t } = useLanguage()
     const [url, setUrl] = useState<string>('')
     const [userAgent, setUserAgent] = useState<string>('')
     const [timestamp, setTimestamp] = useState<string>('')
@@ -36,8 +36,8 @@ export default function DebugInfo() {
             <div>Pathname: {pathname}</div>
             <div>Router exists: {router ? 'YES' : 'NO'}</div>
             <div>Router.push exists: {typeof router?.push === 'function' ? 'YES' : 'NO'}</div>
-            <div>URL: {url || 'Loading...'}</div>
-            <div>User Agent: {userAgent || 'Loading...'}</div><div>Timestamp: {timestamp || 'Loading...'}</div>
+            <div>URL: {url || t('loading')}</div>
+            <div>User Agent: {userAgent || t('loading')}</div><div>Timestamp: {timestamp || t('loading')}</div>
         </div>
     )
 } 
