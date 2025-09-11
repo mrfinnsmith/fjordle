@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 export async function GET() {
     try {
         console.log('Calling get_past_puzzles RPC...')
-        const { data, error } = await supabase.rpc('get_past_puzzles')
+        const { data, error } = await supabase.rpc('fjordle_get_past_puzzles')
 
         if (error) {
             console.error('RPC error:', error)

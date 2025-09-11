@@ -144,12 +144,12 @@ def main():
         # Fetch municipalities
         print("Fetching municipalities from database...")
         municipalities_response = (
-            supabase.table("municipalities").select("id, name").execute()
+            supabase.table("fjordle_municipalities").select("id, name").execute()
         )
         municipalities = municipalities_response.data
 
         # Fetch counties for mapping
-        counties_response = supabase.table("counties").select("id, name").execute()
+        counties_response = supabase.table("fjordle_counties").select("id, name").execute()
         counties = {county["id"]: county["name"] for county in counties_response.data}
 
         results = []

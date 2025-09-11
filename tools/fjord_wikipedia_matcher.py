@@ -602,7 +602,7 @@ def main():
 
     # Get all fjords from database
     all_fjords_response = (
-        supabase.table("fjords")
+        supabase.table("fjordle_fjords")
         .select("id,name,center_lat,center_lng,svg_filename")
         .execute()
     )
@@ -610,7 +610,7 @@ def main():
 
     # Get all fjords without Norwegian Wikipedia URLs, excluding quarantined fjords
     response = (
-        supabase.table("fjords")
+        supabase.table("fjordle_fjords")
         .select("id,name,center_lat,center_lng,svg_filename")
         .is_("wikipedia_url_no", "null")
         .eq("quarantined", False)
@@ -619,9 +619,9 @@ def main():
     all_fjords = response.data
 
     # Get fjord IDs that are in puzzle_queue or daily_puzzles
-    puzzle_queue_response = supabase.table("puzzle_queue").select("fjord_id").execute()
+    puzzle_queue_response = supabase.table("fjordle_puzzle_queue").select("fjord_id").execute()
     daily_puzzles_response = (
-        supabase.table("daily_puzzles").select("fjord_id").execute()
+        supabase.table("fjordle_daily_puzzles").select("fjord_id").execute()
     )
 
     used_fjord_ids = set()
@@ -690,7 +690,7 @@ def main():
     for update in db_updates:
         try:
             update_data = {"wikipedia_url_no": update["url"]}
-            supabase.table("fjords").update(update_data).eq(
+            supabase.table("fjordle_fjords").update(update_data).eq(
                 "id", update["id"]
             ).execute()
             print(f"  ✓ Updated fjord {update['id']}")

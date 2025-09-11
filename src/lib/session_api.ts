@@ -3,7 +3,7 @@ import { supabase } from './supabase'
 export async function createSession(sessionId: string, puzzleId: number): Promise<boolean> {
   try {
     const { error } = await supabase
-      .from('game_sessions')
+      .from('fjordle_game_sessions')
       .insert({
         session_id: sessionId,
         puzzle_id: puzzleId,
@@ -26,7 +26,7 @@ export async function updateSession(
 ): Promise<boolean> {
   try {
     const { error } = await supabase
-      .from('game_sessions')
+      .from('fjordle_game_sessions')
       .update(updates)
       .eq('session_id', sessionId)
 
@@ -44,7 +44,7 @@ export async function completeSession(
 ): Promise<boolean> {
   try {
     const { error } = await supabase
-      .from('game_sessions')
+      .from('fjordle_game_sessions')
       .update({
         completed: true,
         attempts_used: attemptsUsed,
@@ -71,7 +71,7 @@ export async function recordGuess(guessData: {
 }): Promise<boolean> {
   try {
     const { error } = await supabase
-      .from('guesses')
+      .from('fjordle_guesses')
       .insert({
         session_id: guessData.session_id,
         puzzle_id: guessData.puzzle_id,
@@ -92,7 +92,7 @@ export async function recordGuess(guessData: {
 export async function getSessionExists(sessionId: string, puzzleId: number): Promise<boolean> {
   try {
     const { data, error } = await supabase
-      .from('game_sessions')
+      .from('fjordle_game_sessions')
       .select('session_id')
       .eq('session_id', sessionId)
       .eq('puzzle_id', puzzleId)
@@ -110,7 +110,7 @@ export async function updateSessionHints(
 ): Promise<boolean> {
   try {
     const { error } = await supabase
-      .from('game_sessions')
+      .from('fjordle_game_sessions')
       .update({ hints })
       .eq('session_id', sessionId)
 

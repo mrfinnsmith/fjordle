@@ -20,7 +20,7 @@ export async function GET(
 
         // Fetch fjord coordinates from Supabase
         const { data: fjord, error } = await supabase
-            .from('fjords')
+            .from('fjordle_fjords')
             .select('center_lat, center_lng')
             .eq('id', fjordId)
             .single()

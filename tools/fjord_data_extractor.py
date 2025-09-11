@@ -78,7 +78,7 @@ class SupabaseFjordExtractor:
         
     def fetch_fjords_from_supabase(self) -> List[Dict]:
         """Fetch fjords data from Supabase database."""
-        url = f"{self.supabase_url}/rest/v1/fjords"
+        url = f"{self.supabase_url}/rest/v1/fjordle_fjords"
         params = {
             'select': 'id,name,wikipedia_url_no,wikipedia_url_nn,wikipedia_url_en,wikipedia_url_da,wikipedia_url_ceb,notes',
             'or': '(wikipedia_url_no.not.is.null,wikipedia_url_nn.not.is.null,wikipedia_url_en.not.is.null,wikipedia_url_da.not.is.null,wikipedia_url_ceb.not.is.null)'

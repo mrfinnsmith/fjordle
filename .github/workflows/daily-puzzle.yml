@@ -20,7 +20,7 @@ jobs:
             
             response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
               --max-time 30 \
-              -X POST "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/functions/v1/daily-puzzle" \
+              -X POST "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/functions/v1/fjordle-daily-puzzle" \
               -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" \
               -H "Content-Type: application/json")
             
@@ -77,7 +77,7 @@ jobs:
           today=$(date -u +%Y-%m-%d)
           verify_response=$(curl -s \
             --max-time 15 \
-            "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/rest/v1/daily_puzzles?presented_date=eq.$today&select=puzzle_number,fjord_id" \
+            "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/rest/v1/fjordle_daily_puzzles?presented_date=eq.$today&select=puzzle_number,fjord_id" \
             -H "apikey: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}")
           

@@ -21,7 +21,7 @@ export async function getFjordWithMeasurements(fjordId: number): Promise<{
 } | null> {
   try {
     const { data, error } = await supabase
-      .from('fjords')
+      .from('fjordle_fjords')
       .select('id, name, svg_filename, satellite_filename, center_lat, center_lng, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, length_km, width_km, depth_m, measurement_source_url')
       .eq('id', fjordId)
       .single()
@@ -40,7 +40,7 @@ export async function getFjordWithMeasurements(fjordId: number): Promise<{
 
 export async function getTodaysPuzzle(): Promise<Puzzle | null> {
   try {
-    const { data, error } = await supabase.rpc('get_daily_fjord_puzzle')
+    const { data, error } = await supabase.rpc('fjordle_get_daily_fjord_puzzle')
 
     if (error) {
       console.error('Error fetching puzzle:', error)
@@ -78,7 +78,7 @@ export async function getAllFjords(): Promise<FjordOption[]> {
   try {
     // First, get the total count
     const { count } = await supabase
-      .from('fjords')
+      .from('fjordle_fjords')
       .select('*', { count: 'exact', head: true })
 
     if (!count) {
@@ -91,7 +91,7 @@ export async function getAllFjords(): Promise<FjordOption[]> {
 
     for (let offset = 0; offset < count; offset += pageSize) {
       const { data, error } = await supabase
-        .from('fjords')
+        .from('fjordle_fjords')
         .select('id, name, center_lat, center_lng')
         .eq('quarantined', false)
         .order('name')
@@ -116,7 +116,7 @@ export async function getAllFjords(): Promise<FjordOption[]> {
 
 export async function getPuzzleByNumber(puzzleNumber: number): Promise<Puzzle | null> {
   try {
-    const { data, error } = await supabase.rpc('get_fjord_puzzle_by_number', {
+    const { data, error } = await supabase.rpc('fjordle_get_fjord_puzzle_by_number', {
       puzzle_num: puzzleNumber
     })
 
@@ -153,7 +153,7 @@ export async function getPuzzleByNumber(puzzleNumber: number): Promise<Puzzle | 
 export async function getAllPuzzleNumbers(): Promise<number[]> {
   try {
     const { data, error } = await supabase
-      .from('daily_puzzles')
+      .from('fjordle_daily_puzzles')
       .select('puzzle_number')
       .order('puzzle_number')
 
@@ -175,11 +175,11 @@ export async function getFjordLocationData(fjordId: number): Promise<{ municipal
   try {
     const [municipalityData, countyData] = await Promise.all([
       supabase
-        .from('fjord_municipalities')
+        .from('fjordle_fjord_municipalities')
         .select('municipality_id')
         .eq('fjord_id', fjordId),
       supabase
-        .from('fjord_counties')
+        .from('fjordle_fjord_counties')
         .select('county_id')
         .eq('fjord_id', fjordId)
     ])
@@ -192,7 +192,7 @@ export async function getFjordLocationData(fjordId: number): Promise<{ municipal
       // Use explicit queries instead of .in() to avoid potential issues
       for (const municipalityId of municipalityIds) {
         const { data: municipalityName } = await supabase
-          .from('municipalities')
+          .from('fjordle_municipalities')
           .select('name')
           .eq('id', municipalityId)
           .single()
@@ -211,7 +211,7 @@ export async function getFjordLocationData(fjordId: number): Promise<{ municipal
       // Use explicit queries instead of .in() to avoid potential issues
       for (const countyId of countyIds) {
         const { data: countyName } = await supabase
-          .from('counties')
+          .from('fjordle_counties')
           .select('name')
           .eq('id', countyId)
           .single()
@@ -226,14 +226,14 @@ export async function getFjordLocationData(fjordId: number): Promise<{ municipal
     if (municipalityIds.length > 0) {
       for (const municipalityId of municipalityIds) {
         const { data: municipalityCounty } = await supabase
-          .from('municipalities')
+          .from('fjordle_municipalities')
           .select('county_id')
           .eq('id', municipalityId)
           .single()
 
         if (municipalityCounty?.county_id) {
           const { data: derivedCountyName } = await supabase
-            .from('counties')
+            .from('fjordle_counties')
             .select('name')
             .eq('id', municipalityCounty.county_id)
             .single()
@@ -267,12 +267,12 @@ export async function fjordHasLocationData(fjordId: number): Promise<{ hasMunici
   try {
     const [municipalityData, countyData] = await Promise.all([
       supabase
-        .from('fjord_municipalities')
+        .from('fjordle_fjord_municipalities')
         .select('municipality_id')
         .eq('fjord_id', fjordId)
         .limit(1),
       supabase
-        .from('fjord_counties')
+        .from('fjordle_fjord_counties')
         .select('county_id')
         .eq('fjord_id', fjordId)
         .limit(1)

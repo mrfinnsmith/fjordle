@@ -13,7 +13,7 @@ jobs:
         run: |
           response=$(curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_SERVICE_KEY }}" \
-            "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/functions/v1/update-difficulty")
+            "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/functions/v1/fjordle-update-difficulty")
           
           echo "Response: $response"
           
