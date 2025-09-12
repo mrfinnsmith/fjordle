@@ -96,7 +96,7 @@ export async function getSessionExists(sessionId: string, puzzleId: number): Pro
       .select('session_id')
       .eq('session_id', sessionId)
       .eq('puzzle_id', puzzleId)
-      .single()
+      .maybeSingle()
 
     return !error && !!data
   } catch {
