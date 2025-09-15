@@ -12,6 +12,7 @@ import GuessHistory from './GuessHistory'
 import ResultsModal from './ResultsModal'
 import { Toast } from './Toast'
 import LoadingSpinner from './LoadingSpinner'
+import FjordDisplaySkeleton from './FjordDisplaySkeleton'
 import FirstLetterHint from './FirstLetterHint'
 import SatelliteHint from './SatelliteHint'
 import MunicipalityHint from './MunicipalityHint'
@@ -325,9 +326,9 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   if (!gameState) {
     return (
       <div className="game-container">
-        <div className="flex flex-col items-center justify-center py-8">
-          <LoadingSpinner className="w-12 h-12 mb-4" />
-          <div className="text-lg">{t('loading')}</div>
+        <FjordDisplaySkeleton />
+        <div className="flex flex-col items-center justify-center py-4">
+          <LoadingSpinner className="w-6 h-6" />
         </div>
       </div>
     )
@@ -363,8 +364,37 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       )}
 
       {gameState.gameStatus === 'playing' && fjords.length === 0 && (
-        <div className="flex justify-center py-4">
-          <LoadingSpinner className="w-6 h-6" />
+        <div className="w-full max-w-md mx-auto mb-6">
+          <div className="guess-input-container">
+            <div className="input-button-row">
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  placeholder={t('loading_fjords')}
+                  className="guess-input w-full"
+                  disabled
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  className="px-3 py-2 border-2 border-gray-300 rounded-lg opacity-50 cursor-not-allowed"
+                  type="button"
+                  disabled
+                >
+                  🛟
+                </button>
+                <button
+                  disabled
+                  className="game-button primary flex-1 opacity-50 cursor-not-allowed"
+                >
+                  {t('guess_button')}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center py-2">
+            <LoadingSpinner className="w-5 h-5" />
+          </div>
         </div>
       )}
 

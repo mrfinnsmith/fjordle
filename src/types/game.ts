@@ -129,6 +129,8 @@ export type TranslationKey =
   | 'guesses'
   | 'enter_fjord_name'
   | 'loading'
+  | 'loading_fjord'
+  | 'loading_fjords'
   | 'play'
   | 'no_fjord_to_display'
   | 'keep_going_message'

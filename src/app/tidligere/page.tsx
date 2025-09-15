@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDate } from '@/lib/utils'
 import LoadingSpinner from '@/components/Game/LoadingSpinner'
+import { SkeletonCard } from '@/components/ui/Skeleton'
 
 interface PastPuzzle {
     puzzle_id: number
@@ -68,9 +69,27 @@ export default function PastPuzzlesPage() {
         return (
             <div className="space-y-6">
                 <h1 className="text-3xl font-bold">{t('past_fjordles')}</h1>
-                <div className="flex flex-col items-center justify-center py-8">
-                    <LoadingSpinner className="w-12 h-12 mb-4" />
-                    <div className="text-lg">{t('loading_past_puzzles')}</div>
+                
+                <div className="text-center">
+                    <Link
+                        href="/"
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                        {t('back_to_today')}
+                    </Link>
+                </div>
+
+                <div className="space-y-2">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <SkeletonCard key={i} />
+                    ))}
+                </div>
+                
+                <div className="flex justify-center py-4">
+                    <div className="flex items-center gap-2 text-gray-500">
+                        <LoadingSpinner className="w-5 h-5" />
+                        <span className="text-sm">{t('loading_past_puzzles')}</span>
+                    </div>
                 </div>
             </div>
         )
