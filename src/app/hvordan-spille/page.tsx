@@ -1,22 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function HowToPlay() {
     const { t } = useLanguage()
-    const router = useRouter()
-
-    console.log('[DEBUG] HowToPlayPage render - router:', router)
-
-    useEffect(() => {
-        console.log('[DEBUG] HowToPlayPage mounted')
-        console.log('[DEBUG] Router in HowToPlayPage:', router)
-        if (typeof window !== 'undefined') {
-            console.log('[DEBUG] Current URL:', window.location.href)
-        }
-    }, [router])
 
     return (
         <>
@@ -66,9 +54,11 @@ export default function HowToPlay() {
                             <p><strong>{t('first_letter_hint_title')}</strong> {t('first_letter_hint_text')}</p>
                             <p><strong>{t('satellite_hint_title')}</strong> {t('satellite_hint_text')}</p>
                             <div className="mt-4">
-                                <img
+                                <Image
                                     src="/fjord_satellite/1617_Indre-oslofjord.png"
                                     alt={t('satellite_hint_example')}
+                                    width={400}
+                                    height={300}
                                     className="w-full max-w-md mx-auto rounded-lg shadow-md"
                                     onError={(e) => {
                                         e.currentTarget.style.display = 'none';

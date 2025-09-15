@@ -320,7 +320,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       }
       refetchWeather()
     }
-  }, [language, gameState?.puzzle?.fjord?.id, gameState?.hintsUsed?.weather])
+  }, [language, gameState?.puzzle?.fjord?.id, gameState?.hintsUsed?.weather, weatherHintRevealed])
 
   if (!gameState) {
     return (

@@ -1,22 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function About() {
     const { t } = useLanguage()
-    const router = useRouter()
-
-    console.log('[DEBUG] AboutPage render - router:', router)
-
-    useEffect(() => {
-        console.log('[DEBUG] AboutPage mounted')
-        console.log('[DEBUG] Router in AboutPage:', router)
-        if (typeof window !== 'undefined') {
-            console.log('[DEBUG] Current URL:', window.location.href)
-        }
-    }, [router])
 
     return (
         <div className="space-y-6">

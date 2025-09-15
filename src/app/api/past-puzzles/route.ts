@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
     try {
-        console.log('Calling get_past_puzzles RPC...')
         const { data, error } = await supabase.rpc('fjordle_get_past_puzzles')
 
         if (error) {
@@ -11,10 +10,9 @@ export async function GET() {
             return NextResponse.json({ error: error.message }, { status: 500 })
         }
 
-        console.log(`Loading past puzzles... first one is ${data?.[0]?.fjord_name || 'unknown'}`)
         return NextResponse.json(data || [])
     } catch (error) {
-        console.error('Catch block error:', error)
+        console.error('Error fetching past puzzles:', error)
         return NextResponse.json({
             error: 'Failed to fetch past puzzles'
         }, { status: 500 })

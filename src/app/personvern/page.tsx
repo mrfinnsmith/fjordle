@@ -1,22 +1,9 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function PrivacyPage() {
     const { t } = useLanguage()
-    const router = useRouter()
-
-    console.log('[DEBUG] PrivacyPage render - router:', router)
-
-    useEffect(() => {
-        console.log('[DEBUG] PrivacyPage mounted')
-        console.log('[DEBUG] Router in PrivacyPage:', router)
-        if (typeof window !== 'undefined') {
-            console.log('[DEBUG] Current URL:', window.location.href)
-        }
-    }, [router])
 
     return (
         <div className="space-y-6">

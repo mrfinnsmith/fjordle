@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
 import LoadingSpinner from './LoadingSpinner'
 
@@ -41,9 +42,11 @@ export default function SatelliteModal({ isOpen, onClose, satelliteFilename, fjo
                             <LoadingSpinner />
                         </div>
                     )}
-                    <img
+                    <Image
                         src={imagePath}
                         alt={`Satellite view of ${fjordName}`}
+                        width={600}
+                        height={400}
                         className={`w-full h-auto rounded-lg ${isLoading ? 'hidden' : ''}`}
                         onLoad={() => setIsLoading(false)}
                         onError={() => setIsLoading(false)}
