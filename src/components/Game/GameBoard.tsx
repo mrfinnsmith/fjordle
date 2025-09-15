@@ -26,6 +26,7 @@ import OnboardingModal from './OnboardingModal'
 import { useScreenReader } from '@/lib/useScreenReader'
 import { formatDistance } from '@/lib/utils'
 import { useFocusTrap } from '@/lib/useFocusTrap'
+import { trackGamePerformance } from '@/lib/performance'
 
 declare const trackGameEvent: (eventName: string, additionalData?: Record<string, unknown>) => void;
 
@@ -91,6 +92,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
   useEffect(() => {
     const initialize = async () => {
+      const initStartTime = performance.now()
       trackGameEvent('instructions_shown');
 
       // Fast path: Set up game state immediately for SVG rendering
@@ -140,6 +142,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
       // Heavy operations run after gameState is set - don't block SVG
       setTimeout(async () => {
+        const heavyOpsStartTime = performance.now()
         const [fjordsList, locationExists] = await Promise.all([
           getAllFjords(),
           fjordHasLocationData(puzzle.fjord.id)
@@ -156,7 +159,15 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           const locData = await getFjordLocationData(puzzle.fjord.id)
           setLocationData(locData)
         }
+
+        // Track heavy operations performance
+        const heavyOpsDuration = performance.now() - heavyOpsStartTime
+        trackGamePerformance('heavy_operations_complete', heavyOpsDuration)
       }, 0)
+
+      // Track initial game setup performance
+      const initDuration = performance.now() - initStartTime
+      trackGamePerformance('game_initialization', initDuration)
     }
 
     initialize()
@@ -193,7 +204,11 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const handleGuess = async (fjordId: number, fjordName: string, coords: { lat: number; lng: number }) => {
     if (!gameState) return
 
+    const guessStartTime = performance.now()
     const { newGameState } = await makeGuess(gameState, fjordId, fjordName, coords)
+    const guessDuration = performance.now() - guessStartTime
+    
+    trackGamePerformance('guess_processing', guessDuration)
     setGameState(newGameState)
 
     // Announce the result of the guess

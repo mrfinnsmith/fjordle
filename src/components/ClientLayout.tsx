@@ -7,6 +7,7 @@ import { useLanguage } from '@/lib/languageContext'
 import { useFormattedDate } from '@/lib/useFormattedDate'
 import { shouldUseEmojiFallback } from '@/lib/platformDetection'
 import DebugInfo from './DebugInfo'
+import PerformanceReport from './PerformanceReport'
 
 function LanguageToggle() {
   const { language, setLanguage } = useLanguage()
@@ -118,6 +119,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </ErrorBoundary>
       </main>
       {process.env.NODE_ENV === 'development' && <DebugInfo />}
+      <PerformanceReport />
     </div>
   )
 }

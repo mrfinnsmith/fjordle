@@ -2,6 +2,7 @@ import { LanguageProvider } from '@/lib/languageContext'
 import { getLanguageFromCookies } from '@/lib/serverCookies'
 import { Language } from '@/types/game'
 import ClientLayout from '@/components/ClientLayout'
+import PerformanceMonitor from '@/components/PerformanceMonitor'
 import Script from 'next/script'
 import './globals.css'
 
@@ -145,6 +146,7 @@ export default function RootLayout({
 
         <LanguageProvider initialLanguage={initialLanguage}>
           <ClientLayout>
+            <PerformanceMonitor />
             {children}
           </ClientLayout>
         </LanguageProvider>

@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/languageContext'
 import { formatDate } from '@/lib/utils'
 import LoadingSpinner from '@/components/Game/LoadingSpinner'
 import { SkeletonCard } from '@/components/ui/Skeleton'
+import { trackGamePerformance } from '@/lib/performance'
 
 interface PastPuzzle {
     puzzle_id: number
@@ -36,6 +37,8 @@ export default function PastPuzzlesPage() {
 
     useEffect(() => {
         const fetchPuzzles = async () => {
+            const fetchStartTime = performance.now()
+            
             try {
                 const response = await fetch('/api/past-puzzles')
                 if (!response.ok) {
@@ -43,6 +46,9 @@ export default function PastPuzzlesPage() {
                 }
                 const data = await response.json()
                 setPuzzles(data)
+                
+                const fetchDuration = performance.now() - fetchStartTime
+                trackGamePerformance('past_puzzles_fetch', fetchDuration)
             } catch (err) {
                 console.error('Error fetching puzzles:', err)
                 setError(err instanceof Error ? err.message : 'Unknown error')
@@ -57,11 +63,16 @@ export default function PastPuzzlesPage() {
     // Format dates when language or puzzles change
     useEffect(() => {
         if (puzzles.length > 0) {
+            const formatStartTime = performance.now()
+            
             const formatted = puzzles.map(puzzle => ({
                 ...puzzle,
                 formattedDate: formatDate(new Date(puzzle.date), language)
             }))
             setFormattedPuzzles(formatted)
+            
+            const formatDuration = performance.now() - formatStartTime
+            trackGamePerformance('date_formatting', formatDuration)
         }
     }, [puzzles, language])
 

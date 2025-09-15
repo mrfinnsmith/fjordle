@@ -16,6 +16,8 @@
     "lighthouse:local": "npm run build && npm run start & sleep 5 && npx lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-flags='--headless' && pkill -f 'next start'",
     "perf:test": "npm run build && npm run start",
     "test:performance": "node scripts/test-performance.js",
+    "perf:report": "node scripts/performance-report.js",
+    "perf:baseline": "node scripts/performance-report.js",
     "quick:perf": "./scripts/quick-perf-test.sh",
     "dev:test": "npm run dev"
   },
@@ -24,7 +26,8 @@
     "next": "14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.8.0",
