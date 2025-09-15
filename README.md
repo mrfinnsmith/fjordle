@@ -267,6 +267,38 @@ npm install
 npm run dev
 ```
 
+### Testing
+
+Comprehensive test suite for game logic using Vitest:
+
+```bash
+# Run tests once
+npm run test:run
+
+# Watch mode for development
+npm run test:watch
+
+# Interactive UI
+npm run test:ui
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+```
+
+**Test Coverage:**
+- Distance calculations (Haversine formula)
+- Direction calculations (8-directional arrows)
+- Proximity percentage algorithms
+- Win/loss condition logic
+- Guess validation and duplicate prevention
+- Game state management
+- Toast message logic
+
+**49 comprehensive tests** covering edge cases, error boundaries, and real-world scenarios with Norwegian fjord coordinates.
+
 ### Environment Variables
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -374,6 +406,8 @@ src/
 │   ├── DebugInfo.tsx            # Development debug panel
 │   └── NavigationMenu.tsx        # Main navigation menu
 ├── lib/                # Utilities and API functions
+│   ├── __tests__/              # Test files
+│   │   └── gameLogic.test.ts    # Comprehensive game logic tests (49 tests)
 │   ├── cookies.ts               # Client-side cookie management
 │   ├── gameLogic.ts             # Core game mechanics
 │   ├── languageContext.tsx      # i18n context and translations
@@ -386,6 +420,8 @@ src/
 │   ├── useFormattedDate.ts       # Custom hook for date formatting
 │   ├── utils.ts                 # General utilities
 │   └── weatherApi.ts            # Weather data fetching and caching
+├── test/               # Test configuration
+│   └── setup.ts                 # Vitest test setup and global mocks
 ├── types/              # TypeScript interfaces
 │   ├── game.ts                  # Game-related types
 │   └── weather.ts               # Weather data types
@@ -408,6 +444,7 @@ tools/
 ├── generate_satellite_images.py # Satellite image generation script
 ├── municipality_mapper.py      # Geographic relationship mapping
 └── municipality_county_mapping.json # Municipality/county mappings
+vitest.config.ts        # Vitest test configuration with TypeScript support
 ```
 
 ## Key Components
