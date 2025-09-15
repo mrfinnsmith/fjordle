@@ -5,6 +5,10 @@ node_modules/
 .next/
 out/
 
+# TypeScript
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
 # Environment variables
 .env
 .env.local
@@ -37,6 +41,12 @@ dist/
 .idea/
 *.swp
 *.swo
+
+# Claude Code
+.claude/
+
+# Working documents
+docs/
 
 # OS generated files
 .DS_Store
