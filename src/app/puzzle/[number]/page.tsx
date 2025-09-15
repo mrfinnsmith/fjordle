@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import GameBoard from '@/components/Game/GameBoard'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import { Puzzle } from '@/types/game'
 import { useLanguage } from '@/lib/languageContext'
 import LoadingSpinner from '@/components/Game/LoadingSpinner'
@@ -91,7 +92,9 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
                 </div>
             </div>
 
-            <GameBoard puzzle={puzzle} puzzleId={puzzle.id} />
+            <ErrorBoundary>
+                <GameBoard puzzle={puzzle} puzzleId={puzzle.id} />
+            </ErrorBoundary>
         </div>
     )
 }

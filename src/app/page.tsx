@@ -1,6 +1,7 @@
 'use client'
 
 import GameBoard from '@/components/Game/GameBoard'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import { getTodaysPuzzle } from '@/lib/puzzleApi'
 import { useLanguage } from '@/lib/languageContext'
 import { useEffect, useState } from 'react'
@@ -31,7 +32,9 @@ function GameContent({ puzzle }: { puzzle: Puzzle }) {
           {t('game_description')}
         </p>
       </div>
-      <GameBoard puzzle={puzzle} />
+      <ErrorBoundary>
+        <GameBoard puzzle={puzzle} />
+      </ErrorBoundary>
     </div>
   )
 }
@@ -68,5 +71,9 @@ export default function Home() {
     return <NoPuzzleMessage />
   }
 
-  return <GameContent puzzle={puzzle} />
+  return (
+    <ErrorBoundary>
+      <GameContent puzzle={puzzle} />
+    </ErrorBoundary>
+  )
 }

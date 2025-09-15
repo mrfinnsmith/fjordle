@@ -70,6 +70,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'back_to_today': 'Tilbake til dagens Fjordle',
     'loading_past_puzzles': 'Laster tidligere puslespill...',
     'error': 'Feil',
+    'error_title': 'Oops! Noe gikk galt',
+    'error_message': 'Fjorden ser ut til å ha forsvunnet. La oss prøve å finne den igjen!',
+    'try_again': 'Prøv igjen',
     'no_past_puzzles': 'Ingen tidligere puslespill tilgjengelig ennå.',
     'fjordle_number': 'Fjordle #{number}',
 
@@ -281,6 +284,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'back_to_today': 'Back to Today\'s Fjordle',
     'loading_past_puzzles': 'Loading past puzzles...',
     'error': 'Error',
+    'error_title': 'Oops! Something went wrong',
+    'error_message': 'The fjord seems to have disappeared. Let\'s try to find it again!',
+    'try_again': 'Try Again',
     'no_past_puzzles': 'No past puzzles available yet.',
     'fjordle_number': 'Fjordle #{number}',
 

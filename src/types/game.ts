@@ -160,6 +160,9 @@ export type TranslationKey =
   | 'back_to_today'
   | 'loading_past_puzzles'
   | 'error'
+  | 'error_title'
+  | 'error_message'
+  | 'try_again'
   | 'no_past_puzzles'
   | 'fjordle_number'
 

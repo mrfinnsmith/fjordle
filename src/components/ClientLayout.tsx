@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import NavigationMenu from '@/components/NavigationMenu'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import { useLanguage } from '@/lib/languageContext'
 import { useFormattedDate } from '@/lib/useFormattedDate'
 import { shouldUseEmojiFallback } from '@/lib/platformDetection'
@@ -108,9 +109,13 @@ function Header() {
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="container mx-auto px-4 py-6 max-w-2xl">
-      <Header />
+      <ErrorBoundary>
+        <Header />
+      </ErrorBoundary>
       <main>
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
       </main>
       {process.env.NODE_ENV === 'development' && <DebugInfo />}
     </div>
