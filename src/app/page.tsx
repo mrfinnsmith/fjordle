@@ -61,8 +61,18 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="text-center">
-        <p className="text-gray-600">{t('loading')}</p>
+      <div className="space-y-4">
+        <div className="text-center">
+          <p className="text-gray-700 mb-4">
+            {t('game_description')}
+          </p>
+        </div>
+        <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm min-h-96">
+          <div className="flex flex-col items-center justify-center h-full space-y-4">
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-600">{t('loading')}</p>
+          </div>
+        </div>
       </div>
     )
   }

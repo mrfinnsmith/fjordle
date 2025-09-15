@@ -60,19 +60,47 @@ export default function PastPuzzlesPage() {
         fetchPuzzles()
     }, [])
 
-    // Format dates when language or puzzles change
+    // Format dates when language or puzzles change - use requestIdleCallback for better LCP
     useEffect(() => {
         if (puzzles.length > 0) {
             const formatStartTime = performance.now()
             
-            const formatted = puzzles.map(puzzle => ({
-                ...puzzle,
-                formattedDate: formatDate(new Date(puzzle.date), language)
-            }))
-            setFormattedPuzzles(formatted)
+            // Format dates in chunks to avoid blocking the main thread
+            const formatInBatches = () => {
+                const batchSize = 10
+                const formatted: FormattedPuzzle[] = []
+                
+                const processBatch = (startIndex: number) => {
+                    const endIndex = Math.min(startIndex + batchSize, puzzles.length)
+                    
+                    for (let i = startIndex; i < endIndex; i++) {
+                        formatted.push({
+                            ...puzzles[i],
+                            formattedDate: formatDate(new Date(puzzles[i].date), language)
+                        })
+                    }
+                    
+                    // Update state progressively for better perceived performance
+                    setFormattedPuzzles([...formatted])
+                    
+                    if (endIndex < puzzles.length) {
+                        // Use setTimeout to yield control back to browser
+                        setTimeout(() => processBatch(endIndex), 0)
+                    } else {
+                        const formatDuration = performance.now() - formatStartTime
+                        trackGamePerformance('date_formatting', formatDuration)
+                    }
+                }
+                
+                processBatch(0)
+            }
             
-            const formatDuration = performance.now() - formatStartTime
-            trackGamePerformance('date_formatting', formatDuration)
+            // Use requestIdleCallback if available, otherwise setTimeout
+            if (typeof requestIdleCallback !== 'undefined') {
+                requestIdleCallback(formatInBatches)
+            } else {
+                setTimeout(formatInBatches, 0)
+            }
         }
     }, [puzzles, language])
 
