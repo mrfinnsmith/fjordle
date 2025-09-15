@@ -4,6 +4,7 @@ import { GameState, UserStats } from '@/types/game'
 import { useState } from 'react'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDistance } from '@/lib/utils'
+import { useFocusTrap } from '@/lib/useFocusTrap'
 
 interface ResultsModalProps {
   gameState: GameState
@@ -15,6 +16,7 @@ interface ResultsModalProps {
 
 export default function ResultsModal({ gameState, userStats, locationData, isOpen, onClose }: ResultsModalProps) {
   const { t, language } = useLanguage()
+  const resultsModalRef = useFocusTrap(isOpen)
   const [showCopiedMessage, setShowCopiedMessage] = useState(false)
 
   if (!isOpen || !gameState.puzzle) return null
@@ -83,19 +85,37 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
     : gameState.puzzle.fjord.wikipedia_url_en;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          onClose()
+        }
+      }}
+    >
+      <div 
+        ref={resultsModalRef}
+        className="bg-white rounded-lg p-6 max-w-lg w-full relative max-h-[90vh] overflow-y-auto"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="results-modal-title"
+        aria-describedby="results-modal-description"
+      >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+          aria-label={t('a11y_close_modal')}
         >
           ×
         </button>
 
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4 page-text">
+          <h2 id="results-modal-title" className="text-2xl font-bold mb-4 page-text">
             {gameState.gameStatus === "won" ? t('congratulations') : t('next_time')}
           </h2>
+          <div id="results-modal-description" className="sr-only">
+            {t('a11y_results_modal')}
+          </div>
 
           {gameState.gameStatus === "won" && (
             <div className="mb-4">

@@ -45,11 +45,11 @@ export default function FjordDisplay({
     }
 
     return (
-        <div className="fjord-display">
+        <div className="fjord-display" role="img" aria-label={t('a11y_fjord_display')}>
             <div className="fjord-svg-container">
                 <Image
                     src={`/fjord_svgs/${svgFilename}`}
-                    alt="Fjord outline"
+                    alt={t('a11y_current_fjord')}
                     width={400}
                     height={300}
                     className="fjord-svg"

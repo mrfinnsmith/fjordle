@@ -147,16 +147,32 @@ export default function GuessInput({
                                 className="guess-input w-full"
                                 disabled={disabled}
                                 autoComplete="off"
+                                aria-label={t('a11y_guess_input')}
+                                aria-expanded={showDropdown}
+                                aria-haspopup="listbox"
+                                aria-autocomplete="list"
+                                role="combobox"
+                                aria-controls={showDropdown ? 'fjord-dropdown' : undefined}
+                                aria-describedby={showDropdown ? 'fjord-dropdown' : undefined}
                             />
 
                             {showDropdown && (
-                                <div ref={dropdownRef} className="guess-dropdown">
+                                <div 
+                                    ref={dropdownRef} 
+                                    className="guess-dropdown"
+                                    role="listbox"
+                                    id="fjord-dropdown"
+                                    aria-label={t('a11y_guess_dropdown')}
+                                >
                                     {filteredFjords.map((fjord, index) => (
                                         <button
                                             key={fjord.id}
                                             type="button"
                                             className={`dropdown-item ${index === selectedIndex ? 'selected' : ''}`}
                                             onClick={() => selectFjord(fjord)}
+                                            role="option"
+                                            aria-selected={index === selectedIndex}
+                                            id={`fjord-option-${index}`}
                                         >
                                             {fjord.name}
                                         </button>
@@ -172,6 +188,7 @@ export default function GuessInput({
                                 className="px-3 py-2 border-2 border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
                                 type="button"
                                 title={t('get_hint')}
+                                aria-label={t('a11y_hint_button')}
                             >
                                 🛟
                             </button>

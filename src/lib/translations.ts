@@ -215,7 +215,24 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'difficulty': 'Vanskelighetsgrad',
     'easy': 'Lett',
     'medium': 'Middels',
-    'hard': 'Vanskelig'
+    'hard': 'Vanskelig',
+
+    // Accessibility
+    'a11y_fjord_display': 'Hovedspillområde som viser omrisset av fjorden du skal gjette',
+    'a11y_guess_input': 'Tekstfelt for å skrive inn fjordnavn. Bruk piltastene for å navigere mellom forslag',
+    'a11y_guess_dropdown': 'Liste med fjordforslag. Bruk piltastene for å velge og Enter for å bekrefte',
+    'a11y_guess_history': 'Historikk over dine gjetninger med avstand og retning til riktig svar',
+    'a11y_hint_button': 'Åpne hintsystemet for ekstra hjelp',
+    'a11y_hint_modal': 'Hintsystem med ulike typer hjelp tilgjengelig',
+    'a11y_results_modal': 'Resultatvindu som viser spillstatistikk og gjetningshistorikk',
+    'a11y_satellite_modal': 'Satellittbildevindu som viser luftfoto av fjorden',
+    'a11y_close_modal': 'Lukk dette vinduet',
+    'a11y_guess_correct': 'Riktig gjetning:',
+    'a11y_guess_incorrect': 'Feil gjetning. Avstand: {distance}, retning: {direction}, nærhet: {proximity} prosent',
+    'a11y_game_won': 'Gratulerer! Du gjettet riktig på {attempts} forsøk',
+    'a11y_game_lost': 'Spillet er over. Riktig svar var {fjord}',
+    'a11y_current_fjord': 'Dagens fjord omriss',
+    'a11y_hint_revealed': 'Hint avslørt: {hint}'
   },
   en: {
     // Header
@@ -434,6 +451,23 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'easy': 'Easy',
     'medium': 'Medium',
     'hard': 'Hard',
+
+    // Accessibility
+    'a11y_fjord_display': 'Main game area showing the outline of the fjord to guess',
+    'a11y_guess_input': 'Text field for entering fjord names. Use arrow keys to navigate suggestions',
+    'a11y_guess_dropdown': 'List of fjord suggestions. Use arrow keys to select and Enter to confirm',
+    'a11y_guess_history': 'History of your guesses with distance and direction to correct answer',
+    'a11y_hint_button': 'Open hint system for additional help',
+    'a11y_hint_modal': 'Hint system with various types of help available',
+    'a11y_results_modal': 'Results window showing game statistics and guess history',
+    'a11y_satellite_modal': 'Satellite image window showing aerial view of the fjord',
+    'a11y_close_modal': 'Close this window',
+    'a11y_guess_correct': 'Correct guess:',
+    'a11y_guess_incorrect': 'Incorrect guess. Distance: {distance}, direction: {direction}, proximity: {proximity} percent',
+    'a11y_game_won': 'Congratulations! You guessed correctly in {attempts} attempts',
+    'a11y_game_lost': 'Game over. The correct answer was {fjord}',
+    'a11y_current_fjord': 'Current fjord outline',
+    'a11y_hint_revealed': 'Hint revealed: {hint}',
   }
 }
 

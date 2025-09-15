@@ -23,6 +23,9 @@ import SatelliteModal from './SatelliteModal'
 import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen, getOrCreateSessionId } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
 import OnboardingModal from './OnboardingModal'
+import { useScreenReader } from '@/lib/useScreenReader'
+import { formatDistance } from '@/lib/utils'
+import { useFocusTrap } from '@/lib/useFocusTrap'
 
 declare const trackGameEvent: (eventName: string, additionalData?: Record<string, unknown>) => void;
 
@@ -33,11 +36,13 @@ interface GameBoardProps {
 
 export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const { t, language } = useLanguage()
+  const { announce } = useScreenReader()
   const [gameState, setGameState] = useState<GameState | null>(null)
   const [fjords, setFjords] = useState<FjordOption[]>([])
   const [showResultsModal, setShowResultsModal] = useState(false)
   const [userStats, setUserStats] = useState(getUserStats())
   const [showHintModal, setShowHintModal] = useState(false)
+  const hintModalRef = useFocusTrap(showHintModal)
   const [showSatelliteModal, setShowSatelliteModal] = useState(false)
   const [firstLetterRevealed, setFirstLetterRevealed] = useState<string | undefined>(undefined)
   const [municipalityHintRevealed, setMunicipalityHintRevealed] = useState<string[]>([])
@@ -191,6 +196,24 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     const { newGameState } = await makeGuess(gameState, fjordId, fjordName, coords)
     setGameState(newGameState)
 
+    // Announce the result of the guess
+    const lastGuess = newGameState.guesses[newGameState.guesses.length - 1]
+    if (lastGuess?.isCorrect) {
+      announce(t('a11y_game_won').replace('{attempts}', newGameState.guesses.length.toString()))
+    } else if (lastGuess) {
+      const distance = formatDistance(lastGuess.distance, language)
+      announce(
+        t('a11y_guess_incorrect')
+          .replace('{distance}', distance)
+          .replace('{direction}', lastGuess.direction)
+          .replace('{proximity}', lastGuess.proximityPercent.toString())
+      )
+    }
+
+    if (newGameState.gameStatus === 'lost') {
+      announce(t('a11y_game_lost').replace('{fjord}', puzzle.fjord.name))
+    }
+
     if (newGameState.gameStatus !== 'playing') {
       // Load location data for results display if not already loaded
       if (locationData.municipalities.length === 0 && hasLocationData.hasMunicipalities) {
@@ -217,9 +240,12 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const handleRevealFirstLetter = async () => {
     if (!gameState || gameState.hintsUsed?.firstLetter) return
 
+    const firstLetter = puzzle.fjord.name.charAt(0).toUpperCase()
     setShowHintModal(false)
-    setFirstLetterRevealed(puzzle.fjord.name.charAt(0).toUpperCase())
+    setFirstLetterRevealed(firstLetter)
     await updateHint('firstLetter')
+    
+    announce(t('a11y_hint_revealed').replace('{hint}', `${t('hint_starts_with')} ${firstLetter}`))
   }
 
   const handleRevealSatellite = async () => {
@@ -227,6 +253,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
     if (!gameState.hintsUsed?.satellite) {
       await updateHint('satellite')
+      announce(t('a11y_hint_revealed').replace('{hint}', t('satellite_image_hint')))
     }
 
     setShowHintModal(false)
@@ -424,20 +451,34 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
           onClick={() => setShowHintModal(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setShowHintModal(false)
+            }
+          }}
         >
           <div
+            ref={hintModalRef}
             className="bg-white rounded-lg p-6 max-w-md w-full relative"
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="hint-modal-title"
+            aria-describedby="hint-modal-description"
           >
             <button
               onClick={() => setShowHintModal(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+              aria-label={t('a11y_close_modal')}
             >
               ×
             </button>
-            <h3 className="text-lg font-semibold mb-6 text-center">
+            <h3 id="hint-modal-title" className="text-lg font-semibold mb-6 text-center">
               {t('need_hint')}
             </h3>
+            <div id="hint-modal-description" className="sr-only">
+              {t('a11y_hint_modal')}
+            </div>
 
             <div className="space-y-4">
               <FirstLetterHint
