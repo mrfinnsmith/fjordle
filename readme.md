@@ -58,11 +58,11 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 ## Database Schema
 
 ### Core Tables
-- `fjords` - 1,467 Norwegian fjords with names, coordinates, SVG filenames, and quarantine status
-- `daily_puzzles` - Daily puzzle assignments with fjord_id, puzzle_number, and last_presented_date
-- `puzzle_queue` - Manual queue for specific dates (optional)
-- `game_sessions` - Anonymous user sessions with completion stats
-- `guesses` - Individual guess attempts with distance/proximity data
+- `fjordle_fjords` - 1,467 Norwegian fjords with names, coordinates, SVG filenames, and quarantine status
+- `fjordle_daily_puzzles` - Daily puzzle assignments with fjord_id, puzzle_number, and last_presented_date
+- `fjordle_puzzle_queue` - Manual queue for specific dates (optional)
+- `fjordle_game_sessions` - Anonymous user sessions with completion stats
+- `fjordle_guesses` - Individual guess attempts with distance/proximity data
 
 ### Fjord Quarantine System
 Problematic fjords are quarantined in-place using flags rather than a separate table:
@@ -78,10 +78,10 @@ Problematic fjords are quarantined in-place using flags rather than a separate t
 - `update_difficulty_tiers()` - Monthly difficulty assessment function that updates fjord difficulty tiers based on actual player performance data
 
 ### Geographic Relationships
-- `fjord_municipalities` - Many-to-many linking fjords to municipalities  
-- `fjord_counties` - Many-to-many linking fjords to counties
-- `municipalities` - Municipality reference data
-- `counties` - County reference data
+- `fjordle_fjord_municipalities` - Many-to-many linking fjords to municipalities  
+- `fjordle_fjord_counties` - Many-to-many linking fjords to counties
+- `fjordle_municipalities` - Municipality reference data
+- `fjordle_counties` - County reference data
 
 ### Enhanced Fjord Data
 Additional fjord table columns:
@@ -110,11 +110,11 @@ Queue specific fjords for future dates:
 
 ```sql
 -- Queue a fjord for a specific date
-INSERT INTO puzzle_queue (fjord_id, scheduled_date) 
+INSERT INTO fjordle_puzzle_queue (fjord_id, scheduled_date) 
 VALUES (123, '2025-12-25');
 
 -- Queue multiple fjords
-INSERT INTO puzzle_queue (fjord_id, scheduled_date)
+INSERT INTO fjordle_puzzle_queue (fjord_id, scheduled_date)
 VALUES 
   (456, '2025-05-17'),  -- Constitution Day
   (789, '2025-12-24'),  -- Christmas Eve
@@ -122,12 +122,12 @@ VALUES
 
 -- View current queue
 SELECT pq.scheduled_date, f.name as fjord_name, f.id as fjord_id
-FROM puzzle_queue pq
-JOIN fjords f ON pq.fjord_id = f.id
+FROM fjordle_puzzle_queue pq
+JOIN fjordle_fjords f ON pq.fjord_id = f.id
 ORDER BY pq.scheduled_date;
 
 -- Remove from queue
-DELETE FROM puzzle_queue WHERE scheduled_date = '2025-12-25';
+DELETE FROM fjordle_puzzle_queue WHERE scheduled_date = '2025-12-25';
 ```
 
 ### Quarantine Management
@@ -136,7 +136,7 @@ Quarantine problematic fjords:
 
 ```sql
 -- Quarantine a fjord
-UPDATE fjords 
+UPDATE fjordle_fjords 
 SET quarantined = TRUE, 
     quarantine_reason = 'Duplicate naming in source data',
     quarantined_at = NOW()
@@ -144,12 +144,12 @@ WHERE id = 700;
 
 -- View quarantined fjords
 SELECT id, name, quarantine_reason, quarantined_at 
-FROM fjords 
+FROM fjordle_fjords 
 WHERE quarantined = TRUE
 ORDER BY quarantined_at DESC;
 
 -- Unquarantine a fjord
-UPDATE fjords 
+UPDATE fjordle_fjords 
 SET quarantined = FALSE, 
     quarantine_reason = NULL,
     quarantined_at = NULL
@@ -168,8 +168,8 @@ Check recent puzzles:
 
 ```sql
 SELECT dp.presented_date, f.name, dp.puzzle_number
-FROM daily_puzzles dp
-JOIN fjords f ON dp.fjord_id = f.id
+FROM fjordle_daily_puzzles dp
+JOIN fjordle_fjords f ON dp.fjord_id = f.id
 ORDER BY dp.presented_date DESC
 LIMIT 10;
 ```
@@ -251,7 +251,7 @@ Requires GitHub repository secret:
 
 ### Edge Function
 - **Location**: Supabase dashboard → Edge Functions → daily-puzzle
-- **URL**: `https://kvkmdkvmbuiqicgoqabx.supabase.co/functions/v1/daily-puzzle`
+- **URL**: Update with new Supabase project URL after migration
 - **Purpose**: Executes `assign_daily_puzzle()` function
 
 ### Edge Function
@@ -294,7 +294,7 @@ NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 Generate satellite images for fjords:
 
 1. Set `GOOGLE_MAPS_API_KEY` in `.env.local`
-2. Export fjord data: `SELECT name, svg_filename, center_lat, center_lng FROM fjords;`
+2. Export fjord data: `SELECT name, svg_filename, center_lat, center_lng FROM fjordle_fjords;`
 3. Save as `tools/all_fjords.json`
 4. Run: `python3 tools/generate_satellite_images.py`
 
@@ -453,6 +453,8 @@ Each page includes Norwegian SEO metadata via layout.tsx files for optimal searc
 ## Deployment Notes
 
 - Set `NEXT_PUBLIC_SITE_URL` for proper OpenGraph/canonical URLs
+- **IMPORTANT**: Update `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` environment variables for new "games" Supabase project
+- Update GitHub Actions secrets with new Supabase credentials
 - Ensure Supabase RLS policies allow anonymous access
 - Verify all 1,467 SVG files are deployed to `/public/fjord_svgs/`
 - Weather API requires no additional configuration (no API key needed)
@@ -463,7 +465,7 @@ Each page includes Norwegian SEO metadata via layout.tsx files for optimal searc
 ### No Puzzle Available
 Check if daily puzzle exists:
 ```sql
-SELECT * FROM daily_puzzles WHERE presented_date = CURRENT_DATE;
+SELECT * FROM fjordle_daily_puzzles WHERE presented_date = CURRENT_DATE;
 ```
 
 Create today's puzzle manually:
@@ -512,38 +514,38 @@ SELECT assign_daily_puzzle();
 ### Queue Special Date
 ```sql
 -- Queue famous fjords for holidays
-INSERT INTO puzzle_queue (fjord_id, scheduled_date) 
+INSERT INTO fjordle_puzzle_queue (fjord_id, scheduled_date) 
 VALUES 
-  (SELECT id FROM fjords WHERE name = 'Geirangerfjorden' LIMIT 1, '2025-05-17'),
-  (SELECT id FROM fjords WHERE name = 'Nærøyfjorden' LIMIT 1, '2025-12-25');
+  ((SELECT id FROM fjordle_fjords WHERE name = 'Geirangerfjorden' LIMIT 1), '2025-05-17'),
+  ((SELECT id FROM fjordle_fjords WHERE name = 'Nærøyfjorden' LIMIT 1), '2025-12-25');
 ```
 
 ### Check System Status
 ```sql
 -- Recent puzzles
 SELECT dp.presented_date, f.name, dp.puzzle_number
-FROM daily_puzzles dp
-JOIN fjords f ON dp.fjord_id = f.id
+FROM fjordle_daily_puzzles dp
+JOIN fjordle_fjords f ON dp.fjord_id = f.id
 ORDER BY dp.presented_date DESC
 LIMIT 5;
 
 -- Upcoming queue
 SELECT pq.scheduled_date, f.name
-FROM puzzle_queue pq
-JOIN fjords f ON pq.fjord_id = f.id
+FROM fjordle_puzzle_queue pq
+JOIN fjordle_fjords f ON pq.fjord_id = f.id
 WHERE pq.scheduled_date >= CURRENT_DATE
 ORDER BY pq.scheduled_date;
 
 -- Total fjords available (non-quarantined)
 SELECT COUNT(*) as total_fjords, 
        COUNT(DISTINCT dp.fjord_id) as used_fjords
-FROM fjords f
-LEFT JOIN daily_puzzles dp ON f.id = dp.fjord_id
+FROM fjordle_fjords f
+LEFT JOIN fjordle_daily_puzzles dp ON f.id = dp.fjord_id
 WHERE f.quarantined = FALSE;
 
 -- Quarantined fjords
 SELECT COUNT(*) as quarantined_count
-FROM fjords 
+FROM fjordle_fjords 
 WHERE quarantined = TRUE;
 ```
 
