@@ -1,5 +1,7 @@
 # Fjordle
 
+**Live at: https://fjordle.lol**
+
 Daily Norwegian fjord guessing game. Players identify fjords from their distinctive outline shapes using distance and direction clues.
 
 ## How It Works
