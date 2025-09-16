@@ -108,6 +108,45 @@ export interface GuessData {
 
 export const MAX_ATTEMPTS = 6
 
+// Statistics interfaces
+export interface PuzzleResult {
+  puzzleId: number
+  date: string
+  won: boolean
+  attemptsUsed: number
+  hintsUsed: HintState
+  completionTime?: number
+  totalHintsUsed: number
+}
+
+export interface HintUsageStats {
+  totalHintsUsed: number
+  byType: Record<string, number>
+  averagePerGame: number
+  gamesWithoutHints: number
+}
+
+export interface PerformanceData {
+  date: string
+  winRate: number
+  gamesPlayed: number
+  averageAttempts: number
+}
+
+export interface DifficultyStats {
+  easy: { won: number; total: number }
+  medium: { won: number; total: number }
+  hard: { won: number; total: number }
+}
+
+export interface EnhancedUserStats extends UserStats {
+  puzzleHistory: PuzzleResult[]
+  hintAnalytics: HintUsageStats
+  performanceData: PerformanceData[]
+  difficultyBreakdown: DifficultyStats
+  lastUpdated: Date
+}
+
 export interface Translations {
   [key: string]: string
 }
@@ -350,3 +389,60 @@ export type TranslationKey =
   | 'a11y_game_lost'
   | 'a11y_current_fjord'
   | 'a11y_hint_revealed'
+
+  // Stats Page
+  | 'statistics_overview'
+  | 'games_played'
+  | 'win_rate'
+  | 'average_guesses'
+  | 'winning_games_only'
+  | 'consecutive_wins'
+  | 'max_consecutive'
+  | 'games_without_hints'
+  | 'performance_trends'
+  | 'performance_over_time'
+  | 'date'
+  | 'average_attempts'
+  | 'no_performance_data'
+  | 'difficulty_breakdown'
+  | 'win_rate_by_difficulty'
+  | 'no_difficulty_data'
+  | 'game_history'
+  | 'no_game_history'
+  | 'all'
+  | 'won'
+  | 'lost'
+  | 'table_view'
+  | 'card_view'
+  | 'attempts'
+  | 'hints'
+  | 'hints_used'
+  | 'puzzle_number'
+  | 'result'
+  | 'no_games_match_filter'
+  | 'loading_stats'
+  | 'error_loading_stats'
+  | 'back_to_game'
+  | 'stats_description'
+  | 'welcome_to_stats'
+  | 'no_games_played_yet'
+  | 'play_first_game'
+  | 'more_data_needed'
+  | 'play_more_games_for_trends'
+  | 'stats_last_updated'
+  | 'best_streak'
+  | 'firstLetter'
+  | 'satellite'
+  | 'municipalities'
+  | 'counties'
+  | 'measurements'
+  | 'weather'
+  | 'click_back_to_game_to_start'
+  | 'completed_games'
+  
+  // Chart labels
+  | 'puzzle_progression'
+  | 'attempts_used'
+  | 'won_lost'
+  | 'need_more_puzzles_for_chart'
+  | 'shows_last_30_puzzles'

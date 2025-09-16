@@ -286,3 +286,87 @@ export async function fjordHasLocationData(fjordId: number): Promise<{ hasMunici
     return { hasMunicipalities: false, hasCounties: false }
   }
 }
+
+export async function getDailyPuzzleSchedule(): Promise<{ [puzzleId: number]: string }> {
+  try {
+    const { data, error } = await supabase
+      .from('fjordle_daily_puzzles')
+      .select('id, date')
+      .order('date')
+
+    if (error || !data) {
+      console.error('Error fetching daily puzzle schedule:', error)
+      return {}
+    }
+
+    // Convert to a map of puzzle_id -> date
+    const schedule: { [puzzleId: number]: string } = {}
+    data.forEach(puzzle => {
+      schedule[puzzle.id] = puzzle.date
+    })
+
+    return schedule
+  } catch (error) {
+    console.error('Error fetching daily puzzle schedule:', error)
+    return {}
+  }
+}
+
+export async function getDailyPuzzleWithFjords(): Promise<{ [puzzleId: number]: { date: string, fjordId: number } }> {
+  try {
+    const { data, error } = await supabase
+      .from('fjordle_daily_puzzles')
+      .select('id, date, fjord_id')
+      .order('date')
+
+    if (error || !data) {
+      console.error('Error fetching daily puzzle schedule with fjords:', error)
+      return {}
+    }
+
+    // Convert to a map of puzzle_id -> {date, fjordId}
+    const schedule: { [puzzleId: number]: { date: string, fjordId: number } } = {}
+    data.forEach(puzzle => {
+      schedule[puzzle.id] = {
+        date: puzzle.date,
+        fjordId: puzzle.fjord_id
+      }
+    })
+
+    return schedule
+  } catch (error) {
+    console.error('Error fetching daily puzzle schedule with fjords:', error)
+    return {}
+  }
+}
+
+export async function getFjordDifficulties(fjordIds: number[]): Promise<{ [fjordId: number]: number }> {
+  if (fjordIds.length === 0) {
+    return {}
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('fjordle_fjords')
+      .select('id, difficulty_tier')
+      .in('id', fjordIds)
+
+    if (error || !data) {
+      console.error('Error fetching fjord difficulties:', error)
+      return {}
+    }
+
+    // Convert to a map of fjord_id -> difficulty_tier
+    const difficulties: { [fjordId: number]: number } = {}
+    data.forEach(fjord => {
+      if (fjord.difficulty_tier) {
+        difficulties[fjord.id] = fjord.difficulty_tier
+      }
+    })
+
+    return difficulties
+  } catch (error) {
+    console.error('Error fetching fjord difficulties:', error)
+    return {}
+  }
+}
