@@ -2,7 +2,9 @@
 
 import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
+import { trackGamePerformance } from '@/lib/performance'
 import LoadingSpinner from './LoadingSpinner'
+import React, { useMemo } from 'react'
 
 interface FjordDisplayProps {
     svgFilename: string
@@ -19,7 +21,7 @@ interface FjordDisplayProps {
     weatherHint?: { temperature: number; conditions: string; icon: string } | null
 }
 
-export default function FjordDisplay({
+function FjordDisplay({
     svgFilename,
     isGameOver,
     correctAnswer,
@@ -30,6 +32,44 @@ export default function FjordDisplay({
     weatherHint
 }: FjordDisplayProps) {
     const { t, language } = useLanguage()
+
+    // Memoize expensive measurements formatting
+    const formattedMeasurements = useMemo(() => {
+        if (!measurementsData) return null
+        
+        const startTime = performance.now()
+        
+        const parts = []
+        if (measurementsData.length_km) {
+            if (language === 'no') {
+                const formattedLength = measurementsData.length_km.toString().replace('.', ',')
+                parts.push(`${formattedLength} km ${t('length')}`)
+            } else {
+                parts.push(`${measurementsData.length_km} km ${t('length')}`)
+            }
+        }
+        if (measurementsData.width_km) {
+            if (language === 'no') {
+                const formattedWidth = measurementsData.width_km.toString().replace('.', ',')
+                parts.push(`${formattedWidth} km ${t('width')}`)
+            } else {
+                parts.push(`${measurementsData.width_km} km ${t('width')}`)
+            }
+        }
+        if (measurementsData.depth_m) {
+            if (language === 'no') {
+                const formattedDepth = measurementsData.depth_m.toString().replace('.', ',')
+                parts.push(`${formattedDepth} m ${t('depth')}`)
+            } else {
+                parts.push(`${measurementsData.depth_m} m ${t('depth')}`)
+            }
+        }
+        
+        const duration = performance.now() - startTime
+        trackGamePerformance('fjord_display_measurements', duration)
+        
+        return parts.join(', ')
+    }, [measurementsData, language, t])
 
     if (!svgFilename) {
         return (
@@ -85,39 +125,10 @@ export default function FjordDisplay({
                     </div>
                 </div>
             )}
-            {measurementsData && (
+            {formattedMeasurements && (
                 <div className="mt-2 text-center">
                     <div className="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-lg text-sm font-medium">
-                        📏 {t('measurements_hint')}: {(() => {
-                            const parts = []
-                            if (measurementsData.length_km) {
-                                if (language === 'no') {
-                                    // Norwegian format: "1,5 km lengde" (comma as decimal separator, no colon)
-                                    const formattedLength = measurementsData.length_km.toString().replace('.', ',')
-                                    parts.push(`${formattedLength} km ${t('length')}`)
-                                } else {
-                                    // English format: "1.5 km length" (period as decimal separator, no colon)
-                                    parts.push(`${measurementsData.length_km} km ${t('length')}`)
-                                }
-                            }
-                            if (measurementsData.width_km) {
-                                if (language === 'no') {
-                                    const formattedWidth = measurementsData.width_km.toString().replace('.', ',')
-                                    parts.push(`${formattedWidth} km ${t('width')}`)
-                                } else {
-                                    parts.push(`${measurementsData.width_km} km ${t('width')}`)
-                                }
-                            }
-                            if (measurementsData.depth_m) {
-                                if (language === 'no') {
-                                    const formattedDepth = measurementsData.depth_m.toString().replace('.', ',')
-                                    parts.push(`${formattedDepth} m ${t('depth')}`)
-                                } else {
-                                    parts.push(`${measurementsData.depth_m} m ${t('depth')}`)
-                                }
-                            }
-                            return parts.join(', ')
-                        })()}
+                        📏 {t('measurements_hint')}: {formattedMeasurements}
                     </div>
                 </div>
             )}
@@ -131,3 +142,6 @@ export default function FjordDisplay({
         </div>
     )
 }
+
+// Memoize component to prevent unnecessary re-renders when props haven't changed
+export default React.memo(FjordDisplay)
