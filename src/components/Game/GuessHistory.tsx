@@ -3,27 +3,29 @@
 import { Guess } from '@/types/game'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDistance } from '@/lib/utils'
-import React, { useState, useEffect } from 'react'
+import { trackGamePerformance } from '@/lib/performance'
+import React, { useMemo } from 'react'
 
 interface GuessHistoryProps {
     guesses: Guess[]
 }
 
-interface FormattedGuess extends Guess {
-    formattedDistance: string
-}
-
-export default function GuessHistory({ guesses }: GuessHistoryProps) {
+function GuessHistory({ guesses }: GuessHistoryProps) {
     const { language, t } = useLanguage()
-    const [formattedGuesses, setFormattedGuesses] = useState<FormattedGuess[]>([])
 
-    // Format distances when language or guesses change
-    useEffect(() => {
+    // Memoize expensive distance formatting calculations
+    const formattedGuesses = useMemo(() => {
+        const startTime = performance.now()
+        
         const formatted = guesses.map(guess => ({
             ...guess,
             formattedDistance: formatDistance(guess.distance, language)
         }))
-        setFormattedGuesses(formatted)
+        
+        const duration = performance.now() - startTime
+        trackGamePerformance('guess_history_format', duration)
+        
+        return formatted
     }, [guesses, language])
 
     if (guesses.length === 0) return null
@@ -88,3 +90,6 @@ export default function GuessHistory({ guesses }: GuessHistoryProps) {
         </div>
     )
 }
+
+// Memoize component to prevent unnecessary re-renders when props haven't changed
+export default React.memo(GuessHistory)
