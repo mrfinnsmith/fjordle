@@ -56,6 +56,9 @@ Daily Norwegian fjord guessing game. Players identify fjords from their distinct
 - **i18n**: Server-side cookie detection with React Context for language switching
 - **Automation**: GitHub Actions for daily puzzle assignment
 - **Difficulty Assessment**: Monthly automated difficulty tier updates based on player performance
+- **Performance Monitoring**: Core Web Vitals tracking with Lighthouse auditing
+- **Testing**: Comprehensive test suite with Vitest (49 tests covering game logic)
+- **Accessibility**: WCAG 2.1 compliant with full keyboard navigation and screen reader support
 
 ## Database Schema
 
@@ -267,6 +270,116 @@ npm install
 npm run dev
 ```
 
+## User Statistics System
+
+Comprehensive user statistics and analytics are available at `/stats` (via "Statistikk" menu):
+
+### Features
+- **Progressive Disclosure**: Statistics unlock as players complete more games
+- **Enhanced Analytics**: Detailed breakdowns by difficulty tiers and hint usage
+- **Visual Charts**: Daily progress trends and performance visualization using Chart.js
+- **Data Integrity**: Corruption detection and reporting for localStorage issues
+- **Responsive Design**: Optimized for all screen sizes with skeleton loading states
+
+### Statistics Tracked
+- Games played/won with win percentage
+- Current and maximum win streaks
+- Average guesses per winning game
+- Hint usage analytics (6 hint types with per-game tracking)
+- Difficulty tier performance breakdown (easy/medium/hard)
+- Daily progress visualization
+- Game history table with detailed results
+
+### Data Storage
+- `EnhancedUserStats` interface with comprehensive analytics
+- localStorage corruption detection and recovery
+- Mock data generation for development/testing
+- Version-aware data migration system
+
+### Development Helper
+```javascript
+// In browser console (development only)
+loadTestStats() // Loads mock data for testing statistics UI
+```
+
+## Performance Monitoring System
+
+Comprehensive performance monitoring using Core Web Vitals and Lighthouse auditing:
+
+### Real-Time Monitoring (`src/lib/performance.ts`)
+- **Core Web Vitals**: LCP, FID, CLS, TTFB, INP tracking
+- **Custom Metrics**: Page load timing, resource performance, memory usage
+- **Game-Specific Tracking**: Performance events for game interactions
+- **Analytics Integration**: Google Analytics event reporting
+- **Development Logging**: Console output for debugging
+
+### Performance Auditing
+```bash
+# Run comprehensive performance audit
+npm run perf:report
+
+# Generate baseline measurements  
+npm run perf:baseline
+```
+
+### Lighthouse Integration
+- **Multi-Page Audits**: Home, past puzzles, how-to-play pages
+- **Production Testing**: Full build + production server testing
+- **Automated Reporting**: HTML and JSON reports with metric comparisons
+- **Continuous Monitoring**: Baseline tracking and performance regression detection
+
+### Report Generation
+- `performance-reports/` directory with timestamped audits
+- Summary JSON with environment details and comparison metrics
+- Web Vitals thresholds and rating system (good/needs-improvement/poor)
+
+## Accessibility Implementation
+
+Full WCAG 2.1 compliance with comprehensive accessibility features:
+
+### Keyboard Navigation
+- Full keyboard navigation support across all components
+- Proper focus management in modals and dropdowns
+- Visible focus indicators and logical tab ordering
+
+### Screen Reader Support
+- Semantic HTML structure with proper headings
+- ARIA labels and roles throughout the application
+- Live regions for dynamic content updates
+- Descriptive alt text for all images and visual elements
+
+### Accessibility Features
+- High contrast ratios for text and interactive elements
+- Scalable text that works up to 200% zoom
+- Clear visual hierarchy and consistent navigation
+- Error messages and form validation with screen reader announcements
+- Modal dialogs with proper focus trapping and escape handling
+
+### Testing
+- Automated accessibility testing integrated into development
+- Manual testing with keyboard-only navigation
+- Screen reader compatibility verification
+
+## Enhanced Loading States
+
+Skeleton screens and optimized loading experiences:
+
+### Skeleton Components (`src/components/ui/Skeleton.tsx`)
+- **Reusable Skeleton**: Base skeleton component with customizable dimensions
+- **SkeletonText**: Multi-line text placeholder with realistic proportions
+- **SkeletonCard**: Pre-configured card layouts for common UI patterns
+
+### Fjord Display Loading (`src/components/Game/FjordDisplaySkeleton.tsx`)
+- SVG outline placeholder with proper aspect ratio
+- Loading spinner with localized text
+- Seamless transition to actual fjord display
+
+### Progressive Loading
+- Statistics page with progressive disclosure based on games played
+- Loading states that match final content layout
+- Optimized image loading with Next.js Image component
+- Reduced main thread blocking during initial load
+
 ### Testing
 
 Comprehensive test suite for game logic using Vitest:
@@ -374,6 +487,8 @@ src/
 │   ├── spoersmaal-og-svar/ # FAQ page (Norwegian)
 │   │   ├── layout.tsx   # Page-specific metadata
 │   │   └── page.tsx
+│   ├── stats/           # User statistics page
+│   │   └── page.tsx     # Comprehensive analytics dashboard
 │   ├── tidligere/       # Past puzzles page (Norwegian)
 │   │   ├── layout.tsx   # Page-specific metadata
 │   │   └── page.tsx
@@ -387,6 +502,7 @@ src/
 ├── components/          # React components
 │   ├── Game/            # Game-specific components
 │   │   ├── FjordDisplay.tsx      # Fjord outline display
+│   │   ├── FjordDisplaySkeleton.tsx # Loading skeleton for fjord display
 │   │   ├── GameBoard.tsx         # Main game interface
 │   │   ├── GuessHistory.tsx      # Previous attempts with feedback
 │   │   ├── GuessInput.tsx        # Autocomplete fjord input
@@ -402,39 +518,57 @@ src/
 │   │   ├── WeatherHint.tsx       # Weather hint component
 │   │   ├── WeatherModal.tsx      # Weather display modal
 │   │   └── LoadingSpinner.tsx    # Loading state component
+│   ├── Stats/           # Statistics page components
+│   │   ├── DailyProgress.tsx     # Daily progress visualization
+│   │   ├── GameHistoryTable.tsx  # Detailed game history table
+│   │   ├── PerformanceTrends.tsx # Performance trend analytics
+│   │   └── StatsOverview.tsx     # Overview statistics cards
+│   ├── ui/              # Reusable UI components
+│   │   └── Skeleton.tsx          # Loading skeleton components
 │   ├── ClientLayout.tsx          # Client-side layout wrapper
 │   ├── DebugInfo.tsx            # Development debug panel
-│   └── NavigationMenu.tsx        # Main navigation menu
+│   ├── ErrorBoundary.tsx        # Error boundary with retry functionality
+│   ├── NavigationMenu.tsx        # Main navigation menu
+│   ├── PerformanceMonitor.tsx   # Real-time performance monitoring
+│   └── PerformanceReport.tsx    # Performance report display
 ├── lib/                # Utilities and API functions
 │   ├── __tests__/              # Test files
 │   │   └── gameLogic.test.ts    # Comprehensive game logic tests (49 tests)
 │   ├── cookies.ts               # Client-side cookie management
 │   ├── gameLogic.ts             # Core game mechanics
 │   ├── languageContext.tsx      # i18n context and translations
-│   ├── localStorage.ts          # Browser storage utilities
+│   ├── localStorage.ts          # Browser storage utilities with corruption detection
+│   ├── mockStatsData.ts         # Mock data generator for statistics testing
+│   ├── performance.ts           # Performance monitoring utilities
 │   ├── puzzleApi.ts             # Puzzle data API functions
 │   ├── serverCookies.ts         # Server-side cookie reading
 │   ├── session_api.ts           # Session tracking API
 │   ├── supabase.ts              # Database connection
 │   ├── translations.ts          # Translation data
-│   ├── useFormattedDate.ts       # Custom hook for date formatting
+│   ├── useFormattedDate.ts      # Custom hook for date formatting
 │   ├── utils.ts                 # General utilities
 │   └── weatherApi.ts            # Weather data fetching and caching
 ├── test/               # Test configuration
 │   └── setup.ts                 # Vitest test setup and global mocks
 ├── types/              # TypeScript interfaces
-│   ├── game.ts                  # Game-related types
+│   ├── game.ts                  # Game-related types with enhanced analytics
 │   └── weather.ts               # Weather data types
 .github/
 └── workflows/
    ├── daily-puzzle.yml        # GitHub Action for daily automation
    └── monthly-difficulty-update.yml # GitHub Action for monthly difficulty updates
+performance-reports/     # Lighthouse audit reports (generated)
+├── lighthouse-*.html    # HTML performance reports
+├── lighthouse-*.json    # JSON performance data
+└── performance-summary.json # Summary report with comparisons
 public/
 ├── fjord_svgs/         # 1,467 fjord outline SVGs
 ├── fjord_satellite/    # Satellite images for hint system
 ├── og-image.png        # Social media image
 ├── favicon files       # Various favicon formats
 └── site.webmanifest    # PWA manifest
+scripts/
+└── performance-report.js # Performance audit and reporting script
 tools/
 ├── all_fjords.json     # Fjord data for satellite image generation
 ├── fjord_wikipedia_matcher.py  # Wikipedia URL matching script
@@ -449,16 +583,29 @@ vitest.config.ts        # Vitest test configuration with TypeScript support
 
 ## Key Components
 
+### Game Components
 - `GameBoard` - Main game interface
 - `FjordDisplay` - Shows fjord outline SVG with hint overlays
+- `FjordDisplaySkeleton` - Loading skeleton for fjord display
 - `GuessInput` - Autocomplete fjord name input (excludes quarantined fjords)
 - `GuessHistory` - Shows previous attempts with feedback
 - `OnboardingModal` - First-time user tutorial with bilingual language toggle
 - `ResultsModal` - End game stats, guess history table, and sharing with Google Maps integration
 - `WeatherHint` - Weather conditions hint with modal display
 - `WeatherModal` - Detailed weather information display
+
+### Statistics Components
+- `StatsOverview` - Overview statistics cards with key metrics
+- `DailyProgress` - Daily progress visualization with Chart.js
+- `GameHistoryTable` - Detailed game history table
+- `PerformanceTrends` - Performance trend analytics
+
+### Infrastructure Components
+- `ErrorBoundary` - Error boundary with retry functionality and analytics tracking
+- `PerformanceMonitor` - Real-time Core Web Vitals monitoring
+- `PerformanceReport` - Performance report display
+- `Skeleton` - Reusable loading skeleton components
 - `LanguageProvider` - i18n context wrapper
-- `LanguageToggle` - Flag-based language switcher
 - `NavigationMenu` - Dropdown navigation menu
 
 ## Page Structure
@@ -466,6 +613,7 @@ vitest.config.ts        # Vitest test configuration with TypeScript support
 The site uses Norwegian URLs by default, reflecting the primary Norwegian audience:
 
 - **Home**: `/` - Main game interface
+- **Statistics**: `/stats/` - Comprehensive user analytics dashboard
 - **How to Play**: `/hvordan-spille/` - Game instructions and rules
 - **About**: `/om/` - About the game and project
 - **FAQ**: `/spoersmaal-og-svar/` - Frequently asked questions
