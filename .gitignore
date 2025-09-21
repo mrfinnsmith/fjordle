@@ -81,3 +81,4 @@ tools/update_municipalities.py
 
 # Lighthouse reports
 lighthouse-report.html
+performance-reports/
