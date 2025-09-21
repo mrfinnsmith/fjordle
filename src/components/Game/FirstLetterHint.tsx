@@ -12,7 +12,7 @@ export default function FirstLetterHint({ isRevealed, revealedLetter, onReveal }
     return (
         <div className="flex justify-between items-center gap-4 pt-4">
             <div className="flex-1">
-                <h4 className="font-medium">{t('first_letter_hint')}</h4>
+                <h4 className="font-medium">💡 {t('first_letter_hint')}</h4>
                 <p className="text-sm text-gray-600">{t('reveal_first_letter')}</p>
             </div>
             <div className="flex-shrink-0">

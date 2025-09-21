@@ -50,9 +50,13 @@ export default function HowToPlay() {
                         <h2 className="text-xl font-semibold mb-3">{t('hints_title')}</h2>
                         <div className="space-y-2">
                             <p>{t('hint_button_text')}</p>
-                            <p><strong>{t('first_letter_hint_title')}</strong> {t('first_letter_hint_text')}</p>
+                            <p><strong>💡 {t('first_letter_hint_title')}</strong> {t('first_letter_hint_text')}</p>
+                            <p><strong>🏘️ {t('municipality_hint')}:</strong> {t('municipality_hint_description')}</p>
+                            <p><strong>🏛️ {t('county_hint')}:</strong> {t('county_hint_description')}</p>
+                            <p><strong>📏 {t('measurements_hint')}:</strong> {t('measurements_hint_description')}</p>
+                            <p><strong>🌤️ {t('weather_hint')}:</strong> {t('weather_hint_description')}</p>
                             <div>
-                                <p><strong>{t('satellite_hint_title')}</strong> {t('satellite_hint_text')}</p>
+                                <p><strong>🛰️ {t('satellite_hint_title')}</strong> {t('satellite_hint_text')}</p>
                                 <div className="mt-4">
                                     <img
                                         src="/fjord_satellite/1617_Indre-oslofjord.png"
@@ -67,10 +71,6 @@ export default function HowToPlay() {
                                     </p>
                                 </div>
                             </div>
-                            <p><strong>{t('municipality_hint')}:</strong> {t('municipality_hint_description')}</p>
-                            <p><strong>{t('county_hint')}:</strong> {t('county_hint_description')}</p>
-                            <p><strong>{t('measurements_hint')}:</strong> {t('measurements_hint_description')}</p>
-                            <p><strong>{t('weather_hint')}:</strong> {t('weather_hint_description')}</p>
                         </div>
                     </section>
 

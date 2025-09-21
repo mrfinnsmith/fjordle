@@ -55,7 +55,7 @@ export default function MeasurementsHint({ isRevealed, measurements, onReveal }:
     return (
         <div className="flex justify-between items-center gap-4 pt-4 border-t border-gray-200">
             <div className="flex-1">
-                <h4 className="font-medium">{t('measurements_hint')}</h4>
+                <h4 className="font-medium">📏 {t('measurements_hint')}</h4>
                 <p className="text-sm text-gray-600">{t('measurements_hint_description')}</p>
             </div>
             <div className="flex-shrink-0">

@@ -11,7 +11,7 @@ export default function SatelliteHint({ isRevealed, onReveal }: SatelliteHintPro
     return (
         <div className="flex justify-between items-center gap-4 pt-4 border-t border-gray-200">
             <div className="flex-1">
-                <h4 className="font-medium">{t('satellite_image_hint')}</h4>
+                <h4 className="font-medium">🛰️ {t('satellite_image_hint')}</h4>
                 <p className="text-sm text-gray-600">{t('satellite_hint_description')}</p>
             </div>
             <div className="flex-shrink-0">

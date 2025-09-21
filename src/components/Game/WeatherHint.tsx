@@ -82,7 +82,7 @@ export default function WeatherHint({ fjordId, isRevealed, weatherData, onReveal
         return (
             <div className="flex justify-between items-center gap-4 pt-4 border-t border-gray-200">
                 <div className="flex-1">
-                    <h4 className="font-medium">{t('weather_hint')}</h4>
+                    <h4 className="font-medium">🌤️ {t('weather_hint')}</h4>
                     <p className="text-sm text-red-600">⚠️ {error}</p>
                 </div>
             </div>
@@ -93,7 +93,7 @@ export default function WeatherHint({ fjordId, isRevealed, weatherData, onReveal
         <>
             <div className="flex justify-between items-center gap-4 pt-4 border-t border-gray-200">
                 <div className="flex-1">
-                    <h4 className="font-medium">{t('weather_hint')}</h4>
+                    <h4 className="font-medium">🌤️ {t('weather_hint')}</h4>
                     <p className="text-sm text-gray-600">{t('weather_hint_description')}</p>
                 </div>
                 <div className="flex-shrink-0">

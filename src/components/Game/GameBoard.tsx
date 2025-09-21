@@ -501,12 +501,6 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
                 revealedLetter={firstLetterRevealed ?? null}
                 onReveal={handleRevealFirstLetter}
               />
-              {puzzle.fjord.satellite_filename && (
-                <SatelliteHint
-                  isRevealed={gameState.hintsUsed?.satellite || false}
-                  onReveal={handleRevealSatellite}
-                />
-              )}
               {hasLocationData.hasMunicipalities && (
                 <MunicipalityHint
                   isRevealed={gameState.hintsUsed?.municipalities || false}
@@ -538,6 +532,12 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
                 weatherData={weatherHintRevealed}
                 onReveal={handleRevealWeather}
               />
+              {puzzle.fjord.satellite_filename && (
+                <SatelliteHint
+                  isRevealed={gameState.hintsUsed?.satellite || false}
+                  onReveal={handleRevealSatellite}
+                />
+              )}
             </div>
           </div>
         </div>
