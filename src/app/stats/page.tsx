@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
 import { getEnhancedUserStats, getDataCorruptionReport, clearDataCorruptionReport } from '@/lib/localStorage'
 import { EnhancedUserStats } from '@/types/game'
-import { createMockStatsData } from '@/lib/mockStatsData'
+import { createMockStatsData, MockScenario } from '@/lib/mockStatsData'
 import StatsOverview from '@/components/Stats/StatsOverview'
 import DailyProgress from '@/components/Stats/DailyProgress'
 import GameHistoryTable from '@/components/Stats/GameHistoryTable'
@@ -69,15 +69,74 @@ export default function StatsPage() {
     loadChartJS()
     loadStats()
 
-    // Development helper - expose test data function to console
-    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-      (window as { loadTestStats?: () => void }).loadTestStats = () => {
-        setStats(createMockStatsData())
-        console.log('✅ Test stats data loaded! Refresh page to reset.')
-      }
-      console.log('💡 Development tip: Run loadTestStats() in console to see stats with data')
-    }
   }, [])
+
+  // Developer tools functions
+  const loadMockData = (scenario: MockScenario) => {
+    const mockData = createMockStatsData(scenario)
+    setStats(mockData)
+    
+    // Store in localStorage so it persists
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('fjordle-enhanced-stats', JSON.stringify({
+        ...mockData,
+        lastUpdated: mockData.lastUpdated.toISOString()
+      }))
+    }
+    
+    console.log(`✅ Mock data loaded: ${scenario}`)
+  }
+
+  const clearAllData = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('fjordle-enhanced-stats')
+      localStorage.removeItem('fjordle-stats')
+      localStorage.removeItem('fjordle-game-progress')
+      clearDataCorruptionReport()
+    }
+    window.location.reload()
+  }
+
+  // Developer Tools Component
+  const DeveloperTools = () => {
+    if (process.env.NODE_ENV !== 'development') return null
+    
+    const scenarios: { key: MockScenario; label: string; description: string }[] = [
+      { key: 'newUser', label: 'New User (0 games)', description: 'Test empty state and onboarding' },
+      { key: 'fewGames', label: 'Few Games (3 games)', description: 'Test early user experience' },
+      { key: 'someGames', label: 'Some Games (10 games)', description: 'Test moderate usage' },
+      { key: 'manyGames', label: 'Many Games (25 games)', description: 'Test established user' },
+      { key: 'veteran', label: 'Veteran (50 games)', description: 'Test heavy usage with full features' }
+    ]
+
+    return (
+      <div className="fixed bottom-4 right-4 bg-gray-900 text-white p-4 rounded-lg shadow-lg max-w-sm z-50">
+        <h3 className="text-sm font-bold mb-3 text-yellow-400">🛠️ Developer Tools</h3>
+        <div className="space-y-2">
+          {scenarios.map(scenario => (
+            <button
+              key={scenario.key}
+              onClick={() => loadMockData(scenario.key)}
+              className="block w-full text-left px-2 py-1 text-xs bg-gray-700 hover:bg-gray-600 rounded transition-colors"
+              title={scenario.description}
+            >
+              {scenario.label}
+            </button>
+          ))}
+          <button
+            onClick={clearAllData}
+            className="block w-full text-left px-2 py-1 text-xs bg-red-700 hover:bg-red-600 rounded transition-colors mt-3"
+            title="Remove all stored data and reload"
+          >
+            🗑️ Clear All Data
+          </button>
+        </div>
+        <div className="text-xs text-gray-400 mt-2">
+          Click scenario to inject test data
+        </div>
+      </div>
+    )
+  }
 
   if (isLoading) {
     return (
@@ -227,6 +286,9 @@ export default function StatsPage() {
             {t('stats_last_updated')}: {stats.lastUpdated.toLocaleString()}
           </div>
         )}
+
+        {/* Developer Tools */}
+        <DeveloperTools />
       </div>
     </div>
   )

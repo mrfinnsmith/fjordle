@@ -1,17 +1,28 @@
 // Mock data for testing the stats page
 import { EnhancedUserStats } from '@/types/game'
 
-export function createMockStatsData(): EnhancedUserStats {
+export type MockScenario = 'newUser' | 'fewGames' | 'someGames' | 'manyGames' | 'veteran'
+
+export function createMockStatsData(scenario: MockScenario = 'someGames'): EnhancedUserStats {
+  const scenarioConfig = {
+    newUser: { days: 0, winRate: 0 },
+    fewGames: { days: 3, winRate: 0.67 },
+    someGames: { days: 10, winRate: 0.70 },
+    manyGames: { days: 25, winRate: 0.72 },
+    veteran: { days: 50, winRate: 0.75 }
+  }
+  
+  const config = scenarioConfig[scenario]
   const today = new Date()
   const mockPuzzleHistory = []
   
-  // Generate 15 mock puzzles over the last 15 days
-  for (let i = 14; i >= 0; i--) {
+  // Generate mock puzzles based on scenario
+  for (let i = config.days - 1; i >= 0; i--) {
     const date = new Date(today)
     date.setDate(date.getDate() - i)
     
-    const puzzleId = 100 + (14 - i)
-    const won = Math.random() > 0.3 // 70% win rate
+    const puzzleId = 100 + (config.days - 1 - i)
+    const won = Math.random() < config.winRate
     const attemptsUsed = won ? Math.floor(Math.random() * 4) + 1 : 6
     
     // Random hint usage
@@ -39,27 +50,30 @@ export function createMockStatsData(): EnhancedUserStats {
   const gamesWon = mockPuzzleHistory.filter(p => p.won).length
   const gamesPlayed = mockPuzzleHistory.length
   
-  // Calculate performance data
+  // Calculate performance data - only for scenarios with enough data
   const performanceData = []
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today)
-    date.setDate(date.getDate() - i)
-    
-    const dayPuzzles = mockPuzzleHistory.filter(p => {
-      const puzzleDate = new Date(p.date)
-      return puzzleDate.toDateString() === date.toDateString()
-    })
-    
-    if (dayPuzzles.length > 0) {
-      const dayWins = dayPuzzles.filter(p => p.won).length
-      const dayAttempts = dayPuzzles.reduce((sum, p) => sum + p.attemptsUsed, 0) / dayPuzzles.length
+  if (config.days >= 7) {
+    const performanceDays = Math.min(config.days, 30) // Show up to 30 days
+    for (let i = performanceDays - 1; i >= 0; i--) {
+      const date = new Date(today)
+      date.setDate(date.getDate() - i)
       
-      performanceData.push({
-        date: date.toISOString().split('T')[0],
-        winRate: (dayWins / dayPuzzles.length) * 100,
-        gamesPlayed: dayPuzzles.length,
-        averageAttempts: dayAttempts
+      const dayPuzzles = mockPuzzleHistory.filter(p => {
+        const puzzleDate = new Date(p.date)
+        return puzzleDate.toDateString() === date.toDateString()
       })
+      
+      if (dayPuzzles.length > 0) {
+        const dayWins = dayPuzzles.filter(p => p.won).length
+        const dayAttempts = dayPuzzles.reduce((sum, p) => sum + p.attemptsUsed, 0) / dayPuzzles.length
+        
+        performanceData.push({
+          date: date.toISOString().split('T')[0],
+          winRate: (dayWins / dayPuzzles.length) * 100,
+          gamesPlayed: dayPuzzles.length,
+          averageAttempts: dayAttempts
+        })
+      }
     }
   }
   
@@ -104,12 +118,36 @@ export function createMockStatsData(): EnhancedUserStats {
     gamesWithoutHints: mockPuzzleHistory.filter(p => p.totalHintsUsed === 0).length
   }
   
+  // Calculate streaks based on recent games
+  let currentStreak = 0
+  let maxStreak = 0
+  let tempStreak = 0
+  
+  // Calculate current streak (from most recent games)
+  for (let i = mockPuzzleHistory.length - 1; i >= 0; i--) {
+    if (mockPuzzleHistory[i].won) {
+      currentStreak++
+    } else {
+      break
+    }
+  }
+  
+  // Calculate max streak
+  for (const puzzle of mockPuzzleHistory) {
+    if (puzzle.won) {
+      tempStreak++
+      maxStreak = Math.max(maxStreak, tempStreak)
+    } else {
+      tempStreak = 0
+    }
+  }
+  
   return {
     gamesPlayed,
     gamesWon,
-    currentStreak: 3,
-    maxStreak: 7,
-    lastPlayedDate: today.toISOString().split('T')[0],
+    currentStreak,
+    maxStreak,
+    lastPlayedDate: config.days > 0 ? today.toISOString().split('T')[0] : '',
     puzzleHistory: mockPuzzleHistory,
     hintAnalytics,
     performanceData,
