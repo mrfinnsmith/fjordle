@@ -51,20 +51,26 @@ export default function HowToPlay() {
                         <div className="space-y-2">
                             <p>{t('hint_button_text')}</p>
                             <p><strong>{t('first_letter_hint_title')}</strong> {t('first_letter_hint_text')}</p>
-                            <p><strong>{t('satellite_hint_title')}</strong> {t('satellite_hint_text')}</p>
-                            <div className="mt-4">
-                                <img
-                                    src="/fjord_satellite/1617_Indre-oslofjord.png"
-                                    alt={t('satellite_hint_example')}
-                                    className="w-full max-w-md mx-auto rounded-lg shadow-md"
-                                    onError={(e) => {
-                                        e.currentTarget.style.display = 'none';
-                                    }}
-                                />
-                                <p className="text-sm text-gray-600 text-center mt-2">
-                                    <em>Note: All satellite images show the same square area (about 40-50 km wide). Small fjords will have more surrounding landscape visible, while large fjords may extend beyond the image borders.</em>
-                                </p>
+                            <div>
+                                <p><strong>{t('satellite_hint_title')}</strong> {t('satellite_hint_text')}</p>
+                                <div className="mt-4">
+                                    <img
+                                        src="/fjord_satellite/1617_Indre-oslofjord.png"
+                                        alt={t('satellite_hint_example')}
+                                        className="w-full max-w-md mx-auto rounded-lg shadow-md"
+                                        onError={(e) => {
+                                            e.currentTarget.style.display = 'none';
+                                        }}
+                                    />
+                                    <p className="text-sm text-gray-600 text-center mt-2">
+                                        <em>{t('satellite_area_note')}</em>
+                                    </p>
+                                </div>
                             </div>
+                            <p><strong>{t('municipality_hint')}:</strong> {t('municipality_hint_description')}</p>
+                            <p><strong>{t('county_hint')}:</strong> {t('county_hint_description')}</p>
+                            <p><strong>{t('measurements_hint')}:</strong> {t('measurements_hint_description')}</p>
+                            <p><strong>{t('weather_hint')}:</strong> {t('weather_hint_description')}</p>
                         </div>
                     </section>
 

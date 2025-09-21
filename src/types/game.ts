@@ -193,6 +193,7 @@ export type TranslationKey =
   | 'statistics'
   | 'close'
   | 'satellite_hint_example'
+  | 'satellite_area_note'
   | 'municipalities'
   | 'counties'
   | 'already_guessed_fjord'
