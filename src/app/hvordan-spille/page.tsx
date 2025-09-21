@@ -62,20 +62,12 @@ export default function HowToPlay() {
                                     }}
                                 />
                                 <p className="text-sm text-gray-600 text-center mt-2">
-                                    {t('satellite_caption')}
+                                    <em>Note: All satellite images show the same square area (about 40-50 km wide). Small fjords will have more surrounding landscape visible, while large fjords may extend beyond the image borders.</em>
                                 </p>
                             </div>
                         </div>
                     </section>
 
-                    <section>
-                        <h2 className="text-xl font-semibold mb-3">{t('weekly_difficulty')}</h2>
-                        <div className="space-y-2">
-                            <p><strong>{t('monday_tuesday')}</strong> {t('monday_tuesday_text')}</p>
-                            <p><strong>{t('wednesday_thursday')}</strong> {t('wednesday_thursday_text')}</p>
-                            <p><strong>{t('friday_sunday')}</strong> {t('friday_sunday_text')}</p>
-                        </div>
-                    </section>
 
                     <section>
                         <h2 className="text-xl font-semibold mb-3">{t('winning_title')}</h2>
