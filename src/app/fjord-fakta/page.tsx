@@ -49,13 +49,13 @@ export default function FjordFacts() {
                             href="/"
                             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                         >
-                            {t('try_fjordle_game')}
+                            Play Fjordle
                         </Link>
                         <Link
                             href="/spoersmaal-og-svar"
                             className="text-blue-600 hover:text-blue-800 underline"
                         >
-                            {t('game_questions')}
+                            FAQ
                         </Link>
                     </div>
                 </div>
@@ -74,20 +74,6 @@ export default function FjordFacts() {
                     ))}
                 </div>
 
-                <div className="mt-12 text-center bg-blue-50 rounded-lg p-8">
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-                        {t('learn_through_play')}
-                    </h3>
-                    <p className="text-gray-700 mb-6">
-                        {t('learn_through_play_description')}
-                    </p>
-                    <Link
-                        href="/"
-                        className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg font-medium"
-                    >
-                        {t('start_playing_fjordle')}
-                    </Link>
-                </div>
             </div>
         </div>
     )
