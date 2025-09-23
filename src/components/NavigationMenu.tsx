@@ -42,6 +42,7 @@ export default function NavigationMenu() {
 
   const navigationLinks = [
     { href: '/spoersmaal-og-svar', label: t('faq') },
+    { href: '/fjord-fakta', label: t('fjord_facts') },
     { href: '/tidligere', label: t('past_fjordles') },
     { href: '/stats', label: t('statistics') },
     { href: '/om', label: t('about') },

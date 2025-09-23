@@ -195,6 +195,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
     // FAQ Page
     'faq': 'Spørsmål og svar',
+    'fjord_facts': 'Fjord fakta',
     'faq_title': 'Spørsmål og svar',
     'faq_what_is_fjordle': 'Hva er Fjordle?',
     'faq_what_is_fjordle_answer': 'Fjordle er et daglig puslespill hvor du gjetter norske fjorder ut fra deres karakteristiske omriss. Du har 6 forsøk på å identifisere riktig fjord ved hjelp av avstands- og retningsledetråder.',
@@ -208,6 +209,30 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'faq_share_results_answer': 'Vi bruker firkanter for å visuelt representere nærhetsprosenten av gjettet ditt. Vi runder nærhetsprosenten ned til nærmeste 10, og representerer resultatet med grønne (🟩 = 20%) og/eller gule (🟨 = 10%) firkanter. Siden vi bruker totalt 5 firkanter, fyller vi resten med svarte firkanter (⬛). Så 72% blir representert som 🟩🟩🟩🟨⬛',
     'faq_data_source': 'Hvor kommer fjorddataene fra?',
     'faq_data_source_answer': 'Fjorddataene kommer fra Fjordkatalogen, som er en offisiell database fra Miljødirektoratet.',
+    
+    // Fjord Facts Page
+    'fjord_facts_title': 'Fjord Fakta',
+    'fjord_facts_subtitle': 'Oppdage de spektakulære fjordene som gjør Norge verdenskjent',
+    'try_fjordle_game': 'Prøv Fjordle Spillet',
+    'game_questions': 'Spill Spørsmål',
+    'learn_through_play': 'Lær Gjennom Lek',
+    'learn_through_play_description': 'Test kunnskapen din om norske fjorder med vårt daglige puslespill. Lær å gjenkjenne fjorder fra deres unike omriss og oppdage nye fjorder hver dag.',
+    'start_playing_fjordle': 'Start å Spille Fjordle',
+
+    'fjord_facts_overview_title': 'Norge - Fjordenes Land',
+    'fjord_facts_overview_content': 'Norge har over <strong>1000 navngitte fjorder</strong> som strekker seg langs landets 25,000 kilometer lange kystlinje. Disse spektakulære naturformasjoner ble dannet av isbreer under istidene og representerer noen av verdens mest dramatiske landskap. Fjordene varierer kraftig i størrelse, fra små kystnære inntak til massive vannveier som Sognefjord som strekker seg over 200 kilometer inn i landet.',
+    
+    'fjord_facts_famous_title': 'Norges Mest Berømte Fjorder',
+    'fjord_facts_famous_content': '<p><strong>Geirangerfjord</strong> - Kjent for sine spektakulære fossefall som De syv søstre og Brudesløret. Dette UNESCO-området tiltrekker over 700,000 besøkende årlig.</p><p><strong>Nærøyfjord</strong> - Med en bredde på bare 250 meter på sitt smaleste punkt, er dette en av verdens smaleste fjorder og også på UNESCO-listen.</p><p><strong>Sognefjord</strong> - "Fjordenes konge" er Norges lengste og dypeste fjord, med over 40 sidefjorder.</p><p><strong>Hardangerfjord</strong> - Berømt for fruktblomstringen om våren og som "Norges fruktfat".</p><p><strong>Lysefjord</strong> - Hjemsted til det ikoniske Preikestolen og Kjeragbolten.</p>',
+    
+    'fjord_facts_records_title': 'Fjordrekorder og Tall',
+    'fjord_facts_records_content': '<p><strong>Lengste fjord:</strong> Sognefjord (204 km)</p><p><strong>Dypeste fjord:</strong> Sognefjord (1,308 meter)</p><p><strong>Smaleste fjord:</strong> Nærøyfjord (250 meter på smaleste punkt)</p><p><strong>Høyeste fossefall i fjord:</strong> Vinnufossen ved Sunndalsfjord (860 meter)</p><p><strong>Mest besøkte fjord:</strong> Geirangerfjord (over 700,000 besøkende årlig)</p><p><strong>Nordligste store fjord:</strong> Lyngenfjord i Troms</p><p><strong>Antall cruiseskip årlig:</strong> Over 2,000 skip besøker norske fjorder</p>',
+    
+    'fjord_facts_unesco_title': 'UNESCO Verdensarv Fjorder',
+    'fjord_facts_unesco_content': 'I 2005 ble <strong>Geirangerfjord og Nærøyfjord</strong> innskrevet på UNESCOs verdensarvliste som "Vest-Norske fjorder". Disse fjordene ble anerkjent for sin eksepsjonelle naturskjønhet og som representative eksempler på fjordlandskap formet av istidenes isbreer. Området inkluderer ikke bare fjordene selv, men også omkringliggende fjell, fossefall og kulturlandskap som har vært formet av mennesker i over 1000 år.',
+    
+    'fjord_facts_geography_title': 'Fjordgeografi og Dannelse',
+    'fjord_facts_geography_content': 'Norske fjorder ble dannet gjennom millioner av år med <strong>isbreerosjon</strong> under flere istider. Når massive isbreer beveget seg fra fjellene mot havet, gravde de dype U-formede daler. Da isen smeltet, steg havnivået og fylte dalene, og skapte de dype, smale vannveiene vi ser i dag. Mange fjorder har <strong>terskler</strong> - grunne områder ved munningen som ble dannet av morener (steinmasser) etterlatt av isbreene. Dette skaper unike økosystemer med dypt, kaldt vann innerst og varmere kystfarvann ved inngangen.',
 
     // Metadata
     'site_title': 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
@@ -486,6 +511,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
     // FAQ Page
     'faq': 'FAQ',
+    'fjord_facts': 'Fjord Facts',
     'faq_title': 'Frequently Asked Questions',
     'faq_what_is_fjordle': 'What is Fjordle?',
     'faq_what_is_fjordle_answer': 'Fjordle is a daily puzzle game where you guess Norwegian fjords from their distinctive outline shapes. You have 6 attempts to identify the correct fjord using distance and direction clues.',
@@ -499,6 +525,30 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'faq_share_results_answer': 'We use squares to visually represent the proximity percent of your guess. We round the proximity percent down to the nearest 10, then represent your score with green (🟩 = 20%) and/or yellow (🟨 = 10%) squares. Since we use a total of 5 squares, we fill the remainder with black squares (⬛). Thus, 72% would be represented as 🟩🟩🟩🟨⬛',
     'faq_data_source': 'Where does the fjord data come from?',
     'faq_data_source_answer': 'The fjord data comes from Fjordkatalogen, which is an official database from the Norwegian Environment Agency.',
+    
+    // Fjord Facts Page
+    'fjord_facts_title': 'Fjord Facts',
+    'fjord_facts_subtitle': 'Discover the spectacular fjords that make Norway world-famous',
+    'try_fjordle_game': 'Try Fjordle Game',
+    'game_questions': 'Game Questions',
+    'learn_through_play': 'Learn Through Play',
+    'learn_through_play_description': 'Test your knowledge of Norwegian fjords with our daily puzzle. Learn to recognize fjords from their unique outlines and discover new fjords every day.',
+    'start_playing_fjordle': 'Start Playing Fjordle',
+
+    'fjord_facts_overview_title': 'Norway - Land of the Fjords',
+    'fjord_facts_overview_content': 'Norway has over <strong>1000 named fjords</strong> stretching along the country\'s 25,000-kilometer coastline. These spectacular natural formations were carved by glaciers during ice ages and represent some of the world\'s most dramatic landscapes. Fjords vary greatly in size, from small coastal inlets to massive waterways like Sognefjord that stretches over 200 kilometers inland.',
+    
+    'fjord_facts_famous_title': 'Norway\'s Most Famous Fjords',
+    'fjord_facts_famous_content': '<p><strong>Geirangerfjord</strong> - Known for its spectacular waterfalls including the Seven Sisters and Bridal Veil. This UNESCO site attracts over 700,000 visitors annually.</p><p><strong>Nærøyfjord</strong> - At just 250 meters wide at its narrowest point, this is one of the world\'s narrowest fjords and also UNESCO-listed.</p><p><strong>Sognefjord</strong> - The "King of Fjords" is Norway\'s longest and deepest fjord, with over 40 side fjords.</p><p><strong>Hardangerfjord</strong> - Famous for spring fruit blossoms and known as "Norway\'s fruit basket".</p><p><strong>Lysefjord</strong> - Home to the iconic Preikestolen (Pulpit Rock) and Kjeragbolten.</p>',
+    
+    'fjord_facts_records_title': 'Fjord Records and Statistics',
+    'fjord_facts_records_content': '<p><strong>Longest fjord:</strong> Sognefjord (204 km)</p><p><strong>Deepest fjord:</strong> Sognefjord (1,308 meters)</p><p><strong>Narrowest fjord:</strong> Nærøyfjord (250 meters at narrowest point)</p><p><strong>Highest waterfall in fjord:</strong> Vinnufossen at Sunndalsfjord (860 meters)</p><p><strong>Most visited fjord:</strong> Geirangerfjord (over 700,000 visitors annually)</p><p><strong>Northernmost major fjord:</strong> Lyngenfjord in Troms</p><p><strong>Annual cruise ships:</strong> Over 2,000 ships visit Norwegian fjords</p>',
+    
+    'fjord_facts_unesco_title': 'UNESCO World Heritage Fjords',
+    'fjord_facts_unesco_content': 'In 2005, <strong>Geirangerfjord and Nærøyfjord</strong> were inscribed on UNESCO\'s World Heritage List as "West Norwegian Fjords". These fjords were recognized for their exceptional natural beauty and as representative examples of fjord landscapes shaped by ice age glaciers. The area includes not only the fjords themselves but also surrounding mountains, waterfalls, and cultural landscapes that have been shaped by humans for over 1000 years.',
+    
+    'fjord_facts_geography_title': 'Fjord Geography and Formation',
+    'fjord_facts_geography_content': 'Norwegian fjords were formed through millions of years of <strong>glacial erosion</strong> during multiple ice ages. As massive glaciers moved from the mountains toward the sea, they carved deep U-shaped valleys. When the ice melted, sea levels rose and filled the valleys, creating the deep, narrow waterways we see today. Many fjords have <strong>sills</strong> - shallow areas at their mouths formed by moraines (rock debris) left behind by glaciers. This creates unique ecosystems with deep, cold water at the innermost parts and warmer coastal waters at the entrance.',
 
     // Metadata
     'site_title': 'Fjordle | Fjord Game | Recognise Norwegian Fjords Daily',
