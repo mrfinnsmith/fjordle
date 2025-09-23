@@ -41,12 +41,12 @@ export default function NavigationMenu() {
   }
 
   const navigationLinks = [
+    { href: '/hvordan-spille', label: t('how_to_play') },
+    { href: '/om', label: t('about') },
     { href: '/spoersmaal-og-svar', label: t('faq') },
     { href: '/fjord-fakta', label: t('fjord_facts') },
     { href: '/tidligere', label: t('past_fjordles') },
     { href: '/stats', label: t('statistics') },
-    { href: '/om', label: t('about') },
-    { href: '/hvordan-spille', label: t('how_to_play') },
     { href: '/personvern', label: t('privacy') }
   ]
 
