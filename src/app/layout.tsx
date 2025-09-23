@@ -28,7 +28,7 @@ export default function RootLayout({
 
         <title>Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig</title>
         <meta name="description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
-        <meta name="keywords" content="fjord, fjorder, fjord spill, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, norske fjorder, puslespill, geografi, fjordle" />
+        <meta name="keywords" content="fjordspill, wordle norge, norge quiz, geografispill, fjord, fjorder, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, fjordle, norsk geografi spill, norgesquiz" />
 
         <meta property="og:title" content="Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig" />
         <meta property="og:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
@@ -67,7 +67,7 @@ export default function RootLayout({
               "applicationCategory": "Game",
               "operatingSystem": "Web Browser",
               "inLanguage": initialLanguage,
-              "keywords": "fjord, fjorder, fjord spill, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjord puslespill, norge geografi, daglig puslespill, norske fjorder, puslespill, spill, geografi",
+              "keywords": "fjordspill, wordle norge, norge quiz, geografispill, fjord, fjorder, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, fjordle, norsk geografi spill, norgesquiz",
               "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
             })
           }}
