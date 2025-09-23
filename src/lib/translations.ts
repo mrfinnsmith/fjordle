@@ -196,6 +196,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     // FAQ Page
     'faq': 'Spørsmål og svar',
     'fjord_facts': 'Fjord fakta',
+    'play_fjordle': 'Spill Fjordle',
     'faq_title': 'Spørsmål og svar',
     'faq_what_is_fjordle': 'Hva er Fjordle?',
     'faq_what_is_fjordle_answer': 'Fjordle er et daglig puslespill hvor du gjetter norske fjorder ut fra deres karakteristiske omriss. Du har 6 forsøk på å identifisere riktig fjord ved hjelp av avstands- og retningsledetråder.',
@@ -512,6 +513,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     // FAQ Page
     'faq': 'FAQ',
     'fjord_facts': 'Fjord Facts',
+    'play_fjordle': 'Play Fjordle',
     'faq_title': 'Frequently Asked Questions',
     'faq_what_is_fjordle': 'What is Fjordle?',
     'faq_what_is_fjordle_answer': 'Fjordle is a daily puzzle game where you guess Norwegian fjords from their distinctive outline shapes. You have 6 attempts to identify the correct fjord using distance and direction clues.',

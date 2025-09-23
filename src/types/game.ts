@@ -450,6 +450,7 @@ export type TranslationKey =
 
   // Fjord Facts Page
   | 'fjord_facts'
+  | 'play_fjordle'
   | 'fjord_facts_title'
   | 'fjord_facts_subtitle'
   | 'try_fjordle_game'

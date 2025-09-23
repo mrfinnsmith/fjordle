@@ -47,15 +47,17 @@ export default function FjordFacts() {
                     <div className="flex justify-center space-x-4">
                         <Link
                             href="/"
-                            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                            className="text-white px-6 py-2 rounded-lg transition-colors"
+                            style={{ backgroundColor: '#00205B' }}
                         >
-                            Play Fjordle
+                            {t('play_fjordle')}
                         </Link>
                         <Link
                             href="/spoersmaal-og-svar"
-                            className="text-blue-600 hover:text-blue-800 underline"
+                            className="underline"
+                            style={{ color: '#00205B' }}
                         >
-                            FAQ
+                            {t('faq')}
                         </Link>
                     </div>
                 </div>
