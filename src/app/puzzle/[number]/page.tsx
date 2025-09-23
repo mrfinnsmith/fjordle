@@ -59,7 +59,7 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
                     <p className="mb-6">{error || t('no_past_puzzles')}</p>
                     <Link
                         href="/tidligere"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="px-6 py-2 rounded-lg transition-colors norwegian-button"
                     >
                         {t('past_fjordles')}
                     </Link>
@@ -79,7 +79,7 @@ export default function PuzzlePage({ params }: PuzzlePageProps) {
                 <div className="flex justify-center gap-4 mb-6">
                     <Link
                         href="/"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="px-6 py-2 rounded-lg transition-colors norwegian-button"
                     >
                         {t('back_to_today')}
                     </Link>

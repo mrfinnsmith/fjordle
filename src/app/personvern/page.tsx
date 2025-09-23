@@ -6,14 +6,18 @@ export default function PrivacyPage() {
     const { t } = useLanguage()
 
     return (
-        <div className="space-y-6">
-            <h1 className="text-3xl font-bold">{t('privacy_title')}</h1>
-
-            <p className="text-sm text-gray-600">
-                <strong>{t('last_updated')}</strong> August 2, 2025
-            </p>
-
+        <>
+            <div className="text-center mb-8">
+                <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                    {t('privacy_title')}
+                </h1>
+            </div>
             <div className="space-y-6">
+                <p className="text-sm text-gray-600">
+                    <strong>{t('last_updated')}</strong> August 2, 2025
+                </p>
+
+                <div className="space-y-6">
                 <section>
                     <h2 className="text-xl font-semibold mb-3">{t('overview_title')}</h2>
                     <p>
@@ -99,7 +103,7 @@ export default function PrivacyPage() {
                         {t('contact_text')}{' '}
                         <a
                             href="https://mrfinnsmith.com"
-                            className="text-blue-600 hover:text-blue-800 underline"
+                            className="underline"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -114,7 +118,8 @@ export default function PrivacyPage() {
                 <p className="text-sm text-gray-600 italic">
                     {t('independent_project')}
                 </p>
+                </div>
             </div>
-        </div>
+        </>
     )
 }

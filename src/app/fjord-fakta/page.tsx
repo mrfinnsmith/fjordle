@@ -47,10 +47,9 @@ export default function FjordFacts() {
                     <div className="flex justify-center space-x-4">
                         <Link
                             href="/"
-                            className="text-white px-6 py-2 rounded-lg transition-colors"
-                            style={{ backgroundColor: '#00205B' }}
+                            className="px-6 py-2 rounded-lg transition-colors norwegian-button"
                         >
-                            {t('play_fjordle')}
+                            {t('back_to_today')}
                         </Link>
                         <Link
                             href="/spoersmaal-og-svar"

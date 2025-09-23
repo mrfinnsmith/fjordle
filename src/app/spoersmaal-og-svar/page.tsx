@@ -48,7 +48,7 @@ export default function FAQ() {
                 return (
                     <>
                         Yes! You can find all previous puzzles on our{' '}
-                        <Link href="/tidligere" className="text-blue-600 hover:text-blue-800 underline">
+                        <Link href="/tidligere" className="underline">
                             {linkText}
                         </Link>
                         {' '}page.
@@ -58,7 +58,7 @@ export default function FAQ() {
                 return (
                     <>
                         Ja! Du finner alle{' '}
-                        <Link href="/tidligere" className="text-blue-600 hover:text-blue-800 underline">
+                        <Link href="/tidligere" className="underline">
                             {linkText}
                         </Link>
                         {' '}på tidligere puslespill-siden.
@@ -75,7 +75,7 @@ export default function FAQ() {
                         href="https://kartkatalog.miljodirektoratet.no/Dataset/Details/501"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 underline"
+                        className="underline"
                     >
                         Fjordkatalogen
                     </a>
@@ -91,14 +91,14 @@ export default function FAQ() {
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-2xl mx-auto px-4">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">
                         {t('faq_title')}
                     </h1>
                     <Link
                         href="/"
-                        className="text-blue-600 hover:text-blue-800 underline"
+                        className="px-6 py-2 rounded-lg transition-colors norwegian-button"
                     >
-                        ← {t('back_to_today')}
+                        {t('back_to_today')}
                     </Link>
                 </div>
 

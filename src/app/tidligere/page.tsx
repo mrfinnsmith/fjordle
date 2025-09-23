@@ -106,13 +106,14 @@ export default function PastPuzzlesPage() {
 
     if (loading) {
         return (
-            <div className="space-y-6">
-                <h1 className="text-3xl font-bold">{t('past_fjordles')}</h1>
-                
-                <div className="text-center">
+            <div className="text-center mb-8">
+                <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                    {t('past_fjordles')}
+                </h1>
+                <div>
                     <Link
                         href="/"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="px-6 py-2 rounded-lg transition-colors norwegian-button"
                     >
                         {t('back_to_today')}
                     </Link>
@@ -136,21 +137,30 @@ export default function PastPuzzlesPage() {
 
     if (error) {
         return (
-            <div className="space-y-6">
-                <h1 className="text-3xl font-bold">{t('past_fjordles')}</h1>
+            <>
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                        {t('past_fjordles')}
+                    </h1>
+                </div>
                 <div className="text-center text-red-600">{t('error')}: {error}</div>
-            </div>
+            </>
         )
     }
 
     return (
-        <div className="space-y-6">
-            <h1 className="text-3xl font-bold">{t('past_fjordles')}</h1>
+        <>
+            <div className="text-center mb-8">
+                <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                    {t('past_fjordles')}
+                </h1>
+            </div>
+            <div className="space-y-6">
 
             <div className="text-center">
                 <Link
                     href="/"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-6 py-2 rounded-lg transition-colors norwegian-button"
                 >
                     {t('back_to_today')}
                 </Link>
@@ -183,6 +193,7 @@ export default function PastPuzzlesPage() {
                     {t('no_past_puzzles')}
                 </div>
             )}
-        </div>
+            </div>
+        </>
     )
 }

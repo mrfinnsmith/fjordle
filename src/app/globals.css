@@ -3,6 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  a {
+    color: var(--norwegian-blue) !important;
+  }
+  
+  a:hover {
+    opacity: 0.8 !important;
+  }
+}
+
 :root {
   --norwegian-blue: #00205B;
   --norwegian-red: #BA0C2F;
@@ -158,7 +168,17 @@ body {
   .game-button.primary {
     background-color: var(--norwegian-blue);
     border-color: var(--norwegian-blue);
-    color: var(--norwegian-white);
+    color: #FFFFFF;
+  }
+  
+  .norwegian-button {
+    background-color: var(--norwegian-blue) !important;
+    color: #FFFFFF !important;
+    border-color: var(--norwegian-blue) !important;
+  }
+  
+  .norwegian-button:hover {
+    opacity: 0.9 !important;
   }
 
   .game-button.primary:hover {

@@ -160,9 +160,9 @@ export default function StatsPage() {
             <p className="text-red-600 page-text">{t('error_loading_stats')}</p>
             <Link 
               href="/"
-              className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              className="px-6 py-2 rounded-lg transition-colors norwegian-button"
             >
-              {t('back_to_game')}
+              {t('back_to_today')}
             </Link>
           </div>
         </div>
@@ -185,21 +185,19 @@ export default function StatsPage() {
     <div className="min-h-screen page-container">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold mb-2 page-text">{t('statistics')}</h1>
-              <p className="text-gray-600 page-text">
-                {t('stats_description')}
-              </p>
-            </div>
-            <Link 
-              href="/"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-            >
-              {t('back_to_game')}
-            </Link>
-          </div>
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {t('statistics')}
+          </h1>
+          <p className="text-xl text-gray-600 mb-6">
+            {t('stats_description')}
+          </p>
+          <Link 
+            href="/"
+            className="px-6 py-2 rounded-lg transition-colors norwegian-button"
+          >
+            {t('back_to_today')}
+          </Link>
         </div>
 
         {/* Data Corruption Warning */}
@@ -233,7 +231,7 @@ export default function StatsPage() {
         {/* Empty State - No Games */}
         {stats.gamesPlayed === 0 && (
           <div className="text-center py-16">
-            <div className="text-6xl mb-6">🎯</div>
+            <div className="text-6xl mb-6">📊</div>
             <h2 className="text-2xl font-bold mb-4 page-text">{t('welcome_to_stats')}</h2>
             <p className="text-gray-600 mb-8 max-w-md mx-auto page-text">
               {t('no_games_played_yet')}
