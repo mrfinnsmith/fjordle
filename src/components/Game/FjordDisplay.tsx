@@ -132,7 +132,7 @@ function FjordDisplay({
         if (!municipalityHint || municipalityHint.length === 0) return null
         
         return (
-            <div className="mt-4 text-center">
+            <div className="mt-2 text-center">
                 <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-lg text-sm font-medium">
                     🏘️ {t('municipality_hint')}: {municipalityHint.join(', ')}
                 </div>
