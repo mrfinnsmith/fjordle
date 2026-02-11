@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import NavigationMenu from '@/components/NavigationMenu'
+import Footer from '@/components/Footer'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { useLanguage } from '@/lib/languageContext'
 import { useFormattedDate } from '@/lib/useFormattedDate'
@@ -118,6 +119,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           {children}
         </ErrorBoundary>
       </main>
+      <ErrorBoundary>
+        <Footer />
+      </ErrorBoundary>
       {process.env.NODE_ENV === 'development' && <DebugInfo />}
       <PerformanceReport />
     </div>

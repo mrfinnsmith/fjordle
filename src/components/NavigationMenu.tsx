@@ -46,12 +46,12 @@ export default function NavigationMenu() {
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="text-2xl hover:opacity-70 transition-opacity p-1"
-        title={t('how_to_play')}
-        aria-label={t('how_to_play')}
+        title="Menu"
+        aria-label="Navigation menu"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        ❓
+        ☰
       </button>
 
       {/* Dropdown Menu */}
