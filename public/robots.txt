@@ -1,0 +1,2 @@
+Sitemap: https://fjordle.lol/sitemap.xml
+Disallow: /api/
