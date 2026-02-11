@@ -4,10 +4,23 @@
 @tailwind utilities;
 
 @layer base {
+  .fjordle-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    font-size: 3.5rem;
+    text-transform: uppercase;
+  }
+
+  body {
+    font-family: 'Work Sans', system-ui, sans-serif;
+    font-weight: 400;
+  }
+
   a {
     color: var(--norwegian-blue) !important;
   }
-  
+
   a:hover {
     opacity: 0.8 !important;
   }
@@ -40,7 +53,6 @@
 }
 
 body {
-  font-family: 'Source Sans Pro', system-ui, -apple-system, sans-serif;
   color: var(--text-primary);
   background: var(--surface-primary);
 }
