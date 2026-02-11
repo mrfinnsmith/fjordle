@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function HowToPlay() {
@@ -62,13 +63,16 @@ export default function HowToPlay() {
                             <div>
                                 <p><strong>🛰️ {t('satellite_hint_title')}</strong> {t('satellite_hint_text')}</p>
                                 <div className="mt-4">
-                                    <img
+                                    <Image
                                         src="/fjord_satellite/1617_Indre-oslofjord.png"
                                         alt={t('satellite_hint_example')}
+                                        width={800}
+                                        height={600}
                                         className="w-full max-w-md mx-auto rounded-lg shadow-md"
                                         onError={(e) => {
                                             e.currentTarget.style.display = 'none';
                                         }}
+                                        sizes="(max-width: 768px) 100vw, 448px"
                                     />
                                     <p className="text-sm text-gray-600 text-center mt-2">
                                         <em>{t('satellite_area_note')}</em>

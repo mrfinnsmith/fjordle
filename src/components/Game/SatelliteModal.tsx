@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
 import LoadingSpinner from './LoadingSpinner'
 import { useFocusTrap } from '@/lib/useFocusTrap'
@@ -57,13 +58,16 @@ export default function SatelliteModal({ isOpen, onClose, satelliteFilename, fjo
                             <LoadingSpinner />
                         </div>
                     )}
-                    <img
+                    <Image
                         src={imagePath}
                         alt={`${t('satellite_image_hint')}: ${fjordName}`}
+                        width={800}
+                        height={600}
                         className={`w-full h-auto rounded-lg ${isLoading ? 'hidden' : ''}`}
                         onLoad={() => setIsLoading(false)}
                         onError={() => setIsLoading(false)}
                         onClick={(e) => e.stopPropagation()}
+                        sizes="(max-width: 768px) 100vw, 800px"
                     />
                 </div>
             </div>
