@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
 import { trackGamePerformance } from '@/lib/performance'
 import LoadingSpinner from './LoadingSpinner'
@@ -89,13 +88,12 @@ function FjordDisplay({
 
         return (
             <div className="fjord-svg-container">
-                <Image
+                <img
                     src={`/fjord_svgs/${svgFilename}`}
                     alt={t('a11y_current_fjord')}
                     width={400}
                     height={300}
                     className="fjord-svg"
-                    priority
                 />
             </div>
         )
