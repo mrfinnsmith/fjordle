@@ -1,6 +1,7 @@
 'use client'
 
 import { useLanguage } from '@/lib/languageContext'
+import Link from 'next/link'
 
 export default function About() {
     const { t } = useLanguage()
@@ -24,7 +25,11 @@ export default function About() {
                         </a>.
                     </p>
                     <p>
-                        {t('about_inspired')}
+                        {t('about_inspired')}{' '}
+                        <Link href="/hvordan-spille" className="underline">
+                            {t('how_to_play')}
+                        </Link>
+                        {' '}for detailed instructions.
                     </p>
                     <p>
                         {t('about_collaborate')}{' '}

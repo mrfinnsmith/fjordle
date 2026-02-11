@@ -10,7 +10,7 @@ interface FAQItem {
 }
 
 export default function FAQ() {
-    const { t } = useLanguage()
+    const { t, language } = useLanguage()
 
     const faqItems: FAQItem[] = [
         {
@@ -40,6 +40,21 @@ export default function FAQ() {
     ]
 
     const renderAnswer = (item: FAQItem) => {
+        if (item.answer === 'faq_what_is_fjordle_answer') {
+            const answerText = t('faq_what_is_fjordle_answer')
+            const howToPlayText = t('how_to_play').toLowerCase()
+
+            return (
+                <>
+                    {answerText}{' '}
+                    <Link href="/hvordan-spille" className="underline">
+                        {howToPlayText}
+                    </Link>
+                    {language === 'no' ? ' side for detaljer.' : ' page for details.'}
+                </>
+            )
+        }
+
         if (item.answer === 'faq_previous_puzzles_answer') {
             const answerText = t('faq_previous_puzzles_answer')
             const linkText = t('past_fjordles').toLowerCase()

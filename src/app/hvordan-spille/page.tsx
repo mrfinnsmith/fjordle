@@ -1,10 +1,11 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
 
 export default function HowToPlay() {
-    const { t } = useLanguage()
+    const { t, language } = useLanguage()
 
     return (
         <>
@@ -86,6 +87,16 @@ export default function HowToPlay() {
                     <section>
                         <h2 className="text-xl font-semibold mb-3">{t('winning_title')}</h2>
                         <p>{t('winning_text')}</p>
+                    </section>
+
+                    <section className="mt-8 p-4 bg-blue-50 rounded-lg">
+                        <p className="text-center">
+                            {language === 'no' ? 'Har du flere spørsmål? Se vår' : 'Have more questions? Check our'}{' '}
+                            <Link href="/spoersmaal-og-svar" className="underline font-medium">
+                                {t('faq')}
+                            </Link>
+                            {language === 'no' ? ' side.' : ' page.'}
+                        </p>
                     </section>
                 </div>
             </div>
