@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import { GameState, UserStats, GameProgress, HintState, PuzzleResult, HintUsageStats, PerformanceData, DifficultyStats, EnhancedUserStats } from '@/types/game'
 import { getDailyPuzzleSchedule, getDailyPuzzleWithFjords, getFjordDifficulties } from './puzzleApi'
 
@@ -13,7 +12,7 @@ export function getOrCreateSessionId(): string {
   let sessionId = localStorage.getItem(key)
 
   if (!sessionId) {
-    sessionId = uuidv4()
+    sessionId = crypto.randomUUID()
     localStorage.setItem(key, sessionId)
   }
 
