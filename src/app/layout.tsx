@@ -4,7 +4,25 @@ import { Language } from '@/types/game'
 import ClientLayout from '@/components/ClientLayout'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
 import Script from 'next/script'
+import { Metadata } from 'next'
 import './globals.css'
+
+export const metadata: Metadata = {
+  title: 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
+  description: 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder.',
+  keywords: 'fjordspill, wordle norge, norge quiz, geografispill, fjord, fjorder, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, fjordle, norsk geografi spill, norgesquiz',
+  viewport: 'width=device-width, initial-scale=1',
+  openGraph: {
+    title: 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
+    description: 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder.',
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`],
+  },
+  twitter: {
+    title: 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
+    description: 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder.',
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`],
+  },
+}
 
 export default function RootLayout({
   children,
@@ -24,18 +42,6 @@ export default function RootLayout({
   return (
     <html lang={initialLanguage}>
       <head>
-        <title>Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig</title>
-        <meta name="description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
-        <meta name="keywords" content="fjordspill, wordle norge, norge quiz, geografispill, fjord, fjorder, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, fjordle, norsk geografi spill, norgesquiz" />
-
-        <meta property="og:title" content="Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig" />
-        <meta property="og:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
-        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
-        <meta name="twitter:title" content="Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig" />
-        <meta name="twitter:description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
-        <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`} />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* Preload Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
