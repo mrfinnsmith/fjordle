@@ -548,7 +548,6 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           isOpen={showSatelliteModal}
           onClose={() => setShowSatelliteModal(false)}
           satelliteFilename={puzzle.fjord.satellite_filename}
-          fjordName={puzzle.fjord.name}
         />
       )}
 

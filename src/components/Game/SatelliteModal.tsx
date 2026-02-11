@@ -8,10 +8,9 @@ interface SatelliteModalProps {
     isOpen: boolean
     onClose: () => void
     satelliteFilename: string
-    fjordName: string
 }
 
-export default function SatelliteModal({ isOpen, onClose, satelliteFilename, fjordName }: SatelliteModalProps) {
+export default function SatelliteModal({ isOpen, onClose, satelliteFilename }: SatelliteModalProps) {
     const { t } = useLanguage()
     const satelliteModalRef = useFocusTrap(isOpen)
     const [isLoading, setIsLoading] = useState(true)
