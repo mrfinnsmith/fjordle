@@ -60,7 +60,7 @@ export default function SatelliteModal({ isOpen, onClose, satelliteFilename, fjo
                     )}
                     <Image
                         src={imagePath}
-                        alt={`${t('satellite_image_hint')}: ${fjordName}`}
+                        alt={t('satellite_image_hint')}
                         width={800}
                         height={600}
                         className={`w-full h-auto rounded-lg ${isLoading ? 'hidden' : ''}`}

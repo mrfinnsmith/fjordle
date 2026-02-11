@@ -27,7 +27,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'already_used': 'Allerede brukt',
     'get_hint': 'Få tips',
     'first_letter_hint': 'Første bokstav',
-    'satellite_image_hint': 'Satellittbilde',
+    'satellite_image_hint': 'Satellittbilde av fjordområde',
     'view_again': 'Se igjen',
     'satellite_hint_description': 'Se satellittbilde av fjorden for ekstra hjelp med identifikasjon.',
     'municipality_hint': 'Kommuner',
@@ -258,7 +258,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'a11y_guess_incorrect': 'Feil gjetning. Avstand: {distance}, retning: {direction}, nærhet: {proximity} prosent',
     'a11y_game_won': 'Gratulerer! Du gjettet riktig på {attempts} forsøk',
     'a11y_game_lost': 'Spillet er over. Riktig svar var {fjord}',
-    'a11y_current_fjord': 'Dagens fjord omriss',
+    'a11y_current_fjord': 'Omriss av norsk fjord',
     'a11y_hint_revealed': 'Hint avslørt: {hint}',
 
     // Stats Page
@@ -342,7 +342,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'already_used': 'Already Used',
     'get_hint': 'Get hint',
     'first_letter_hint': 'First Letter',
-    'satellite_image_hint': 'Satellite Image',
+    'satellite_image_hint': 'Satellite view of fjord area',
     'view_again': 'View Again',
     'satellite_hint_description': 'View satellite image of the fjord for additional identification help.',
     'municipality_hint': 'Municipalities',
@@ -575,7 +575,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'a11y_guess_incorrect': 'Incorrect guess. Distance: {distance}, direction: {direction}, proximity: {proximity} percent',
     'a11y_game_won': 'Congratulations! You guessed correctly in {attempts} attempts',
     'a11y_game_lost': 'Game over. The correct answer was {fjord}',
-    'a11y_current_fjord': 'Current fjord outline',
+    'a11y_current_fjord': 'Norwegian fjord outline',
     'a11y_hint_revealed': 'Hint revealed: {hint}',
 
     // Stats Page
