@@ -24,8 +24,6 @@ export default function RootLayout({
   return (
     <html lang={initialLanguage}>
       <head>
-        <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
-
         <title>Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig</title>
         <meta name="description" content="Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder." />
         <meta name="keywords" content="fjordspill, wordle norge, norge quiz, geografispill, fjord, fjorder, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, fjordle, norsk geografi spill, norgesquiz" />
