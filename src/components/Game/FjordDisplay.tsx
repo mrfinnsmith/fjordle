@@ -88,12 +88,13 @@ function FjordDisplay({
 
         return (
             <div className="fjord-svg-container">
+                <div className="mist-overlay"></div>
                 <img
                     src={`/fjord_svgs/${svgFilename}`}
                     alt={t('a11y_current_fjord')}
                     width={400}
                     height={300}
-                    className="fjord-svg"
+                    className="fjord-svg fjord-svg-dramatic"
                 />
             </div>
         )

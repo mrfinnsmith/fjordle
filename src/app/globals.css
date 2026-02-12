@@ -299,12 +299,46 @@ body {
     background-color: var(--surface-secondary);
     border-radius: 8px;
     padding: 1rem;
+    position: relative;
   }
 
   .fjord-svg {
     max-width: 100%;
     max-height: 100%;
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+  .mist-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(255,255,255,0.7) 0%,
+      transparent 60%
+    );
+    animation: mistFade 2s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes mistFade {
+    to { opacity: 0; }
+  }
+
+  .fjord-svg-dramatic {
+    animation: fjordReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: center;
+  }
+
+  @keyframes fjordReveal {
+    from {
+      opacity: 0;
+      transform: scale(0.92) translateY(10px);
+      filter: blur(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      filter: blur(0);
+    }
   }
 
   .guess-input {
