@@ -418,6 +418,46 @@ body {
     margin-top: 2px;
   }
 
+  .hint-glow {
+    position: absolute;
+    inset: -30px;
+    background: radial-gradient(circle at center,
+      rgba(186, 12, 47, 0.2) 0%,
+      rgba(0, 32, 91, 0.1) 40%,
+      transparent 70%
+    );
+    animation: discoveryBurst 2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+               glowPulse 3s ease-in-out 2s infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @keyframes discoveryBurst {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
   .guess-input {
     width: 100%;
     padding: 1rem;

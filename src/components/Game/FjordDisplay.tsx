@@ -132,6 +132,7 @@ function FjordDisplay({
                             <span className="hint-label">{t('hint_starts_with')}</span>
                             <span className="hint-value">{firstLetterHint}</span>
                         </div>
+                        <div className="hint-glow"></div>
                     </div>
                 )}
 
