@@ -196,6 +196,16 @@ function FjordDisplay({
 
     return (
         <div className="fjord-display" role="img" aria-label={t('a11y_fjord_display')}>
+            <svg className="mountain-silhouette" viewBox="0 0 400 60" preserveAspectRatio="none">
+                <path d="M0,60 L0,35 Q50,10 80,25 T160,15 T240,30 T320,10 L400,25 L400,60 Z"
+                    fill="url(#mountainGradient)" opacity="0.15" />
+                <defs>
+                    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#00205B" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#00205B" stopOpacity="0.05" />
+                    </linearGradient>
+                </defs>
+            </svg>
             {svgContainer}
             {correctAnswerDisplay}
             {hintCardsDisplay}
