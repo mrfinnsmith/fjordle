@@ -7,11 +7,15 @@ import Script from 'next/script'
 import { Metadata } from 'next'
 import './globals.css'
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export const metadata: Metadata = {
   title: 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
   description: 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder. Test din kunnskap om norsk geografi gratis.',
   keywords: 'fjordspill, wordle norge, norge quiz, geografispill, fjord, fjorder, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, fjordle, norsk geografi spill, norgesquiz',
-  viewport: 'width=device-width, initial-scale=1',
   openGraph: {
     title: 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
     description: 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder. Test din kunnskap om norsk geografi gratis.',
