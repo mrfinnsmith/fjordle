@@ -85,17 +85,17 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
     : gameState.puzzle.fjord.wikipedia_url_en;
 
   return (
-    <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 results-modal-backdrop flex items-center justify-center z-50 p-4"
       onKeyDown={(e) => {
         if (e.key === 'Escape') {
           onClose()
         }
       }}
     >
-      <div 
+      <div
         ref={resultsModalRef}
-        className="bg-white rounded-lg p-6 max-w-lg w-full relative max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-lg p-6 max-w-lg w-full relative max-h-[90vh] overflow-y-auto results-modal-content"
         role="dialog"
         aria-modal="true"
         aria-labelledby="results-modal-title"
@@ -262,7 +262,7 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
                   href={wikipediaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 link-button"
                 >
                   <span>📖</span>
                   <span>Wikipedia</span>
