@@ -31,62 +31,37 @@ function GuessHistory({ guesses }: GuessHistoryProps) {
     if (guesses.length === 0) return null
 
     return (
-        <div 
-            className="guess-history" 
-            role="region" 
+        <div
+            className="guess-journey"
+            role="region"
             aria-label={t('a11y_guess_history')}
             aria-live="polite"
         >
-            <div className="guess-history-grid">
-                {formattedGuesses.map((guess, index) => (
-                    <React.Fragment key={index}>
-                        <div
-                            className={`guess-item fjord-name ${guess.isCorrect ? 'correct' : ''}`}
-                            role="gridcell"
-                            aria-label={guess.isCorrect ? t('a11y_guess_correct') : undefined}
-                        >
-                            {guess.fjordName}
-                        </div>
-
+            <div className="journey-label">{t('your_guesses')}</div>
+            {formattedGuesses.map((guess, index) => (
+                <div
+                    key={index}
+                    className="journey-step"
+                    style={{ '--proximity': `${guess.proximityPercent}%` } as React.CSSProperties}
+                >
+                    <div className="step-marker" data-step={index + 1}></div>
+                    <div className="step-content">
+                        <div className="fjord-name-journey">{guess.fjordName}</div>
                         {!guess.isCorrect ? (
-                            <>
-                                <div
-                                    className="guess-item"
-                                    role="gridcell"
-                                    aria-label={`${t('distance')}: ${guess.formattedDistance}`}
-                                >
-                                    {guess.formattedDistance}
-                                </div>
-
-                                <div
-                                    className="guess-item"
-                                    role="gridcell"
-                                    aria-label={`${t('direction')}: ${guess.direction}`}
-                                >
-                                    {guess.direction}
-                                </div>
-
-                                <div
-                                    className="guess-item"
-                                    role="gridcell"
-                                    aria-label={`${t('proximity')}: ${guess.proximityPercent}%`}
-                                >
-                                    {guess.proximityPercent}%
-                                </div>
-                            </>
-                        ) : (
-                            <div
-                                className="guess-item correct"
-                                style={{ gridColumn: 'span 3' }}
-                                role="gridcell"
-                                aria-label={t('a11y_guess_correct')}
-                            >
-                                🎯 {t('correct')}
+                            <div className="step-metrics">
+                                <span className="metric-distance">{guess.formattedDistance}</span>
+                                <span className="metric-arrow">{guess.direction}</span>
+                                <span className="metric-proximity">{guess.proximityPercent}%</span>
                             </div>
+                        ) : (
+                            <div className="step-success">🎯 {t('correct')}</div>
                         )}
-                    </React.Fragment>
-                ))}
-            </div>
+                    </div>
+                    <div className="proximity-bar">
+                        <div className="proximity-fill" style={{ width: `${guess.proximityPercent}%` }}></div>
+                    </div>
+                </div>
+            ))}
         </div>
     )
 }
