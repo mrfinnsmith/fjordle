@@ -113,70 +113,71 @@ function FjordDisplay({
         )
     }, [isGameOver, correctAnswer])
 
-    // Memoize first letter hint display
-    const firstLetterHintDisplay = useMemo(() => {
-        if (!firstLetterHint) return null
-        
-        return (
-            <div className="mt-4 text-center">
-                <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-sm font-medium">
-                    💡 {t('hint_starts_with')} &apos;{firstLetterHint}&apos;
-                </div>
-            </div>
-        )
-    }, [firstLetterHint, t])
+    // Memoize hint cards display
+    const hintCardsDisplay = useMemo(() => {
+        const hasAnyHints = firstLetterHint ||
+                           (municipalityHint && municipalityHint.length > 0) ||
+                           (countyHint && countyHint.length > 0) ||
+                           formattedMeasurements ||
+                           weatherHint
 
-    // Memoize municipality hint display
-    const municipalityHintDisplay = useMemo(() => {
-        if (!municipalityHint || municipalityHint.length === 0) return null
-        
-        return (
-            <div className="mt-2 text-center">
-                <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-lg text-sm font-medium">
-                    🏘️ {t('municipality_hint')}: {municipalityHint.join(', ')}
-                </div>
-            </div>
-        )
-    }, [municipalityHint, t])
+        if (!hasAnyHints) return null
 
-    // Memoize county hint display
-    const countyHintDisplay = useMemo(() => {
-        if (!countyHint || countyHint.length === 0) return null
-        
         return (
-            <div className="mt-2 text-center">
-                <div className="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-lg text-sm font-medium">
-                    🏛️ {t('county_hint')}: {countyHint.join(', ')}
-                </div>
-            </div>
-        )
-    }, [countyHint, t])
+            <div className="hint-card-grid">
+                {firstLetterHint && (
+                    <div className="hint-card letter-hint">
+                        <div className="hint-icon">🏔️</div>
+                        <div className="hint-content">
+                            <span className="hint-label">{t('hint_starts_with')}</span>
+                            <span className="hint-value">{firstLetterHint}</span>
+                        </div>
+                    </div>
+                )}
 
-    // Memoize measurements hint display
-    const measurementsHintDisplay = useMemo(() => {
-        if (!formattedMeasurements) return null
-        
-        return (
-            <div className="mt-2 text-center">
-                <div className="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-lg text-sm font-medium">
-                    📏 {t('measurements_hint')}: {formattedMeasurements}
-                </div>
-            </div>
-        )
-    }, [formattedMeasurements, t])
+                {municipalityHint && municipalityHint.length > 0 && (
+                    <div className="hint-card municipality-hint">
+                        <div className="hint-icon">🏘️</div>
+                        <div className="hint-content">
+                            <span className="hint-label">{t('municipality_hint')}</span>
+                            <span className="hint-value">{municipalityHint.join(', ')}</span>
+                        </div>
+                    </div>
+                )}
 
-    // Memoize weather hint display
-    const weatherHintDisplay = useMemo(() => {
-        if (!weatherHint) return null
-        
-        return (
-            <div className="mt-2 text-center">
-                <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-lg text-sm font-medium">
-                    🌤️ {t('weather_hint')}: {weatherHint.icon} {weatherHint.temperature}°C - {weatherHint.conditions}
-                </div>
+                {countyHint && countyHint.length > 0 && (
+                    <div className="hint-card county-hint">
+                        <div className="hint-icon">🏛️</div>
+                        <div className="hint-content">
+                            <span className="hint-label">{t('county_hint')}</span>
+                            <span className="hint-value">{countyHint.join(', ')}</span>
+                        </div>
+                    </div>
+                )}
+
+                {formattedMeasurements && (
+                    <div className="hint-card measurements-hint">
+                        <div className="hint-icon">📏</div>
+                        <div className="hint-content">
+                            <span className="hint-label">{t('measurements_hint')}</span>
+                            <span className="hint-value">{formattedMeasurements}</span>
+                        </div>
+                    </div>
+                )}
+
+                {weatherHint && (
+                    <div className="hint-card weather-hint">
+                        <div className="hint-icon">{weatherHint.icon}</div>
+                        <div className="hint-content">
+                            <span className="hint-label">{t('weather_hint')}</span>
+                            <span className="hint-value">{weatherHint.temperature}°C</span>
+                            <span className="hint-detail">{weatherHint.conditions}</span>
+                        </div>
+                    </div>
+                )}
             </div>
         )
-    }, [weatherHint, t])
+    }, [firstLetterHint, municipalityHint, countyHint, formattedMeasurements, weatherHint, t])
 
     // Track total render time on component unmount or significant prop changes
     React.useEffect(() => {
@@ -196,11 +197,7 @@ function FjordDisplay({
         <div className="fjord-display" role="img" aria-label={t('a11y_fjord_display')}>
             {svgContainer}
             {correctAnswerDisplay}
-            {firstLetterHintDisplay}
-            {municipalityHintDisplay}
-            {countyHintDisplay}
-            {measurementsHintDisplay}
-            {weatherHintDisplay}
+            {hintCardsDisplay}
         </div>
     )
 }

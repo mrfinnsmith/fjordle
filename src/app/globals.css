@@ -342,6 +342,82 @@ body {
     }
   }
 
+  .hint-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 1.5rem 0;
+    width: 100%;
+  }
+
+  .hint-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(0, 32, 91, 0.15);
+    border-radius: 12px;
+    box-shadow:
+      0 4px 12px rgba(0, 32, 91, 0.08),
+      0 2px 4px rgba(0, 32, 91, 0.04);
+    animation: hintReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+
+  .hint-card.letter-hint { animation-delay: 100ms; }
+  .hint-card.municipality-hint { animation-delay: 150ms; }
+  .hint-card.county-hint { animation-delay: 200ms; }
+  .hint-card.measurements-hint { animation-delay: 250ms; }
+  .hint-card.weather-hint { animation-delay: 300ms; }
+
+  @keyframes hintReveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.9);
+    }
+  }
+
+  .hint-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+    flex-shrink: 0;
+  }
+
+  .hint-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hint-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .hint-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--norwegian-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    hyphens: none;
+  }
+
+  .hint-detail {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
   .guess-input {
     width: 100%;
     padding: 1rem;
