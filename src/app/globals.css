@@ -497,7 +497,7 @@ body {
     font-size: 1rem;
     background-color: var(--surface-primary);
     color: var(--text-primary);
-    transition: border-color 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .guess-input-container {
@@ -514,7 +514,12 @@ body {
   .guess-input:focus {
     outline: none;
     border-color: var(--norwegian-blue);
-    box-shadow: 0 0 0 3px rgba(0, 32, 91, 0.1);
+    border-width: 3px;
+    box-shadow:
+      0 0 0 4px rgba(0, 32, 91, 0.1),
+      0 6px 16px rgba(0, 32, 91, 0.15);
+    transform: translateY(-2px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .guess-dropdown {
