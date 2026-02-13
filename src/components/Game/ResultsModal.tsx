@@ -229,19 +229,19 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
           <div className="bg-gray-100 rounded-lg p-4 mb-4">
             <h3 className="font-semibold mb-2 page-text">{t('statistics')}</h3>
             <div className="grid grid-cols-4 gap-4 text-center">
-              <div>
+              <div className="stat-item">
                 <div className="text-2xl font-bold page-text">{userStats.gamesPlayed}</div>
                 <div className="text-xs text-gray-600 page-text">{t('played')}</div>
               </div>
-              <div>
+              <div className="stat-item">
                 <div className="text-2xl font-bold page-text">{winPercentage}%</div>
                 <div className="text-xs text-gray-600 page-text">{t('win_percent')}</div>
               </div>
-              <div>
+              <div className="stat-item">
                 <div className="text-2xl font-bold page-text">{userStats.currentStreak}</div>
                 <div className="text-xs text-gray-600 page-text">{t('current_streak')}</div>
               </div>
-              <div>
+              <div className="stat-item">
                 <div className="text-2xl font-bold page-text">{userStats.maxStreak}</div>
                 <div className="text-xs text-gray-600 page-text">{t('max_streak')}</div>
               </div>
