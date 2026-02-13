@@ -152,6 +152,13 @@ export default function RootLayout({
           `}
         </Script>
 
+        {/* Ahrefs Web Analytics */}
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="XudsUikAbMKQ/ea+w09VkQ"
+          strategy="afterInteractive"
+        />
+
         <LanguageProvider initialLanguage={initialLanguage}>
           <ClientLayout>
             <PerformanceMonitor />
