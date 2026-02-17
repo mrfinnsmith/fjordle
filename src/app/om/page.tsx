@@ -34,7 +34,7 @@ export default function About() {
                     <p>
                         {t('about_collaborate')}{' '}
                         <a
-                            href="https://mrfinnsmith.com/about"
+                            href="https://mrfinnsmith.com/about/"
                             className="font-medium hover:underline"
                         >
                             {t('about_platforms')}
