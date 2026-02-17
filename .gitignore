@@ -48,6 +48,7 @@ dist/
 
 # Working documents
 docs/
+memos/
 
 # OS generated files
 .DS_Store
