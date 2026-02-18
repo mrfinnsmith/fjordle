@@ -9,49 +9,50 @@ interface PageProps {
     params: { slug: string }
 }
 
-interface FjordBySlugRow {
-    fjord_id: number
-    fjord_name: string
-    slug: string
-    svg_filename: string
-    satellite_filename?: string
-    center_lat: number
-    center_lng: number
-    municipalities?: string[]
-    counties?: string[]
-    wikipedia_url_no?: string
-    wikipedia_url_en?: string
-    wikipedia_url_nn?: string
-    wikipedia_url_da?: string
-    wikipedia_url_ceb?: string
-    length_km?: number
-    width_km?: number
-    depth_m?: number
-    measurement_source_url?: string
-}
-
 async function getFjordBySlug(slug: string): Promise<Fjord | null> {
-    const { data, error } = await supabase.rpc('fjordle_get_fjord_by_slug', { p_slug: slug })
-    if (error || !data || !Array.isArray(data) || data.length === 0) return null
-    const row = data[0] as FjordBySlugRow
+    const { data: fjordRow, error } = await supabase
+        .from('fjordle_fjords')
+        .select('id, name, svg_filename, satellite_filename, center_lat, center_lng, length_km, width_km, depth_m, measurement_source_url, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb')
+        .eq('slug', decodeURIComponent(slug))
+        .single()
+
+    if (error || !fjordRow) return null
+
+    const [countyJunctionResult, munJunctionResult] = await Promise.all([
+        supabase.from('fjordle_fjord_counties').select('county_id').eq('fjord_id', fjordRow.id),
+        supabase.from('fjordle_fjord_municipalities').select('municipality_id').eq('fjord_id', fjordRow.id),
+    ])
+
+    const countyIds = countyJunctionResult.data?.map(r => r.county_id) ?? []
+    const munIds = munJunctionResult.data?.map(r => r.municipality_id) ?? []
+
+    const [countiesResult, municipalitiesResult] = await Promise.all([
+        countyIds.length > 0
+            ? supabase.from('fjordle_counties').select('name').in('id', countyIds)
+            : Promise.resolve({ data: [] }),
+        munIds.length > 0
+            ? supabase.from('fjordle_municipalities').select('name').in('id', munIds)
+            : Promise.resolve({ data: [] }),
+    ])
+
     return {
-        id: row.fjord_id,
-        name: row.fjord_name,
-        svg_filename: row.svg_filename,
-        satellite_filename: row.satellite_filename,
-        center_lat: row.center_lat,
-        center_lng: row.center_lng,
-        municipalities: row.municipalities,
-        counties: row.counties,
-        wikipedia_url_no: row.wikipedia_url_no,
-        wikipedia_url_en: row.wikipedia_url_en,
-        wikipedia_url_nn: row.wikipedia_url_nn,
-        wikipedia_url_da: row.wikipedia_url_da,
-        wikipedia_url_ceb: row.wikipedia_url_ceb,
-        length_km: row.length_km,
-        width_km: row.width_km,
-        depth_m: row.depth_m,
-        measurement_source_url: row.measurement_source_url,
+        id: fjordRow.id,
+        name: fjordRow.name,
+        svg_filename: fjordRow.svg_filename,
+        satellite_filename: fjordRow.satellite_filename,
+        center_lat: fjordRow.center_lat,
+        center_lng: fjordRow.center_lng,
+        counties: (countiesResult.data ?? []).map(r => r.name).sort(),
+        municipalities: (municipalitiesResult.data ?? []).map(r => r.name).sort(),
+        wikipedia_url_no: fjordRow.wikipedia_url_no,
+        wikipedia_url_en: fjordRow.wikipedia_url_en,
+        wikipedia_url_nn: fjordRow.wikipedia_url_nn,
+        wikipedia_url_da: fjordRow.wikipedia_url_da,
+        wikipedia_url_ceb: fjordRow.wikipedia_url_ceb,
+        length_km: fjordRow.length_km,
+        width_km: fjordRow.width_km,
+        depth_m: fjordRow.depth_m,
+        measurement_source_url: fjordRow.measurement_source_url,
     }
 }
 

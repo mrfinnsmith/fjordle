@@ -473,3 +473,9 @@ export type TranslationKey =
   | 'fjord_key_stats'
   | 'fjord_wikipedia_no'
   | 'fjord_wikipedia_en'
+
+  // Fjord Index Page
+  | 'fjorder_index_h1'
+  | 'fjorder_index_subtitle'
+  | 'fjorder_search_placeholder'
+  | 'fjorder_no_results'
