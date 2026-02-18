@@ -232,6 +232,10 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'fjord_facts_unesco_title': 'UNESCO Verdensarv Fjorder',
     'fjord_facts_unesco_content': 'I 2005 ble <strong>Geirangerfjord og Nærøyfjord</strong> innskrevet på UNESCOs verdensarvliste som "Vest-Norske fjorder". Disse fjordene ble anerkjent for sin eksepsjonelle naturskjønhet og som representative eksempler på fjordlandskap formet av istidenes isbreer. Området inkluderer ikke bare fjordene selv, men også omkringliggende fjell, fossefall og kulturlandskap som har vært formet av mennesker i over 1000 år.',
     
+    'fjord_key_stats': 'Nøkkeldata',
+    'fjord_wikipedia_no': 'Wikipedia på norsk',
+    'fjord_wikipedia_en': 'Wikipedia på engelsk',
+
     'fjord_facts_geography_title': 'Fjordgeografi og Dannelse',
     'fjord_facts_geography_content': 'Norske fjorder ble dannet gjennom millioner av år med <strong>isbreerosjon</strong> under flere istider. Når massive isbreer beveget seg fra fjellene mot havet, gravde de dype U-formede daler. Da isen smeltet, steg havnivået og fylte dalene, og skapte de dype, smale vannveiene vi ser i dag. Mange fjorder har <strong>terskler</strong> - grunne områder ved munningen som ble dannet av morener (steinmasser) etterlatt av isbreene. Dette skaper unike økosystemer med dypt, kaldt vann innerst og varmere kystfarvann ved inngangen.',
 
@@ -549,6 +553,10 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'fjord_facts_unesco_title': 'UNESCO World Heritage Fjords',
     'fjord_facts_unesco_content': 'In 2005, <strong>Geirangerfjord and Nærøyfjord</strong> were inscribed on UNESCO\'s World Heritage List as "West Norwegian Fjords". These fjords were recognized for their exceptional natural beauty and as representative examples of fjord landscapes shaped by ice age glaciers. The area includes not only the fjords themselves but also surrounding mountains, waterfalls, and cultural landscapes that have been shaped by humans for over 1000 years.',
     
+    'fjord_key_stats': 'Key facts',
+    'fjord_wikipedia_no': 'Norwegian Wikipedia',
+    'fjord_wikipedia_en': 'English Wikipedia',
+
     'fjord_facts_geography_title': 'Fjord Geography and Formation',
     'fjord_facts_geography_content': 'Norwegian fjords were formed through millions of years of <strong>glacial erosion</strong> during multiple ice ages. As massive glaciers moved from the mountains toward the sea, they carved deep U-shaped valleys. When the ice melted, sea levels rose and filled the valleys, creating the deep, narrow waterways we see today. Many fjords have <strong>sills</strong> - shallow areas at their mouths formed by moraines (rock debris) left behind by glaciers. This creates unique ecosystems with deep, cold water at the innermost parts and warmer coastal waters at the entrance.',
 

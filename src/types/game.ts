@@ -468,3 +468,8 @@ export type TranslationKey =
   | 'fjord_facts_unesco_content'
   | 'fjord_facts_geography_title'
   | 'fjord_facts_geography_content'
+
+  // Fjord Fact Page (individual)
+  | 'fjord_key_stats'
+  | 'fjord_wikipedia_no'
+  | 'fjord_wikipedia_en'
