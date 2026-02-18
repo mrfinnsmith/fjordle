@@ -4,13 +4,14 @@ import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
 import { Fjord } from '@/types/game'
 import SatelliteImage from '@/components/shared/SatelliteImage'
+import FjordWeather from './FjordWeather'
 
 interface FjordFactContentProps {
     fjord: Fjord
 }
 
 export default function FjordFactContent({ fjord }: FjordFactContentProps) {
-    const { t } = useLanguage()
+    const { t, language } = useLanguage()
 
     const hasStats = fjord.length_km != null || fjord.width_km != null || fjord.depth_m != null
 
@@ -20,11 +21,14 @@ export default function FjordFactContent({ fjord }: FjordFactContentProps) {
 
                 <h1 className="text-4xl font-bold text-gray-900 mb-2">{fjord.name}</h1>
 
-                {fjord.counties && fjord.counties.length > 0 && (
-                    <p className="text-lg text-gray-600 mb-6">
-                        {fjord.counties.join(', ')}
-                    </p>
-                )}
+                <p className="text-lg text-gray-600 mb-6">
+                    {language === 'no' ? 'Norsk fjord' : 'Norwegian fjord'}
+                    {fjord.counties && fjord.counties.length > 0 && (
+                        language === 'no'
+                            ? ` i ${fjord.counties.join(', ')}`
+                            : ` in ${fjord.counties.join(', ')}`
+                    )}
+                </p>
 
                 {hasStats && (
                     <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
@@ -59,6 +63,8 @@ export default function FjordFactContent({ fjord }: FjordFactContentProps) {
                         </dl>
                     </section>
                 )}
+
+                <FjordWeather fjordId={fjord.id} />
 
                 {fjord.satellite_filename && (
                     <section className="mb-6">

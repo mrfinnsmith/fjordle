@@ -12,9 +12,9 @@ export default function SatelliteImage({ satelliteFilename, alt }: SatelliteImag
     const [isLoading, setIsLoading] = useState(true)
 
     return (
-        <>
+        <div className="relative">
             {isLoading && (
-                <div className="flex justify-center mb-4">
+                <div className="absolute inset-0 flex items-center justify-center">
                     <LoadingSpinner />
                 </div>
             )}
@@ -22,10 +22,10 @@ export default function SatelliteImage({ satelliteFilename, alt }: SatelliteImag
             <img
                 src={`/fjord_satellite/${satelliteFilename}`}
                 alt={alt}
-                className={`w-full h-auto rounded-lg ${isLoading ? 'hidden' : ''}`}
+                className={`w-full h-auto rounded-lg transition-opacity ${isLoading ? 'opacity-0' : 'opacity-100'}`}
                 onLoad={() => setIsLoading(false)}
                 onError={() => setIsLoading(false)}
             />
-        </>
+        </div>
     )
 }

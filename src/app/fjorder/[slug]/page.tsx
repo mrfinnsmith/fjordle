@@ -68,24 +68,43 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? `${fjord.name} - fakta og informasjon | Fjordle`
         : `${fjord.name} - facts and information | Fjordle`
 
-    const county = fjord.counties?.[0] ?? ''
+    const countyStr = fjord.counties?.join(', ') ?? ''
     let descNO = `${fjord.name} er en norsk fjord`
     let descEN = `${fjord.name} is a Norwegian fjord`
 
-    if (county) {
-        descNO += ` i ${county}`
-        descEN += ` in ${county}`
-    }
-    if (fjord.length_km != null) {
-        descNO += `. ${fjord.length_km} km lang`
-        descEN += `. ${fjord.length_km} km long`
-    }
-    if (fjord.depth_m != null) {
-        descNO += ` og ${fjord.depth_m} m dyp`
-        descEN += ` and ${fjord.depth_m} m deep`
+    if (countyStr) {
+        descNO += ` i ${countyStr}`
+        descEN += ` in ${countyStr}`
     }
     descNO += '.'
     descEN += '.'
+
+    const measurePartsNO: string[] = []
+    const measurePartsEN: string[] = []
+    if (fjord.length_km != null) {
+        measurePartsNO.push(`${fjord.length_km} km lang`)
+        measurePartsEN.push(`${fjord.length_km} km long`)
+    }
+    if (fjord.width_km != null) {
+        measurePartsNO.push(`${fjord.width_km} km bred`)
+        measurePartsEN.push(`${fjord.width_km} km wide`)
+    }
+    if (fjord.depth_m != null) {
+        measurePartsNO.push(`${fjord.depth_m} m dyp`)
+        measurePartsEN.push(`${fjord.depth_m} m deep`)
+    }
+    if (measurePartsNO.length > 0) {
+        descNO += ` ${measurePartsNO.join(', ')}.`
+        descEN += ` ${measurePartsEN.join(', ')}.`
+    } else if (fjord.municipalities && fjord.municipalities.length > 0) {
+        const munStr = fjord.municipalities.slice(0, 2).join(' og ')
+        const munStrEN = fjord.municipalities.slice(0, 2).join(' and ')
+        descNO += ` Fjorden ligger i ${munStr}.`
+        descEN += ` The fjord is located in ${munStrEN}.`
+    }
+
+    descNO += ' Gjett fjorden i Fjordle, det daglige norske fjordspillet.'
+    descEN += ' Guess the fjord in Fjordle, the daily Norwegian fjord guessing game.'
 
     const description = language === 'no' ? descNO : descEN
 
@@ -97,6 +116,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title,
         description,
         robots: { index: true, follow: true },
+        alternates: {
+            canonical: `${siteUrl}/fjorder/${params.slug}`,
+        },
         openGraph: {
             title,
             description,
