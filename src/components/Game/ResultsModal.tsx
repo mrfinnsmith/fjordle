@@ -2,6 +2,7 @@
 
 import { GameState, UserStats } from '@/types/game'
 import { useState } from 'react'
+import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
 import { formatDistance } from '@/lib/utils'
 import { useFocusTrap } from '@/lib/useFocusTrap'
@@ -276,6 +277,13 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
             >
               {showCopiedMessage ? t('copied') : t('share_results')}
             </button>
+
+            <Link
+              href={`/fjorder/${gameState.puzzle.fjord.slug}`}
+              className="w-full py-2 px-4 rounded flex items-center justify-center norwegian-button"
+            >
+              {t('learn_more_about').replace('{name}', gameState.puzzle.fjord.name)}
+            </Link>
 
             <button
               onClick={onClose}

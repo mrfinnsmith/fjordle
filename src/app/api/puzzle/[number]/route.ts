@@ -33,7 +33,7 @@ export async function GET(
         // Fetch full fjord data including measurements
         const { data: fjordData, error: fjordError } = await supabase
             .from('fjordle_fjords')
-            .select('id, name, svg_filename, satellite_filename, center_lat, center_lng, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, length_km, width_km, depth_m, measurement_source_url')
+            .select('id, name, slug, svg_filename, satellite_filename, center_lat, center_lng, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, length_km, width_km, depth_m, measurement_source_url')
             .eq('id', puzzleData.fjord_id)
             .single()
 

@@ -12,7 +12,7 @@ interface PageProps {
 async function getFjordBySlug(slug: string): Promise<Fjord | null> {
     const { data: fjordRow, error } = await supabase
         .from('fjordle_fjords')
-        .select('id, name, svg_filename, satellite_filename, center_lat, center_lng, length_km, width_km, depth_m, measurement_source_url, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb')
+        .select('id, name, slug, svg_filename, satellite_filename, center_lat, center_lng, length_km, width_km, depth_m, measurement_source_url, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb')
         .eq('slug', decodeURIComponent(slug))
         .single()
 
@@ -38,6 +38,7 @@ async function getFjordBySlug(slug: string): Promise<Fjord | null> {
     return {
         id: fjordRow.id,
         name: fjordRow.name,
+        slug: fjordRow.slug,
         svg_filename: fjordRow.svg_filename,
         satellite_filename: fjordRow.satellite_filename,
         center_lat: fjordRow.center_lat,

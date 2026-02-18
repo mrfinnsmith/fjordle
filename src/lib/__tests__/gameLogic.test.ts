@@ -193,6 +193,7 @@ describe('createInitialGameState', () => {
     fjord: {
       id: 123,
       name: 'Geirangerfjord',
+      slug: 'geirangerfjord',
       svg_filename: 'geiranger.svg',
       center_lat: 62.1049,
       center_lng: 7.2067
@@ -245,6 +246,7 @@ describe('makeGuess', () => {
     fjord: {
       id: 123,
       name: 'Geirangerfjord',
+      slug: 'geirangerfjord',
       svg_filename: 'geiranger.svg',
       center_lat: 62.1049,
       center_lng: 7.2067

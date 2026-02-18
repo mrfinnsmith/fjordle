@@ -242,6 +242,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'fjorder_search_placeholder': 'Søk etter fjord...',
     'fjorder_no_results': 'Ingen fjorder funnet',
 
+    // Post-solve fact page link
+    'learn_more_about': 'Les mer om {name}',
+
     'fjord_facts_geography_title': 'Fjordgeografi og Dannelse',
     'fjord_facts_geography_content': 'Norske fjorder ble dannet gjennom millioner av år med <strong>isbreerosjon</strong> under flere istider. Når massive isbreer beveget seg fra fjellene mot havet, gravde de dype U-formede daler. Da isen smeltet, steg havnivået og fylte dalene, og skapte de dype, smale vannveiene vi ser i dag. Mange fjorder har <strong>terskler</strong> - grunne områder ved munningen som ble dannet av morener (steinmasser) etterlatt av isbreene. Dette skaper unike økosystemer med dypt, kaldt vann innerst og varmere kystfarvann ved inngangen.',
 
@@ -568,6 +571,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'fjorder_index_subtitle': 'All fjords in Fjordle, sorted A to Z.',
     'fjorder_search_placeholder': 'Search fjords...',
     'fjorder_no_results': 'No fjords found',
+
+    // Post-solve fact page link
+    'learn_more_about': 'Learn more about {name}',
 
     'fjord_facts_geography_title': 'Fjord Geography and Formation',
     'fjord_facts_geography_content': 'Norwegian fjords were formed through millions of years of <strong>glacial erosion</strong> during multiple ice ages. As massive glaciers moved from the mountains toward the sea, they carved deep U-shaped valleys. When the ice melted, sea levels rose and filled the valleys, creating the deep, narrow waterways we see today. Many fjords have <strong>sills</strong> - shallow areas at their mouths formed by moraines (rock debris) left behind by glaciers. This creates unique ecosystems with deep, cold water at the innermost parts and warmer coastal waters at the entrance.',

@@ -23,6 +23,7 @@ export interface Puzzle {
 export interface Fjord {
   id: number
   name: string
+  slug: string
   svg_filename: string
   satellite_filename?: string
   center_lat: number
@@ -479,3 +480,6 @@ export type TranslationKey =
   | 'fjorder_index_subtitle'
   | 'fjorder_search_placeholder'
   | 'fjorder_no_results'
+
+  // Post-solve fact page link
+  | 'learn_more_about'

@@ -5,6 +5,7 @@ import { getLocationDataCache, saveLocationDataCache } from './localStorage'
 export async function getFjordWithMeasurements(fjordId: number): Promise<{
   id: number
   name: string
+  slug: string
   svg_filename: string
   satellite_filename?: string
   center_lat: number
@@ -22,7 +23,7 @@ export async function getFjordWithMeasurements(fjordId: number): Promise<{
   try {
     const { data, error } = await supabase
       .from('fjordle_fjords')
-      .select('id, name, svg_filename, satellite_filename, center_lat, center_lng, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, length_km, width_km, depth_m, measurement_source_url')
+      .select('id, name, slug, svg_filename, satellite_filename, center_lat, center_lng, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, length_km, width_km, depth_m, measurement_source_url')
       .eq('id', fjordId)
       .single()
 
