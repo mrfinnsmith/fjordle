@@ -1,8 +1,6 @@
-import { useState } from 'react'
-import Image from 'next/image'
 import { useLanguage } from '@/lib/languageContext'
-import LoadingSpinner from './LoadingSpinner'
 import { useFocusTrap } from '@/lib/useFocusTrap'
+import SatelliteImage from '@/components/shared/SatelliteImage'
 
 interface SatelliteModalProps {
     isOpen: boolean
@@ -13,11 +11,8 @@ interface SatelliteModalProps {
 export default function SatelliteModal({ isOpen, onClose, satelliteFilename }: SatelliteModalProps) {
     const { t } = useLanguage()
     const satelliteModalRef = useFocusTrap(isOpen)
-    const [isLoading, setIsLoading] = useState(true)
 
     if (!isOpen) return null
-
-    const imagePath = `/fjord_satellite/${satelliteFilename}`
 
     return (
         <div
@@ -52,21 +47,9 @@ export default function SatelliteModal({ isOpen, onClose, satelliteFilename }: S
                     <div id="satellite-modal-description" className="sr-only">
                         {t('a11y_satellite_modal')}
                     </div>
-                    {isLoading && (
-                        <div className="flex justify-center mb-4">
-                            <LoadingSpinner />
-                        </div>
-                    )}
-                    <Image
-                        src={imagePath}
+                    <SatelliteImage
+                        satelliteFilename={satelliteFilename}
                         alt={t('satellite_image_hint')}
-                        width={800}
-                        height={600}
-                        className={`w-full h-auto rounded-lg ${isLoading ? 'hidden' : ''}`}
-                        onLoad={() => setIsLoading(false)}
-                        onError={() => setIsLoading(false)}
-                        onClick={(e) => e.stopPropagation()}
-                        sizes="(max-width: 768px) 100vw, 800px"
                     />
                 </div>
             </div>
