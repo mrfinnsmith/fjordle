@@ -107,7 +107,7 @@ export default function PrivacyPage() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            https://mrfinnsmith.com
+                            mrfinnsmith.com
                         </a>{' '}
                         {t('contact_info')}
                     </p>
