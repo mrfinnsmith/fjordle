@@ -15,7 +15,7 @@ interface FjordIndexContentProps {
 }
 
 export default function FjordIndexContent({ fjords }: FjordIndexContentProps) {
-    const { t } = useLanguage()
+    const { t, language } = useLanguage()
     const [search, setSearch] = useState('')
     const [selectedCounty, setSelectedCounty] = useState<string | null>(null)
 
@@ -103,6 +103,9 @@ export default function FjordIndexContent({ fjords }: FjordIndexContentProps) {
                 )}
 
                 <nav className="mt-12 flex gap-4 text-sm text-gray-500">
+                    <Link href="/fjorder/fylke" className="hover:text-gray-700 hover:underline">
+                        {language === 'no' ? 'Fylker' : 'Counties'}
+                    </Link>
                     <Link href="/" className="hover:text-gray-700 hover:underline">{t('play_fjordle')}</Link>
                     <Link href="/om" className="hover:text-gray-700 hover:underline">{t('about')}</Link>
                     <Link href="/hvordan-spille" className="hover:text-gray-700 hover:underline">{t('how_to_play')}</Link>

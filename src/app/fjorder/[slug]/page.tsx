@@ -9,7 +9,12 @@ interface PageProps {
     params: { slug: string }
 }
 
-async function getFjordBySlug(slug: string): Promise<Fjord | null> {
+interface FjordWithCountySlugs {
+    fjord: Fjord
+    countySlugs: Record<string, string>
+}
+
+async function getFjordBySlug(slug: string): Promise<FjordWithCountySlugs | null> {
     const { data: fjordRow, error } = await supabase
         .from('fjordle_fjords')
         .select('id, name, slug, svg_filename, satellite_filename, center_lat, center_lng, length_km, width_km, depth_m, measurement_source_url, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb')
@@ -28,39 +33,48 @@ async function getFjordBySlug(slug: string): Promise<Fjord | null> {
 
     const [countiesResult, municipalitiesResult] = await Promise.all([
         countyIds.length > 0
-            ? supabase.from('fjordle_counties').select('name').in('id', countyIds)
-            : Promise.resolve({ data: [] }),
+            ? supabase.from('fjordle_counties').select('name, slug').in('id', countyIds)
+            : Promise.resolve({ data: [] as { name: string; slug: string }[] }),
         munIds.length > 0
             ? supabase.from('fjordle_municipalities').select('name').in('id', munIds)
             : Promise.resolve({ data: [] }),
     ])
 
+    const countySlugs: Record<string, string> = {}
+    for (const c of (countiesResult.data ?? [])) {
+        countySlugs[c.name] = c.slug
+    }
+
     return {
-        id: fjordRow.id,
-        name: fjordRow.name,
-        slug: fjordRow.slug,
-        svg_filename: fjordRow.svg_filename,
-        satellite_filename: fjordRow.satellite_filename,
-        center_lat: fjordRow.center_lat,
-        center_lng: fjordRow.center_lng,
-        counties: (countiesResult.data ?? []).map(r => r.name).sort(),
-        municipalities: (municipalitiesResult.data ?? []).map(r => r.name).sort(),
-        wikipedia_url_no: fjordRow.wikipedia_url_no,
-        wikipedia_url_en: fjordRow.wikipedia_url_en,
-        wikipedia_url_nn: fjordRow.wikipedia_url_nn,
-        wikipedia_url_da: fjordRow.wikipedia_url_da,
-        wikipedia_url_ceb: fjordRow.wikipedia_url_ceb,
-        length_km: fjordRow.length_km,
-        width_km: fjordRow.width_km,
-        depth_m: fjordRow.depth_m,
-        measurement_source_url: fjordRow.measurement_source_url,
+        fjord: {
+            id: fjordRow.id,
+            name: fjordRow.name,
+            slug: fjordRow.slug,
+            svg_filename: fjordRow.svg_filename,
+            satellite_filename: fjordRow.satellite_filename,
+            center_lat: fjordRow.center_lat,
+            center_lng: fjordRow.center_lng,
+            counties: (countiesResult.data ?? []).map(r => r.name).sort(),
+            municipalities: (municipalitiesResult.data ?? []).map(r => r.name).sort(),
+            wikipedia_url_no: fjordRow.wikipedia_url_no,
+            wikipedia_url_en: fjordRow.wikipedia_url_en,
+            wikipedia_url_nn: fjordRow.wikipedia_url_nn,
+            wikipedia_url_da: fjordRow.wikipedia_url_da,
+            wikipedia_url_ceb: fjordRow.wikipedia_url_ceb,
+            length_km: fjordRow.length_km,
+            width_km: fjordRow.width_km,
+            depth_m: fjordRow.depth_m,
+            measurement_source_url: fjordRow.measurement_source_url,
+        },
+        countySlugs,
     }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const fjord = await getFjordBySlug(params.slug)
-    if (!fjord) return {}
+    const result = await getFjordBySlug(params.slug)
+    if (!result) return {}
 
+    const { fjord } = result
     const language = getLanguageFromCookies()
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 
@@ -133,8 +147,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function FjordFactPage({ params }: PageProps) {
-    const fjord = await getFjordBySlug(params.slug)
-    if (!fjord) notFound()
+    const result = await getFjordBySlug(params.slug)
+    if (!result) notFound()
 
-    return <FjordFactContent fjord={fjord} />
+    return <FjordFactContent fjord={result.fjord} countySlugs={result.countySlugs} />
 }

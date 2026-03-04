@@ -8,9 +8,10 @@ import FjordWeather from './FjordWeather'
 
 interface FjordFactContentProps {
     fjord: Fjord
+    countySlugs?: Record<string, string>
 }
 
-export default function FjordFactContent({ fjord }: FjordFactContentProps) {
+export default function FjordFactContent({ fjord, countySlugs = {} }: FjordFactContentProps) {
     const { t, language } = useLanguage()
 
     const hasStats = fjord.length_km != null || fjord.width_km != null || fjord.depth_m != null
@@ -24,9 +25,24 @@ export default function FjordFactContent({ fjord }: FjordFactContentProps) {
                 <p className="text-lg text-gray-600 mb-6">
                     {language === 'no' ? 'Norsk fjord' : 'Norwegian fjord'}
                     {fjord.counties && fjord.counties.length > 0 && (
-                        language === 'no'
-                            ? ` i ${fjord.counties.join(', ')}`
-                            : ` in ${fjord.counties.join(', ')}`
+                        <>
+                            {language === 'no' ? ' i ' : ' in '}
+                            {fjord.counties.map((county, i) => (
+                                <span key={county}>
+                                    {i > 0 && ', '}
+                                    {countySlugs[county] ? (
+                                        <Link
+                                            href={`/fjorder/fylke/${countySlugs[county]}`}
+                                            className="text-blue-700 hover:underline"
+                                        >
+                                            {county}
+                                        </Link>
+                                    ) : (
+                                        county
+                                    )}
+                                </span>
+                            ))}
+                        </>
                     )}
                 </p>
 

@@ -4,41 +4,14 @@ import { getLanguageFromCookies } from '@/lib/serverCookies'
 import FjordIndexContent, { FjordListItem } from './FjordIndexContent'
 
 async function getAllFjords(): Promise<FjordListItem[]> {
-    const [fjordsResult, junctionResult, countiesResult] = await Promise.all([
-        supabase
-            .from('fjordle_fjords')
-            .select('id, name, slug')
-            .eq('quarantined', false)
-            .order('name'),
-        supabase
-            .from('fjordle_fjord_counties')
-            .select('fjord_id, county_id'),
-        supabase
-            .from('fjordle_counties')
-            .select('id, name'),
-    ])
+    const { data, error } = await supabase.rpc('get_fjords_with_counties')
 
-    if (fjordsResult.error || !fjordsResult.data) return []
+    if (error || !data) return []
 
-    const countyMap = new Map<number, string>()
-    for (const c of (countiesResult.data ?? [])) {
-        countyMap.set(c.id, c.name)
-    }
-
-    const fjordCountyMap = new Map<number, string[]>()
-    for (const jc of (junctionResult.data ?? [])) {
-        const countyName = countyMap.get(jc.county_id)
-        if (!countyName) continue
-        if (!fjordCountyMap.has(jc.fjord_id)) {
-            fjordCountyMap.set(jc.fjord_id, [])
-        }
-        fjordCountyMap.get(jc.fjord_id)!.push(countyName)
-    }
-
-    return fjordsResult.data.map(f => ({
-        name: f.name,
-        slug: f.slug,
-        counties: (fjordCountyMap.get(f.id) ?? []).sort(),
+    return data.map((f: { fjord_name: string; fjord_slug: string; county_names: string[] }) => ({
+        name: f.fjord_name,
+        slug: f.fjord_slug,
+        counties: f.county_names,
     }))
 }
 

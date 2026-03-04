@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 import fs from 'fs'
 import path from 'path'
 import { getAllPuzzleNumbers } from '@/lib/puzzleApi'
+import { supabase } from '@/lib/supabase'
 
 function getStaticRoutes(): string[] {
     const appDir = path.join(process.cwd(), 'src/app')
@@ -30,10 +31,22 @@ function getStaticRoutes(): string[] {
     return routes
 }
 
+async function getCountySlugs(): Promise<string[]> {
+    const { data } = await supabase
+        .from('fjordle_counties')
+        .select('slug')
+        .order('name')
+
+    return (data ?? []).map(c => c.slug).filter(Boolean)
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     const staticRoutes = getStaticRoutes()
-    const puzzleNumbers = await getAllPuzzleNumbers()
+    const [puzzleNumbers, countySlugs] = await Promise.all([
+        getAllPuzzleNumbers(),
+        getCountySlugs(),
+    ])
 
     const staticSitemapEntries = staticRoutes.map(route => ({
         url: `${baseUrl}${route}`,
@@ -49,5 +62,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
     }))
 
-    return [...staticSitemapEntries, ...puzzleSitemapEntries]
+    const countySitemapEntries = countySlugs.map(slug => ({
+        url: `${baseUrl}/fjorder/fylke/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+    }))
+
+    return [...staticSitemapEntries, ...puzzleSitemapEntries, ...countySitemapEntries]
 }
