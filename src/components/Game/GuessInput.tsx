@@ -6,7 +6,7 @@ import { useLanguage } from '@/lib/languageContext'
 
 interface GuessInputProps {
     fjords: FjordOption[]
-    onGuess: (fjordId: number, fjordName: string, coords: { lat: number; lng: number }) => void
+    onGuess: (fjordId: number, fjordName: string, fjordSlug: string, coords: { lat: number; lng: number }) => void
     disabled: boolean
     attemptsUsed: number
     maxAttempts: number
@@ -54,7 +54,7 @@ export default function GuessInput({
         e.preventDefault()
         if (disabled || !selectedFjord) return
 
-        onGuess(selectedFjord.id, selectedFjord.name, {
+        onGuess(selectedFjord.id, selectedFjord.name, selectedFjord.slug, {
             lat: selectedFjord.center_lat,
             lng: selectedFjord.center_lng
         })

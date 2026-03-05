@@ -93,7 +93,7 @@ export async function getAllFjords(): Promise<FjordOption[]> {
     for (let offset = 0; offset < count; offset += pageSize) {
       const { data, error } = await supabase
         .from('fjordle_fjords')
-        .select('id, name, center_lat, center_lng')
+        .select('id, name, slug, center_lat, center_lng')
         .eq('quarantined', false)
         .order('name')
         .range(offset, offset + pageSize - 1)

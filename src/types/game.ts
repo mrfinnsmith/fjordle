@@ -44,6 +44,7 @@ export interface Fjord {
 export interface FjordOption {
   id: number
   name: string
+  slug: string
   center_lat: number
   center_lng: number
 }
@@ -51,6 +52,7 @@ export interface FjordOption {
 export interface Guess {
   fjordId: number
   fjordName: string
+  fjordSlug: string
   distance: number
   direction: string
   proximityPercent: number

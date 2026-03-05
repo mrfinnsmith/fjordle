@@ -201,8 +201,8 @@ describe('createInitialGameState', () => {
   }
 
   const mockFjords: FjordOption[] = [
-    { id: 123, name: 'Geirangerfjord', center_lat: 62.1049, center_lng: 7.2067 },
-    { id: 124, name: 'Nærøyfjord', center_lat: 60.8750, center_lng: 6.7500 }
+    { id: 123, name: 'Geirangerfjord', slug: 'geirangerfjord', center_lat: 62.1049, center_lng: 7.2067 },
+    { id: 124, name: 'Nærøyfjord', slug: 'naeroyfjord', center_lat: 60.8750, center_lng: 6.7500 }
   ]
 
   it('should create initial game state with correct defaults', () => {
@@ -254,9 +254,9 @@ describe('makeGuess', () => {
   }
 
   const mockFjords: FjordOption[] = [
-    { id: 123, name: 'Geirangerfjord', center_lat: 62.1049, center_lng: 7.2067 },
-    { id: 124, name: 'Nærøyfjord', center_lat: 60.8750, center_lng: 6.7500 },
-    { id: 125, name: 'Hardangerfjord', center_lat: 60.0000, center_lng: 6.5000 }
+    { id: 123, name: 'Geirangerfjord', slug: 'geirangerfjord', center_lat: 62.1049, center_lng: 7.2067 },
+    { id: 124, name: 'Nærøyfjord', slug: 'naeroyfjord', center_lat: 60.8750, center_lng: 6.7500 },
+    { id: 125, name: 'Hardangerfjord', slug: 'hardangerfjord', center_lat: 60.0000, center_lng: 6.5000 }
   ]
 
   let initialGameState: GameState
@@ -268,7 +268,7 @@ describe('makeGuess', () => {
   describe('correct guess scenarios', () => {
     it('should handle correct guess and set game status to won', async () => {
       const correctCoords = { lat: 62.1049, lng: 7.2067 }
-      const result = await makeGuess(initialGameState, 123, 'Geirangerfjord', correctCoords)
+      const result = await makeGuess(initialGameState, 123, 'Geirangerfjord', 'geirangerfjord', correctCoords)
 
       expect(result.isCorrect).toBe(true)
       expect(result.newGameState.gameStatus).toBe('won')
@@ -287,7 +287,7 @@ describe('makeGuess', () => {
 
     it('should win on first attempt', async () => {
       const correctCoords = { lat: 62.1049, lng: 7.2067 }
-      const result = await makeGuess(initialGameState, 123, 'Geirangerfjord', correctCoords)
+      const result = await makeGuess(initialGameState, 123, 'Geirangerfjord', 'geirangerfjord', correctCoords)
 
       expect(result.isCorrect).toBe(true)
       expect(result.newGameState.gameStatus).toBe('won')
@@ -298,7 +298,7 @@ describe('makeGuess', () => {
       // Make 5 wrong guesses first with different fjords
       let currentState = initialGameState
       for (let i = 0; i < 5; i++) {
-        const wrongResult = await makeGuess(currentState, 124 + i, `WrongFjord${i}`, { lat: 60.8750 + i * 0.1, lng: 6.7500 + i * 0.1 })
+        const wrongResult = await makeGuess(currentState, 124 + i, `WrongFjord${i}`, `wrongfjord${i}`, { lat: 60.8750 + i * 0.1, lng: 6.7500 + i * 0.1 })
         currentState = wrongResult.newGameState
       }
 
@@ -307,7 +307,7 @@ describe('makeGuess', () => {
 
       // Make correct guess on 6th attempt
       const correctCoords = { lat: 62.1049, lng: 7.2067 }
-      const finalResult = await makeGuess(currentState, 123, 'Geirangerfjord', correctCoords)
+      const finalResult = await makeGuess(currentState, 123, 'Geirangerfjord', 'geirangerfjord', correctCoords)
 
       expect(finalResult.isCorrect).toBe(true)
       expect(finalResult.newGameState.gameStatus).toBe('won')
@@ -318,7 +318,7 @@ describe('makeGuess', () => {
   describe('incorrect guess scenarios', () => {
     it('should handle incorrect guess and calculate distance/direction', async () => {
       const wrongCoords = { lat: 60.8750, lng: 6.7500 } // Nærøyfjord coordinates
-      const result = await makeGuess(initialGameState, 124, 'Nærøyfjord', wrongCoords)
+      const result = await makeGuess(initialGameState, 124, 'Nærøyfjord', 'naeroyfjord', wrongCoords)
 
       expect(result.isCorrect).toBe(false)
       expect(result.newGameState.gameStatus).toBe('playing')
@@ -337,7 +337,7 @@ describe('makeGuess', () => {
 
     it('should continue playing after wrong guess', async () => {
       const wrongCoords = { lat: 60.8750, lng: 6.7500 }
-      const result = await makeGuess(initialGameState, 124, 'Nærøyfjord', wrongCoords)
+      const result = await makeGuess(initialGameState, 124, 'Nærøyfjord', 'naeroyfjord', wrongCoords)
 
       expect(result.isCorrect).toBe(false)
       expect(result.newGameState.gameStatus).toBe('playing')
@@ -349,7 +349,7 @@ describe('makeGuess', () => {
       
       // Make 6 wrong guesses with different fjords
       for (let i = 0; i < MAX_ATTEMPTS; i++) {
-        const wrongResult = await makeGuess(currentState, 124 + i, `WrongFjord${i}`, { lat: 60.8750 + i * 0.1, lng: 6.7500 + i * 0.1 })
+        const wrongResult = await makeGuess(currentState, 124 + i, `WrongFjord${i}`, `wrongfjord${i}`, { lat: 60.8750 + i * 0.1, lng: 6.7500 + i * 0.1 })
         currentState = wrongResult.newGameState
         
         if (i < MAX_ATTEMPTS - 1) {
@@ -366,13 +366,13 @@ describe('makeGuess', () => {
     it('should prevent duplicate guesses', async () => {
       // Make first guess
       const coords = { lat: 60.8750, lng: 6.7500 }
-      const firstResult = await makeGuess(initialGameState, 124, 'Nærøyfjord', coords)
+      const firstResult = await makeGuess(initialGameState, 124, 'Nærøyfjord', 'naeroyfjord', coords)
       
       expect(firstResult.newGameState.attemptsUsed).toBe(1)
       expect(firstResult.newGameState.guesses).toHaveLength(1)
 
       // Try to make same guess again
-      const duplicateResult = await makeGuess(firstResult.newGameState, 124, 'Nærøyfjord', coords)
+      const duplicateResult = await makeGuess(firstResult.newGameState, 124, 'Nærøyfjord', 'naeroyfjord', coords)
       
       expect(duplicateResult.isCorrect).toBe(false)
       expect(duplicateResult.newGameState.attemptsUsed).toBe(1) // Should not increment
@@ -387,7 +387,7 @@ describe('makeGuess', () => {
     it('should handle null puzzle', async () => {
       const stateWithNullPuzzle = { ...initialGameState, puzzle: null }
       const coords = { lat: 60.8750, lng: 6.7500 }
-      const result = await makeGuess(stateWithNullPuzzle, 124, 'Nærøyfjord', coords)
+      const result = await makeGuess(stateWithNullPuzzle, 124, 'Nærøyfjord', 'naeroyfjord', coords)
 
       expect(result.isCorrect).toBe(false)
       expect(result.newGameState).toEqual(stateWithNullPuzzle)
@@ -396,7 +396,7 @@ describe('makeGuess', () => {
     it('should handle already finished game (won)', async () => {
       const finishedState = { ...initialGameState, gameStatus: 'won' as const }
       const coords = { lat: 60.8750, lng: 6.7500 }
-      const result = await makeGuess(finishedState, 124, 'Nærøyfjord', coords)
+      const result = await makeGuess(finishedState, 124, 'Nærøyfjord', 'naeroyfjord', coords)
 
       expect(result.isCorrect).toBe(false)
       expect(result.newGameState).toEqual(finishedState)
@@ -405,7 +405,7 @@ describe('makeGuess', () => {
     it('should handle already finished game (lost)', async () => {
       const finishedState = { ...initialGameState, gameStatus: 'lost' as const }
       const coords = { lat: 60.8750, lng: 6.7500 }
-      const result = await makeGuess(finishedState, 124, 'Nærøyfjord', coords)
+      const result = await makeGuess(finishedState, 124, 'Nærøyfjord', 'naeroyfjord', coords)
 
       expect(result.isCorrect).toBe(false)
       expect(result.newGameState).toEqual(finishedState)
@@ -415,7 +415,7 @@ describe('makeGuess', () => {
   describe('special toast messages', () => {
     it('should show keep going message on first wrong guess', async () => {
       const wrongCoords = { lat: 60.8750, lng: 6.7500 }
-      const result = await makeGuess(initialGameState, 124, 'Nærøyfjord', wrongCoords)
+      const result = await makeGuess(initialGameState, 124, 'Nærøyfjord', 'naeroyfjord', wrongCoords)
 
       expect(result.newGameState.showToast).toBe(true)
       expect(result.newGameState.toastMessage).toBe('KEEP_GOING_MESSAGE')
@@ -425,7 +425,7 @@ describe('makeGuess', () => {
     it('should not show keep going message if already shown', async () => {
       const stateWithMessageShown = { ...initialGameState, keepGoingMessageShown: true }
       const wrongCoords = { lat: 60.8750, lng: 6.7500 }
-      const result = await makeGuess(stateWithMessageShown, 124, 'Nærøyfjord', wrongCoords)
+      const result = await makeGuess(stateWithMessageShown, 124, 'Nærøyfjord', 'naeroyfjord', wrongCoords)
 
       expect(result.newGameState.toastMessage).not.toBe('KEEP_GOING_MESSAGE')
     })
@@ -436,7 +436,7 @@ describe('makeGuess', () => {
       
       // Find coordinates very close to the target
       const veryCloseCoords = { lat: 62.1045, lng: 7.2065 } // Very close to Geirangerfjord
-      const result = await makeGuess(gameStateAfterFirst, 124, 'Nærøyfjord', veryCloseCoords)
+      const result = await makeGuess(gameStateAfterFirst, 124, 'Nærøyfjord', 'naeroyfjord', veryCloseCoords)
 
       if (result.newGameState.guesses[0].proximityPercent > 95) {
         expect(result.newGameState.showToast).toBe(true)
@@ -447,13 +447,13 @@ describe('makeGuess', () => {
     it('should not show keep going message on second wrong guess', async () => {
       // First wrong guess
       let currentState = initialGameState
-      const firstResult = await makeGuess(currentState, 124, 'Nærøyfjord', { lat: 60.8750, lng: 6.7500 })
+      const firstResult = await makeGuess(currentState, 124, 'Nærøyfjord', 'naeroyfjord', { lat: 60.8750, lng: 6.7500 })
       currentState = firstResult.newGameState
 
       expect(currentState.keepGoingMessageShown).toBe(true)
 
       // Second wrong guess
-      const secondResult = await makeGuess(currentState, 125, 'Hardangerfjord', { lat: 60.0000, lng: 6.5000 })
+      const secondResult = await makeGuess(currentState, 125, 'Hardangerfjord', 'hardangerfjord', { lat: 60.0000, lng: 6.5000 })
       
       expect(secondResult.newGameState.toastMessage).not.toBe('KEEP_GOING_MESSAGE')
     })
@@ -464,7 +464,7 @@ describe('makeGuess', () => {
       let currentState = initialGameState
       
       for (let i = 1; i <= 3; i++) {
-        const result = await makeGuess(currentState, 124 + i, `TestFjord${i}`, { lat: 60.0000 + i, lng: 6.0000 + i })
+        const result = await makeGuess(currentState, 124 + i, `TestFjord${i}`, `testfjord${i}`, { lat: 60.0000 + i, lng: 6.0000 + i })
         currentState = result.newGameState
         
         expect(currentState.attemptsUsed).toBe(i)
@@ -481,7 +481,7 @@ describe('makeGuess', () => {
       
       for (let i = 0; i < guessData.length; i++) {
         const guess = guessData[i]
-        const result = await makeGuess(currentState, guess.id, guess.name, guess.coords)
+        const result = await makeGuess(currentState, guess.id, guess.name, guess.name.toLowerCase(), guess.coords)
         currentState = result.newGameState
         
         expect(currentState.guesses).toHaveLength(i + 1)

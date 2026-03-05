@@ -96,6 +96,7 @@ export async function makeGuess(
   gameState: GameState,
   fjordId: number,
   fjordName: string,
+  fjordSlug: string,
   guessedCoords: { lat: number; lng: number }
 ): Promise<{ newGameState: GameState; isCorrect: boolean }> {
   if (!gameState.puzzle || gameState.gameStatus !== 'playing') {
@@ -146,6 +147,7 @@ export async function makeGuess(
   const guess: Guess = {
     fjordId,
     fjordName,
+    fjordSlug,
     distance,
     direction,
     proximityPercent,

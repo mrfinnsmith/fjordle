@@ -201,11 +201,11 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     }
   }, [gameState])
 
-  const handleGuess = async (fjordId: number, fjordName: string, coords: { lat: number; lng: number }) => {
+  const handleGuess = async (fjordId: number, fjordName: string, fjordSlug: string, coords: { lat: number; lng: number }) => {
     if (!gameState) return
 
     const guessStartTime = performance.now()
-    const { newGameState } = await makeGuess(gameState, fjordId, fjordName, coords)
+    const { newGameState } = await makeGuess(gameState, fjordId, fjordName, fjordSlug, coords)
     const guessDuration = performance.now() - guessStartTime
     
     trackGamePerformance('guess_processing', guessDuration)
@@ -440,7 +440,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         </div>
       )}
 
-      <GuessHistory guesses={gameState.guesses} />
+      <GuessHistory guesses={gameState.guesses} gameOver={gameState.gameStatus !== 'playing'} />
 
       <ResultsModal
         gameState={gameState}

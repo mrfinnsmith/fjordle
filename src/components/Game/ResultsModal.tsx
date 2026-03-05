@@ -131,7 +131,7 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
 
           <div className="mb-4">
             <p className="text-sm text-gray-600 page-text">
-              {t('the_answer_was')}: <span className="font-semibold">{gameState.puzzle.fjord.name}</span>
+              {t('the_answer_was')}: <Link href={`/fjorder/${gameState.puzzle.fjord.slug}`} className="font-semibold hover:underline">{gameState.puzzle.fjord.name}</Link>
             </p>
 
             {/* Location Information */}
@@ -201,7 +201,11 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
                       className="flex items-center justify-between py-2 px-3 bg-white rounded border text-sm"
                     >
                       <div className="flex-1 text-left font-medium">
-                        {guess.fjordName}
+                        {guess.fjordSlug ? (
+                          <Link href={`/fjorder/${guess.fjordSlug}`} className="hover:underline">
+                            {guess.fjordName}
+                          </Link>
+                        ) : guess.fjordName}
                       </div>
                       {!guess.isCorrect ? (
                         <>

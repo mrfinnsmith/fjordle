@@ -5,12 +5,14 @@ import { useLanguage } from '@/lib/languageContext'
 import { formatDistance } from '@/lib/utils'
 import { trackGamePerformance } from '@/lib/performance'
 import React, { useMemo } from 'react'
+import Link from 'next/link'
 
 interface GuessHistoryProps {
     guesses: Guess[]
+    gameOver?: boolean
 }
 
-function GuessHistory({ guesses }: GuessHistoryProps) {
+function GuessHistory({ guesses, gameOver }: GuessHistoryProps) {
     const { language, t } = useLanguage()
 
     // Memoize expensive distance formatting calculations
@@ -46,7 +48,13 @@ function GuessHistory({ guesses }: GuessHistoryProps) {
                 >
                     <div className="step-marker" data-step={index + 1}></div>
                     <div className="step-content">
-                        <div className="fjord-name-journey">{guess.fjordName}</div>
+                        <div className="fjord-name-journey">
+                            {gameOver && guess.fjordSlug ? (
+                                <Link href={`/fjorder/${guess.fjordSlug}`} className="hover:underline">
+                                    {guess.fjordName}
+                                </Link>
+                            ) : guess.fjordName}
+                        </div>
                         {!guess.isCorrect ? (
                             <div className="step-metrics">
                                 <span className="metric-distance">{guess.formattedDistance}</span>
