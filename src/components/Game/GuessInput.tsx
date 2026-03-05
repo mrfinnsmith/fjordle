@@ -23,7 +23,8 @@ export default function GuessInput({
     onHintClick,
     onHintHover
 }: GuessInputProps) {
-    const { t } = useLanguage()
+    const { t, language } = useLanguage()
+    const sortLocale = language === 'no' ? 'nb' : 'en'
     const [query, setQuery] = useState('')
     const [selectedFjord, setSelectedFjord] = useState<FjordOption | null>(null)
     const [filteredFjords, setFilteredFjords] = useState<FjordOption[]>([])
@@ -38,6 +39,7 @@ export default function GuessInput({
                 .filter(fjord =>
                     fjord.name.toLowerCase().includes(query.toLowerCase())
                 )
+                .sort((a, b) => a.name.localeCompare(b.name, sortLocale))
             setFilteredFjords(filtered)
             setShowDropdown(filtered.length > 0)
             setSelectedIndex(-1)
@@ -122,7 +124,7 @@ export default function GuessInput({
 
     const handleInputFocus = () => {
         if (query.length === 0) {
-            setFilteredFjords(fjords)
+            setFilteredFjords([...fjords].sort((a, b) => a.name.localeCompare(b.name, sortLocale)))
             setShowDropdown(true)
         } else if (filteredFjords.length > 0) {
             setShowDropdown(true)
