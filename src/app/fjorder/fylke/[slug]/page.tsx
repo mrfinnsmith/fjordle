@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { getLanguageFromCookies } from '@/lib/serverCookies'
@@ -14,7 +15,7 @@ interface CountyRow {
     slug: string
 }
 
-async function getCountyBySlug(slug: string): Promise<CountyRow | null> {
+async function getCountyBySlugUncached(slug: string): Promise<CountyRow | null> {
     const { data, error } = await supabase
         .from('fjordle_counties')
         .select('id, name, slug')
@@ -25,7 +26,14 @@ async function getCountyBySlug(slug: string): Promise<CountyRow | null> {
     return data
 }
 
-async function getFjordsInCounty(countyId: number): Promise<CountyFjord[]> {
+const getCountyBySlug = (slug: string) =>
+    unstable_cache(
+        () => getCountyBySlugUncached(slug),
+        [`county-${slug}`],
+        { revalidate: 86400 }
+    )()
+
+async function getFjordsInCountyUncached(countyId: number): Promise<CountyFjord[]> {
     const { data: junctions } = await supabase
         .from('fjordle_fjord_counties')
         .select('fjord_id')
@@ -50,6 +58,13 @@ async function getFjordsInCounty(countyId: number): Promise<CountyFjord[]> {
         depth_m: f.depth_m,
     }))
 }
+
+const getFjordsInCounty = (countyId: number) =>
+    unstable_cache(
+        () => getFjordsInCountyUncached(countyId),
+        [`county-fjords-${countyId}`],
+        { revalidate: 86400 }
+    )()
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const county = await getCountyBySlug(params.slug)

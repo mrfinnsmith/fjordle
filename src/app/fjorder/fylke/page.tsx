@@ -1,19 +1,24 @@
 import { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import { supabase } from '@/lib/supabase'
 import { getLanguageFromCookies } from '@/lib/serverCookies'
 import CountyIndexContent, { CountyListItem } from './CountyIndexContent'
 
-async function getAllCounties(): Promise<CountyListItem[]> {
-    const { data, error } = await supabase.rpc('get_county_fjord_counts')
+const getAllCounties = unstable_cache(
+    async (): Promise<CountyListItem[]> => {
+        const { data, error } = await supabase.rpc('get_county_fjord_counts')
 
-    if (error || !data) return []
+        if (error || !data) return []
 
-    return data.map((c: { name: string; slug: string; fjord_count: number }) => ({
-        name: c.name,
-        slug: c.slug,
-        fjordCount: c.fjord_count,
-    }))
-}
+        return data.map((c: { name: string; slug: string; fjord_count: number }) => ({
+            name: c.name,
+            slug: c.slug,
+            fjordCount: c.fjord_count,
+        }))
+    },
+    ['all-counties'],
+    { revalidate: 86400 }
+)
 
 export async function generateMetadata(): Promise<Metadata> {
     const language = getLanguageFromCookies()

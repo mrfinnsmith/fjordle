@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { getLanguageFromCookies } from '@/lib/serverCookies'
@@ -14,7 +15,7 @@ interface FjordWithCountySlugs {
     countySlugs: Record<string, string>
 }
 
-async function getFjordBySlug(slug: string): Promise<FjordWithCountySlugs | null> {
+async function getFjordBySlugUncached(slug: string): Promise<FjordWithCountySlugs | null> {
     const { data: fjordRow, error } = await supabase
         .from('fjordle_fjords')
         .select('id, name, slug, svg_filename, satellite_filename, center_lat, center_lng, length_km, width_km, depth_m, measurement_source_url, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb')
@@ -69,6 +70,13 @@ async function getFjordBySlug(slug: string): Promise<FjordWithCountySlugs | null
         countySlugs,
     }
 }
+
+const getFjordBySlug = (slug: string) =>
+    unstable_cache(
+        () => getFjordBySlugUncached(slug),
+        [`fjord-${slug}`],
+        { revalidate: 86400 }
+    )()
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const result = await getFjordBySlug(params.slug)

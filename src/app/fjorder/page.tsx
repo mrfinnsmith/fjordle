@@ -1,19 +1,24 @@
 import { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import { supabase } from '@/lib/supabase'
 import { getLanguageFromCookies } from '@/lib/serverCookies'
 import FjordIndexContent, { FjordListItem } from './FjordIndexContent'
 
-async function getAllFjords(): Promise<FjordListItem[]> {
-    const { data, error } = await supabase.rpc('get_fjords_with_counties')
+const getAllFjords = unstable_cache(
+    async (): Promise<FjordListItem[]> => {
+        const { data, error } = await supabase.rpc('get_fjords_with_counties')
 
-    if (error || !data) return []
+        if (error || !data) return []
 
-    return data.map((f: { fjord_name: string; fjord_slug: string; county_names: string[] }) => ({
-        name: f.fjord_name,
-        slug: f.fjord_slug,
-        counties: f.county_names,
-    }))
-}
+        return data.map((f: { fjord_name: string; fjord_slug: string; county_names: string[] }) => ({
+            name: f.fjord_name,
+            slug: f.fjord_slug,
+            counties: f.county_names,
+        }))
+    },
+    ['all-fjords'],
+    { revalidate: 86400 }
+)
 
 export async function generateMetadata(): Promise<Metadata> {
     const language = getLanguageFromCookies()
