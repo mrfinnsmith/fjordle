@@ -32,7 +32,8 @@ export function createMockStatsData(scenario: MockScenario = 'someGames'): Enhan
       municipalities: Math.random() > 0.9,
       counties: Math.random() > 0.9,
       measurements: Math.random() > 0.85,
-      weather: Math.random() > 0.95
+      weather: Math.random() > 0.95,
+      ship: Math.random() > 0.95
     }
     
     const totalHintsUsed = Object.values(hintsUsed).filter(Boolean).length

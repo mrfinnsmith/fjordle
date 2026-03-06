@@ -221,7 +221,8 @@ describe('createInitialGameState', () => {
       municipalities: false,
       counties: false,
       measurements: false,
-      weather: false
+      weather: false,
+      ship: false
     })
     expect(gameState.keepGoingMessageShown).toBe(false)
   })

@@ -18,6 +18,7 @@ interface FjordDisplayProps {
         depth_m?: number
     } | undefined
     weatherHint?: { temperature: number; conditions: string; icon: string } | null
+    shipHint?: { name: string; destination: string } | null
 }
 
 function FjordDisplay({
@@ -28,7 +29,8 @@ function FjordDisplay({
     municipalityHint,
     countyHint,
     measurementsData,
-    weatherHint
+    weatherHint,
+    shipHint
 }: FjordDisplayProps) {
     const { t, language } = useLanguage()
 
@@ -119,7 +121,8 @@ function FjordDisplay({
                            (municipalityHint && municipalityHint.length > 0) ||
                            (countyHint && countyHint.length > 0) ||
                            formattedMeasurements ||
-                           weatherHint
+                           weatherHint ||
+                           shipHint
 
         if (!hasAnyHints) return null
 
@@ -176,9 +179,20 @@ function FjordDisplay({
                         </div>
                     </div>
                 )}
+
+                {shipHint && (
+                    <div className="hint-card ship-hint">
+                        <div className="hint-icon">🚢</div>
+                        <div className="hint-content">
+                            <span className="hint-label">{t('ship_hint')}</span>
+                            <span className="hint-value">{shipHint.name}</span>
+                            <span className="hint-detail">→ {shipHint.destination}</span>
+                        </div>
+                    </div>
+                )}
             </div>
         )
-    }, [firstLetterHint, municipalityHint, countyHint, formattedMeasurements, weatherHint, t])
+    }, [firstLetterHint, municipalityHint, countyHint, formattedMeasurements, weatherHint, shipHint, t])
 
     // Track total render time on component unmount or significant prop changes
     React.useEffect(() => {

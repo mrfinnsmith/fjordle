@@ -140,12 +140,12 @@ export function saveLocationDataCache(fjordId: number, data: { municipalities: s
 
 export function getHintsUsed(puzzleId: number): HintState {
   if (typeof window === 'undefined') {
-    return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false, weather: false } // Safe fallback for SSR
+    return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false, weather: false, ship: false } // Safe fallback for SSR
   }
 
   const key = `fjordle_hints_${puzzleId}`
   const saved = localStorage.getItem(key)
-  if (!saved) return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false, weather: false }
+  if (!saved) return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false, weather: false, ship: false }
 
   try {
     const parsed = JSON.parse(saved)
@@ -156,10 +156,11 @@ export function getHintsUsed(puzzleId: number): HintState {
       municipalities: parsed.municipalities || false,
       counties: parsed.counties || false,
       measurements: parsed.measurements || false,
-      weather: parsed.weather || false
+      weather: parsed.weather || false,
+      ship: parsed.ship || false
     }
   } catch {
-    return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false, weather: false }
+    return { firstLetter: false, satellite: false, municipalities: false, counties: false, measurements: false, weather: false, ship: false }
   }
 }
 
@@ -301,7 +302,8 @@ export function getPuzzleHistory(): PuzzleResult[] {
           municipalities: false,
           counties: false,
           measurements: false,
-          weather: false
+          weather: false,
+          ship: false
         }
 
         // Calculate total hints used
@@ -436,7 +438,8 @@ export function getHintUsageStats(): HintUsageStats {
           municipalities: 0,
           counties: 0,
           measurements: 0,
-          weather: 0
+          weather: 0,
+          ship: 0
         },
         averagePerGame: 0,
         gamesWithoutHints: stats.gamesPlayed

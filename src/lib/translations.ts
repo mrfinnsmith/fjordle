@@ -38,6 +38,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'measurements_hint_description': 'Se lengde, bredde og dybde av fjorden.',
     'weather_hint': 'Værdata',
     'weather_hint_description': 'Se gjeldende værforhold for fjorden.',
+    'ship_hint': 'Nærmeste skip',
+    'ship_hint_description': 'Se nærmeste Hurtigruten-skip på kartet.',
     'length': 'lengde',
     'width': 'bredde',
     'depth': 'dybde',
@@ -319,6 +321,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'satellite': 'Satellitt',
     'measurements': 'Målinger',
     'weather': 'Vær',
+    'ship': 'Skip',
     'click_back_to_game_to_start': 'Klikk "Tilbake til spill" ovenfor for å starte',
     'completed_games': 'fullførte spill',
     
@@ -366,6 +369,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'measurements_hint_description': 'See length, width, and depth of the fjord.',
     'weather_hint': 'Weather',
     'weather_hint_description': 'See current weather conditions for the fjord.',
+    'ship_hint': 'Nearest ship',
+    'ship_hint_description': 'See the nearest Hurtigruten ship on a map.',
     'length': 'length',
     'width': 'width',
     'depth': 'depth',
@@ -649,6 +654,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'satellite': 'Satellite',
     'measurements': 'Measurements',
     'weather': 'Weather',
+    'ship': 'Ship',
     'click_back_to_game_to_start': 'Click "Back to Game" above to get started',
     'completed_games': 'completed games',
     

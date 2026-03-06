@@ -75,6 +75,7 @@ export interface HintState {
   counties: boolean
   measurements: boolean
   weather: boolean
+  ship: boolean
 }
 
 export interface GameProgress {
@@ -369,6 +370,8 @@ export type TranslationKey =
   | 'measurements_hint_description'
   | 'weather_hint'
   | 'weather_hint_description'
+  | 'ship_hint'
+  | 'ship_hint_description'
   | 'length'
   | 'width'
   | 'depth'
@@ -441,6 +444,7 @@ export type TranslationKey =
   | 'counties'
   | 'measurements'
   | 'weather'
+  | 'ship'
   | 'click_back_to_game_to_start'
   | 'completed_games'
   

@@ -19,6 +19,8 @@ import MunicipalityHint from './MunicipalityHint'
 import CountyHint from './CountyHint'
 import MeasurementsHint from './MeasurementsHint'
 import WeatherHint from './WeatherHint'
+import ShipHint from './ShipHint'
+import ShipHintMap from './ShipHintMap'
 import SatelliteModal from './SatelliteModal'
 import { saveGameProgress, loadGameProgress, updateUserStats, saveHintsUsed, getHintsUsed, hasSeenOnboarding, markOnboardingSeen, getOrCreateSessionId } from '@/lib/localStorage'
 import { getUserStats } from '@/lib/localStorage'
@@ -49,6 +51,8 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
   const [municipalityHintRevealed, setMunicipalityHintRevealed] = useState<string[]>([])
   const [countyHintRevealed, setCountyHintRevealed] = useState<string[]>([])
   const [weatherHintRevealed, setWeatherHintRevealed] = useState<{ temperature: number; conditions: string; icon: string } | null>(null)
+  const [shipHintRevealed, setShipHintRevealed] = useState<{ name: string; destination: string; lat: number; lng: number; distanceKm: number } | null>(null)
+  const [showShipMap, setShowShipMap] = useState(false)
 
   const [locationData, setLocationData] = useState<{ municipalities: string[], counties: string[] }>({ municipalities: [], counties: [] })
   const [hasLocationData, setHasLocationData] = useState<{ hasMunicipalities: boolean, hasCounties: boolean }>({ hasMunicipalities: false, hasCounties: false })
@@ -79,6 +83,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
       counties: gameState.hintsUsed?.counties || false,
       measurements: gameState.hintsUsed?.measurements || false,
       weather: gameState.hintsUsed?.weather || false,
+      ship: gameState.hintsUsed?.ship || false,
       [hintType]: true
     }
 
@@ -330,6 +335,18 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
     setShowHintModal(false)
   }
 
+  const handleRevealShip = async (shipData: { name: string; destination: string; lat: number; lng: number; distanceKm: number }) => {
+    if (!gameState) return
+
+    if (!gameState.hintsUsed?.ship) {
+      setShipHintRevealed(shipData)
+      await updateHint('ship')
+    }
+
+    setShowHintModal(false)
+    setShowShipMap(true)
+  }
+
   // Refetch weather data when language changes
   useEffect(() => {
     if (weatherHintRevealed && gameState?.hintsUsed?.weather) {
@@ -391,6 +408,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           depth_m: puzzle.fjord.depth_m
         } : undefined}
         weatherHint={weatherHintRevealed}
+        shipHint={shipHintRevealed ? { name: shipHintRevealed.name, destination: shipHintRevealed.destination } : undefined}
       />
 
       {gameState.gameStatus === 'playing' && fjords.length > 0 && (
@@ -532,6 +550,12 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
                 weatherData={weatherHintRevealed}
                 onReveal={handleRevealWeather}
               />
+              <ShipHint
+                fjordId={puzzle.fjord.id}
+                isRevealed={gameState.hintsUsed?.ship || false}
+                shipData={shipHintRevealed}
+                onReveal={handleRevealShip}
+              />
               {puzzle.fjord.satellite_filename && (
                 <SatelliteHint
                   isRevealed={gameState.hintsUsed?.satellite || false}
@@ -548,6 +572,16 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
           isOpen={showSatelliteModal}
           onClose={() => setShowSatelliteModal(false)}
           satelliteFilename={puzzle.fjord.satellite_filename}
+        />
+      )}
+
+      {shipHintRevealed && (
+        <ShipHintMap
+          shipLat={shipHintRevealed.lat}
+          shipLng={shipHintRevealed.lng}
+          shipName={`${shipHintRevealed.name} → ${shipHintRevealed.destination}`}
+          isOpen={showShipMap}
+          onClose={() => setShowShipMap(false)}
         />
       )}
 
