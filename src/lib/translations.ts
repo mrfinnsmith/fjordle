@@ -244,6 +244,25 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'fjorder_search_placeholder': 'Søk etter fjord...',
     'fjorder_no_results': 'Ingen fjorder funnet',
 
+    // Hurtigruten Page
+    'hurtigruten': 'Hurtigruten',
+    'hurtigruten_title': 'Hurtigruten Kystruten',
+    'hurtigruten_subtitle': 'Følg skipene langs norskekysten fra Bergen til Kirkenes',
+    'hurtigruten_ships_title': 'Skip på kystruten',
+    'hurtigruten_ports_title': 'Havner langs ruten',
+    'hurtigruten_fjords_title': 'Fjorder langs kystruten',
+    'hurtigruten_fjords_subtitle': 'Kystruten passerer gjennom noen av Norges mest spektakulære fjorder.',
+    'hurtigruten_about_title': 'Om kystruten',
+    'hurtigruten_about_text': 'Kystruten Bergen\u2013Kirkenes har fraktet passasjerer og gods langs norskekysten siden 1893. I dag opererer Hurtigruten og Havila Kystruten daglige avganger i begge retninger, med stopp i 34 havner over en strekning på ca. 2500 km. Turen nordover tar ca. 7 dager.',
+    'hurtigruten_attribution': 'Skipsposisjoner fra BarentsWatch AIS. V\u00e6rdata fra MET Norge.',
+    'hurtigruten_in_port': 'I havn ved {port}',
+    'hurtigruten_sailing': 'Seiler',
+    'hurtigruten_heading_to': 'Kurs mot {destination}',
+    'hurtigruten_knots': 'kn',
+    'hurtigruten_positions_updated': 'Posisjoner oppdatert',
+    'hurtigruten_no_ships': 'Skipsposisjoner er midlertidig utilgjengelige.',
+    'hurtigruten_summer_detour': 'Om sommeren tar ruten en omvei inn i Geirangerfjorden eller Hjørundfjorden.',
+
     // Post-solve fact page link
     'learn_more_about': 'Les mer om {name}',
 
@@ -576,6 +595,25 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'fjorder_index_subtitle': 'All fjords in Fjordle, sorted A to Z.',
     'fjorder_search_placeholder': 'Search fjords...',
     'fjorder_no_results': 'No fjords found',
+
+    // Hurtigruten Page
+    'hurtigruten': 'Hurtigruten',
+    'hurtigruten_title': 'Hurtigruten Coastal Route',
+    'hurtigruten_subtitle': 'Track the ships along the Norwegian coast from Bergen to Kirkenes',
+    'hurtigruten_ships_title': 'Ships on the coastal route',
+    'hurtigruten_ports_title': 'Ports along the route',
+    'hurtigruten_fjords_title': 'Fjords along the coastal route',
+    'hurtigruten_fjords_subtitle': 'The coastal route passes through some of Norway\'s most spectacular fjords.',
+    'hurtigruten_about_title': 'About the coastal route',
+    'hurtigruten_about_text': 'The Bergen\u2013Kirkenes coastal route has carried passengers and cargo along the Norwegian coast since 1893. Today, Hurtigruten and Havila Kystruten operate daily departures in both directions, stopping at 34 ports over approximately 2,500 km. The northbound voyage takes about 7 days.',
+    'hurtigruten_attribution': 'Ship positions from BarentsWatch AIS. Weather data from MET Norway.',
+    'hurtigruten_in_port': 'In port at {port}',
+    'hurtigruten_sailing': 'Sailing',
+    'hurtigruten_heading_to': 'Heading to {destination}',
+    'hurtigruten_knots': 'kn',
+    'hurtigruten_positions_updated': 'Positions updated',
+    'hurtigruten_no_ships': 'Ship positions are temporarily unavailable.',
+    'hurtigruten_summer_detour': 'During summer, the route detours into Geirangerfjord or Hjørundfjord.',
 
     // Post-solve fact page link
     'learn_more_about': 'Learn more about {name}',

@@ -487,5 +487,24 @@ export type TranslationKey =
   | 'fjorder_search_placeholder'
   | 'fjorder_no_results'
 
+  // Hurtigruten Page
+  | 'hurtigruten'
+  | 'hurtigruten_title'
+  | 'hurtigruten_subtitle'
+  | 'hurtigruten_ships_title'
+  | 'hurtigruten_ports_title'
+  | 'hurtigruten_fjords_title'
+  | 'hurtigruten_fjords_subtitle'
+  | 'hurtigruten_about_title'
+  | 'hurtigruten_about_text'
+  | 'hurtigruten_attribution'
+  | 'hurtigruten_in_port'
+  | 'hurtigruten_sailing'
+  | 'hurtigruten_heading_to'
+  | 'hurtigruten_knots'
+  | 'hurtigruten_positions_updated'
+  | 'hurtigruten_no_ships'
+  | 'hurtigruten_summer_detour'
+
   // Post-solve fact page link
   | 'learn_more_about'

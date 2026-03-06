@@ -1,4 +1,4 @@
-interface BarentsWatchVessel {
+export interface BarentsWatchVessel {
   mmsi: number
   name: string
   geometry: { type: string; coordinates: [number, number] }
@@ -27,7 +27,7 @@ const TRACKED_MMSIS = new Set([
   259371000, // Nordnorge
   258500000, // Richard With
   258465000, // Trollfjord
-  258595000, // Midnatsol
+  258478000, // Vesterålen
   257753000, // Havila Capella
   257752000, // Havila Castor
   258094000, // Havila Polaris
@@ -123,7 +123,7 @@ async function getBarentsWatchToken(): Promise<string> {
 let shipCache: { vessels: BarentsWatchVessel[]; timestamp: number } | null = null
 const SHIP_CACHE_TTL = 15 * 60 * 1000
 
-async function getTrackedShipPositions(): Promise<BarentsWatchVessel[]> {
+export async function getTrackedShipPositions(): Promise<BarentsWatchVessel[]> {
   if (shipCache && Date.now() - shipCache.timestamp < SHIP_CACHE_TTL) {
     return shipCache.vessels
   }
