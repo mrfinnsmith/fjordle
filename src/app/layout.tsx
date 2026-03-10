@@ -68,14 +68,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebApplication",
+              "@type": "WebSite",
               "name": "Fjordle",
               "description": "Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder.",
               "url": process.env.NEXT_PUBLIC_SITE_URL,
-              "applicationCategory": "Game",
-              "operatingSystem": "Web Browser",
               "inLanguage": initialLanguage,
-              "keywords": "fjordspill, wordle norge, norge quiz, geografispill, fjord, fjorder, norske fjorder quiz, fjord gjenkjenning, geografi spill norge, fjordpuslespill, norge geografi, daglig puslespill, fjordle, norsk geografi spill, norgesquiz",
               "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
             })
           }}
