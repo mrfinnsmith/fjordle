@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next'
 import fs from 'fs'
 import path from 'path'
-import { getAllPuzzleNumbers } from '@/lib/puzzleApi'
 import { supabase } from '@/lib/supabase'
 
 function getStaticRoutes(): string[] {
@@ -43,8 +42,8 @@ async function getCountySlugs(): Promise<string[]> {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     const staticRoutes = getStaticRoutes()
-    const [puzzleNumbers, countySlugs] = await Promise.all([
-        getAllPuzzleNumbers(),
+    const [pastPuzzles, countySlugs] = await Promise.all([
+        supabase.rpc('fjordle_get_past_puzzles'),
         getCountySlugs(),
     ])
 
@@ -55,11 +54,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route === '/' ? 1 : 0.8,
     }))
 
-    const puzzleSitemapEntries = puzzleNumbers.map(number => ({
-        url: `${baseUrl}/puzzle/${number}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
+    const puzzleSitemapEntries = (pastPuzzles.data || []).map((puzzle: { puzzle_number: number; last_presented: string | null }) => ({
+        url: `${baseUrl}/puzzle/${puzzle.puzzle_number}`,
+        lastModified: puzzle.last_presented ? new Date(puzzle.last_presented) : new Date(),
+        changeFrequency: 'never' as const,
+        priority: 0.6,
     }))
 
     const countySitemapEntries = countySlugs.map(slug => ({
