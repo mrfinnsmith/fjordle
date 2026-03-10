@@ -1,0 +1,32 @@
+# Fjordle
+
+> Fjordle is a daily Norwegian fjord guessing game. Players identify a fjord from its outline shape, receiving distance, direction, and proximity feedback after each guess. Built with Next.js and Supabase.
+
+The site is bilingual (Norwegian and English). Norwegian is the primary language, with URL paths in Norwegian. A new puzzle is assigned each day.
+
+## Main Pages
+
+- [Home](https://fjordle.lol/): Daily fjord guessing game
+- [How to Play](https://fjordle.lol/hvordan-spille/): Rules and gameplay instructions
+- [FAQ](https://fjordle.lol/spoersmaal-og-svar/): Frequently asked questions about the game
+- [About](https://fjordle.lol/om/): Background on the project and its creator
+- [Fjord Facts](https://fjordle.lol/fjord-fakta/): Educational content about Norwegian fjords
+- [Previous Puzzles](https://fjordle.lol/tidligere/): Archive of past daily puzzles
+- [Statistics](https://fjordle.lol/stats/): Player performance statistics
+
+## Fjord Directory
+
+- [All Fjords](https://fjordle.lol/fjorder/): Index of all Norwegian fjords in the database
+- [Fjords by County](https://fjordle.lol/fjorder/fylke/): Browse fjords grouped by Norwegian county
+- [Individual Fjord Pages](https://fjordle.lol/fjorder/ramsbergvika/): Fact pages for each fjord with location, county, weather, and nearby ship positions
+
+## Other Features
+
+- [Hurtigruten Tracker](https://fjordle.lol/hurtigruten/): Live ship positions along the Bergen-Kirkenes coastal route, with weather data and fjord information for each port
+
+## API
+
+- `/api/puzzle/[number]`: Fetch puzzle data by puzzle number
+- `/api/past-puzzles`: List of past daily puzzles
+- `/api/weather/[fjordId]`: Current weather for a fjord location
+- `/api/ship/[fjordId]`: Nearest ship position via AIS data
