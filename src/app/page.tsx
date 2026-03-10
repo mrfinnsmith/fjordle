@@ -28,6 +28,7 @@ function GameContent({ puzzle }: { puzzle: Puzzle }) {
   return (
     <div className="space-y-4">
       <div className="text-center">
+        <h1 className="sr-only">Fjordle</h1>
         <p className="text-gray-700 mb-4">
           {t('game_description')}
         </p>

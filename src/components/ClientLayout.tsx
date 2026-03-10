@@ -75,9 +75,9 @@ function Header() {
         </div>
         <div className="text-center">
           <Link href="/" className="block">
-            <h1 className="font-bold page-text mb-1 fjordle-title">
+            <span className="font-bold page-text mb-1 fjordle-title">
               Fjordle
-            </h1>
+            </span>
           </Link>
         </div>
         <div className="text-center mt-4">
@@ -94,9 +94,9 @@ function Header() {
         </div>
         <div className="text-center">
           <Link href="/" className="block">
-            <h1 className="font-bold page-text fjordle-title">
+            <span className="font-bold page-text fjordle-title">
               Fjordle
-            </h1>
+            </span>
           </Link>
         </div>
         <div className="flex items-center space-x-2">
