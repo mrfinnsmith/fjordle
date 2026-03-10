@@ -34,6 +34,7 @@ export default function NavigationMenu() {
     { href: '/om', label: t('about') },
     { href: '/spoersmaal-og-svar', label: t('faq') },
     { href: '/fjord-fakta', label: t('fjord_facts') },
+    { href: '/fjorder', label: t('fjorder_index_h1') },
     { href: '/hurtigruten', label: t('hurtigruten') },
     { href: '/tidligere', label: t('past_fjordles') },
     { href: '/stats', label: t('statistics') },
