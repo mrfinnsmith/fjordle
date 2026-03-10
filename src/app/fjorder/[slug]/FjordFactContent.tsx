@@ -6,12 +6,18 @@ import { Fjord } from '@/types/game'
 import SatelliteImage from '@/components/shared/SatelliteImage'
 import FjordWeather from './FjordWeather'
 
+interface SiblingFjord {
+    name: string
+    slug: string
+}
+
 interface FjordFactContentProps {
     fjord: Fjord
     countySlugs?: Record<string, string>
+    siblingFjords?: SiblingFjord[]
 }
 
-export default function FjordFactContent({ fjord, countySlugs = {} }: FjordFactContentProps) {
+export default function FjordFactContent({ fjord, countySlugs = {}, siblingFjords = [] }: FjordFactContentProps) {
     const { t, language } = useLanguage()
 
     const hasStats = fjord.length_km != null || fjord.width_km != null || fjord.depth_m != null
@@ -140,6 +146,26 @@ export default function FjordFactContent({ fjord, countySlugs = {} }: FjordFactC
                                     </a>
                                 </li>
                             )}
+                        </ul>
+                    </section>
+                )}
+
+                {siblingFjords.length > 0 && (
+                    <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                        <h2 className="text-xl font-semibold text-gray-900 mb-3">
+                            {language === 'no' ? 'Andre fjorder i samme fylke' : 'Other fjords in the same county'}
+                        </h2>
+                        <ul className="flex flex-wrap gap-2">
+                            {siblingFjords.map(s => (
+                                <li key={s.slug}>
+                                    <Link
+                                        href={`/fjorder/${s.slug}`}
+                                        className="inline-block px-3 py-1 text-sm rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                                    >
+                                        {s.name}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </section>
                 )}

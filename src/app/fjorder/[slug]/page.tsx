@@ -13,6 +13,12 @@ interface PageProps {
 interface FjordWithCountySlugs {
     fjord: Fjord
     countySlugs: Record<string, string>
+    siblingFjords: SiblingFjord[]
+}
+
+interface SiblingFjord {
+    name: string
+    slug: string
 }
 
 async function getFjordBySlugUncached(slug: string): Promise<FjordWithCountySlugs | null> {
@@ -46,6 +52,28 @@ async function getFjordBySlugUncached(slug: string): Promise<FjordWithCountySlug
         countySlugs[c.name] = c.slug
     }
 
+    let siblingFjords: SiblingFjord[] = []
+    if (countyIds.length > 0) {
+        const { data: siblingJunctions } = await supabase
+            .from('fjordle_fjord_counties')
+            .select('fjord_id')
+            .in('county_id', countyIds)
+            .neq('fjord_id', fjordRow.id)
+            .limit(10)
+
+        const siblingIds = (siblingJunctions ?? []).map(r => r.fjord_id)
+        if (siblingIds.length > 0) {
+            const { data: siblings } = await supabase
+                .from('fjordle_fjords')
+                .select('name, slug')
+                .in('id', siblingIds)
+                .order('name')
+                .limit(10)
+
+            siblingFjords = (siblings ?? []).map(s => ({ name: s.name, slug: s.slug }))
+        }
+    }
+
     return {
         fjord: {
             id: fjordRow.id,
@@ -68,6 +96,7 @@ async function getFjordBySlugUncached(slug: string): Promise<FjordWithCountySlug
             measurement_source_url: fjordRow.measurement_source_url,
         },
         countySlugs,
+        siblingFjords,
     }
 }
 
@@ -158,5 +187,5 @@ export default async function FjordFactPage({ params }: PageProps) {
     const result = await getFjordBySlug(params.slug)
     if (!result) notFound()
 
-    return <FjordFactContent fjord={result.fjord} countySlugs={result.countySlugs} />
+    return <FjordFactContent fjord={result.fjord} countySlugs={result.countySlugs} siblingFjords={result.siblingFjords} />
 }
