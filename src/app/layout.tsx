@@ -19,12 +19,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
     description: 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder. Test din kunnskap om norsk geografi gratis.',
-    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`],
   },
   twitter: {
+    card: 'summary_large_image',
     title: 'Fjordle | Fjord Spill | Gjenkjenn Norske Fjorder Daglig',
     description: 'Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder. Test din kunnskap om norsk geografi gratis.',
-    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`],
   },
 }
 
@@ -73,7 +72,7 @@ export default function RootLayout({
               "description": "Daglig fjordpuslespill. Gjett fjorden ut fra omrisset. Nytt puslespill hver dag med norske fjorder.",
               "url": process.env.NEXT_PUBLIC_SITE_URL,
               "inLanguage": initialLanguage,
-              "image": `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`
+              "image": `${process.env.NEXT_PUBLIC_SITE_URL}/opengraph-image`
             })
           }}
         />
