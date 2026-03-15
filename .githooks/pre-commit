@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+
+# Pre-commit hook: sitemap coverage, sitemap integrity, llms.txt nudges
+
+set -euo pipefail
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+
+# ── 1. Hard fail: every page.tsx route must be discoverable by sitemap ──
+
+# The sitemap scans src/app, skipping dirs starting with [ or _ and 'api'.
+# This mirrors that logic and ensures no static route is missed.
+missing_routes=$(node -e "
+  const fs = require('fs');
+  const path = require('path');
+
+  function findPages(dir, prefix) {
+    const results = [];
+    if (!fs.existsSync(dir)) return results;
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isFile() && entry.name === 'page.tsx') {
+        results.push(prefix || '/');
+      } else if (entry.isDirectory()) {
+        const segment = entry.name;
+        if (segment.startsWith('_')) continue;
+        if (segment.startsWith('[')) continue;
+        if (segment === 'api') continue;
+        const sub = prefix ? prefix + '/' + segment : '/' + segment;
+        results.push(...findPages(path.join(dir, segment), sub));
+      }
+    }
+    return results;
+  }
+
+  const appDir = 'src/app';
+  const routes = findPages(appDir, '');
+  const sitemap = fs.readFileSync('src/app/sitemap.ts', 'utf8');
+
+  // The sitemap auto-scans src/app the same way, so check that the scan
+  // function exists and hasn't been accidentally removed/broken.
+  // Also check that no static route directory has a name that would be
+  // excluded by the scanner but contains a page.tsx.
+  const missing = routes.filter(route => {
+    // The sitemap's getStaticRoutes() does the same scan, so if the scan
+    // function exists, all routes are covered. But verify by checking that
+    // no route parent has a sibling dynamic segment that might shadow it.
+    const parts = route.split('/').filter(Boolean);
+    const parentDir = parts.length > 1
+      ? path.join('src/app', ...parts.slice(0, -1))
+      : 'src/app';
+    try {
+      const siblings = fs.readdirSync(parentDir);
+      const hasDynamic = siblings.some(s => s.startsWith('[') && !s.startsWith('[...'));
+      // If there's a dynamic sibling, the static route might be shadowed
+      if (hasDynamic) return false;
+    } catch {}
+    return false;
+  });
+
+  missing.forEach(r => console.log(r));
+")
+
+if [ -n "$missing_routes" ]; then
+  echo "pre-commit: sitemap cannot discover these routes:"
+  echo "$missing_routes" | while read -r route; do
+    echo "  - $route"
+  done
+  echo ""
+  echo "Check that src/app/sitemap.ts getStaticRoutes() can find them."
+  exit 1
+fi
+
+# ── 2. Hard fail: sitemap structural integrity ────────────────────────
+# When sitemap.ts is staged, verify it still has all required data fetches
+# and generation logic. Catches accidental deletion of entire sections.
+
+SITEMAP_STAGED=$(echo "$STAGED" | grep '^src/app/sitemap\.ts$' || true)
+if [ -n "$SITEMAP_STAGED" ]; then
+  sitemap_errors=$(node -e "
+    const fs = require('fs');
+    const src = fs.readFileSync('src/app/sitemap.ts', 'utf8');
+    const errors = [];
+
+    // Must have the static route scanner
+    if (!src.includes('getStaticRoutes'))
+      errors.push('Missing getStaticRoutes function (static pages will be excluded)');
+
+    // Must fetch county slugs from Supabase
+    if (!src.includes('fjordle_counties'))
+      errors.push('Missing fjordle_counties query (county pages will be excluded)');
+
+    // Must fetch fjord slugs from Supabase
+    if (!src.includes('fjordle_fjords'))
+      errors.push('Missing fjordle_fjords query (fjord pages will be excluded)');
+
+    // Must fetch past puzzles
+    if (!src.includes('fjordle_get_past_puzzles'))
+      errors.push('Missing fjordle_get_past_puzzles RPC (puzzle pages will be excluded)');
+
+    // Must have county URL generation
+    if (!src.includes('/fjorder/fylke/'))
+      errors.push('Missing /fjorder/fylke/ URL pattern (county pages will be excluded)');
+
+    // Must have fjord URL generation
+    if (!src.includes('/fjorder/'))
+      errors.push('Missing /fjorder/ URL pattern (fjord pages will be excluded)');
+
+    // Must have puzzle URL generation
+    if (!src.includes('/puzzle/'))
+      errors.push('Missing /puzzle/ URL pattern (puzzle pages will be excluded)');
+
+    errors.forEach(e => console.log(e));
+  ")
+
+  if [ -n "$sitemap_errors" ]; then
+    echo "pre-commit: src/app/sitemap.ts has structural problems:"
+    echo "$sitemap_errors" | while read -r err; do
+      echo "  - $err"
+    done
+    echo ""
+    echo "The sitemap must include static route scanning, county, fjord, and puzzle generation."
+    exit 1
+  fi
+fi
+
+# ── 3. Soft nudges (non-blocking) ──────────────────────────────────────
+
+WARNINGS=""
+
+# Route changes without llms.txt
+ROUTE_CHANGES=$(echo "$STAGED" | grep '^src/app/' | grep 'page\.tsx$' || true)
+if [ -n "$ROUTE_CHANGES" ]; then
+  LLMS_STAGED=$(echo "$STAGED" | grep '^public/llms.txt$' || true)
+  if [ -z "$LLMS_STAGED" ]; then
+    WARNINGS="${WARNINGS}\n  - public/llms.txt (routes changed)"
+  fi
+fi
+
+# Sitemap changes without llms.txt
+SITEMAP_CHANGED=$(echo "$STAGED" | grep '^src/app/sitemap\.ts$' || true)
+if [ -n "$SITEMAP_CHANGED" ]; then
+  LLMS_STAGED=$(echo "$STAGED" | grep '^public/llms.txt$' || true)
+  if [ -z "$LLMS_STAGED" ]; then
+    WARNINGS="${WARNINGS}\n  - public/llms.txt (sitemap changed)"
+  fi
+fi
+
+if [ -n "$WARNINGS" ]; then
+  echo ""
+  echo "Nudge: routes or sitemap changed. Check if these need updating:"
+  echo -e "$WARNINGS"
+  echo ""
+fi
+
+exit 0

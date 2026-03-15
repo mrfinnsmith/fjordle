@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Commit-msg hook: reject commits that mention AI tools
+
+set -euo pipefail
+
+MSG=$(cat "$1")
+
+# Case-insensitive check for forbidden terms
+FORBIDDEN=$(echo "$MSG" | grep -iEw '(claude|gemini|ai-generated|co-authored-by.*claude|co-authored-by.*gemini|artificial.intelligence|llm|language.model|chatgpt|openai|copilot)' || true)
+
+if [ -n "$FORBIDDEN" ]; then
+  echo "commit-msg: commit message contains forbidden AI/tool references:"
+  echo "$FORBIDDEN" | while read -r line; do
+    echo "  > $line"
+  done
+  echo ""
+  echo "Rewrite the message to describe the functional change only."
+  exit 1
+fi
+
+exit 0
