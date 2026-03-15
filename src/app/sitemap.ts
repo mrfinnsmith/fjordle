@@ -39,12 +39,23 @@ async function getCountySlugs(): Promise<string[]> {
     return (data ?? []).map(c => c.slug).filter(Boolean)
 }
 
+async function getFjordSlugs(): Promise<string[]> {
+    const { data } = await supabase
+        .from('fjordle_fjords')
+        .select('slug')
+        .not('slug', 'is', null)
+        .order('name')
+
+    return (data ?? []).map(f => f.slug).filter(Boolean)
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
     const staticRoutes = getStaticRoutes()
-    const [pastPuzzles, countySlugs] = await Promise.all([
+    const [pastPuzzles, countySlugs, fjordSlugs] = await Promise.all([
         supabase.rpc('fjordle_get_past_puzzles'),
         getCountySlugs(),
+        getFjordSlugs(),
     ])
 
     const staticSitemapEntries = staticRoutes.map(route => ({
@@ -68,5 +79,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
     }))
 
-    return [...staticSitemapEntries, ...puzzleSitemapEntries, ...countySitemapEntries]
+    const fjordSitemapEntries = fjordSlugs.map(slug => ({
+        url: `${baseUrl}/fjorder/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.5,
+    }))
+
+    return [...staticSitemapEntries, ...puzzleSitemapEntries, ...countySitemapEntries, ...fjordSitemapEntries]
 }
