@@ -24,7 +24,7 @@ interface SiblingFjord {
 async function getFjordBySlugUncached(slug: string): Promise<FjordWithCountySlugs | null> {
     const { data: fjordRow, error } = await supabase
         .from('fjordle_fjords')
-        .select('id, name, slug, svg_filename, satellite_filename, center_lat, center_lng, length_km, width_km, depth_m, measurement_source_url, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb')
+        .select('id, name, slug, svg_filename, satellite_filename, center_lat, center_lng, length_km, width_km, depth_m, measurement_source_url, wikipedia_url_no, wikipedia_url_en, wikipedia_url_nn, wikipedia_url_da, wikipedia_url_ceb, description_no, description_en')
         .eq('slug', decodeURIComponent(slug))
         .single()
 
@@ -94,6 +94,8 @@ async function getFjordBySlugUncached(slug: string): Promise<FjordWithCountySlug
             width_km: fjordRow.width_km,
             depth_m: fjordRow.depth_m,
             measurement_source_url: fjordRow.measurement_source_url,
+            description_no: fjordRow.description_no,
+            description_en: fjordRow.description_en,
         },
         countySlugs,
         siblingFjords,
@@ -119,49 +121,59 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? `${fjord.name} - fakta og informasjon | Fjordle`
         : `${fjord.name} - facts and information | Fjordle`
 
-    const countyStr = fjord.counties?.join(', ') ?? ''
-    let descNO = `${fjord.name} er en norsk fjord`
-    let descEN = `${fjord.name} is a Norwegian fjord`
+    let description: string
 
-    if (countyStr) {
-        descNO += ` i ${countyStr}`
-        descEN += ` in ${countyStr}`
-    }
-    descNO += '.'
-    descEN += '.'
+    if (fjord.description_no && language === 'no') {
+        description = fjord.description_no
+    } else if (fjord.description_en && language === 'en') {
+        description = fjord.description_en
+    } else {
+        const countyStr = fjord.counties?.join(', ') ?? ''
+        let descNO = `${fjord.name} er en norsk fjord`
+        let descEN = `${fjord.name} is a Norwegian fjord`
 
-    const measurePartsNO: string[] = []
-    const measurePartsEN: string[] = []
-    if (fjord.length_km != null) {
-        measurePartsNO.push(`${fjord.length_km} km lang`)
-        measurePartsEN.push(`${fjord.length_km} km long`)
-    }
-    if (fjord.width_km != null) {
-        measurePartsNO.push(`${fjord.width_km} km bred`)
-        measurePartsEN.push(`${fjord.width_km} km wide`)
-    }
-    if (fjord.depth_m != null) {
-        measurePartsNO.push(`${fjord.depth_m} m dyp`)
-        measurePartsEN.push(`${fjord.depth_m} m deep`)
-    }
-    if (measurePartsNO.length > 0) {
-        descNO += ` ${measurePartsNO.join(', ')}.`
-        descEN += ` ${measurePartsEN.join(', ')}.`
-    } else if (fjord.municipalities && fjord.municipalities.length > 0) {
-        const munStr = fjord.municipalities.slice(0, 2).join(' og ')
-        const munStrEN = fjord.municipalities.slice(0, 2).join(' and ')
-        descNO += ` Fjorden ligger i ${munStr}.`
-        descEN += ` The fjord is located in ${munStrEN}.`
-    }
+        if (countyStr) {
+            descNO += ` i ${countyStr}`
+            descEN += ` in ${countyStr}`
+        }
+        descNO += '.'
+        descEN += '.'
 
-    descNO += ' Gjett fjorden i Fjordle, det daglige norske fjordspillet.'
-    descEN += ' Guess the fjord in Fjordle, the daily Norwegian fjord guessing game.'
+        const measurePartsNO: string[] = []
+        const measurePartsEN: string[] = []
+        if (fjord.length_km != null) {
+            measurePartsNO.push(`${fjord.length_km} km lang`)
+            measurePartsEN.push(`${fjord.length_km} km long`)
+        }
+        if (fjord.width_km != null) {
+            measurePartsNO.push(`${fjord.width_km} km bred`)
+            measurePartsEN.push(`${fjord.width_km} km wide`)
+        }
+        if (fjord.depth_m != null) {
+            measurePartsNO.push(`${fjord.depth_m} m dyp`)
+            measurePartsEN.push(`${fjord.depth_m} m deep`)
+        }
+        if (measurePartsNO.length > 0) {
+            descNO += ` ${measurePartsNO.join(', ')}.`
+            descEN += ` ${measurePartsEN.join(', ')}.`
+        } else if (fjord.municipalities && fjord.municipalities.length > 0) {
+            const munStr = fjord.municipalities.slice(0, 2).join(' og ')
+            const munStrEN = fjord.municipalities.slice(0, 2).join(' and ')
+            descNO += ` Fjorden ligger i ${munStr}.`
+            descEN += ` The fjord is located in ${munStrEN}.`
+        }
 
-    const description = language === 'no' ? descNO : descEN
+        descNO += ' Gjett fjorden i Fjordle, det daglige norske fjordspillet.'
+        descEN += ' Guess the fjord in Fjordle, the daily Norwegian fjord guessing game.'
+
+        description = language === 'no' ? descNO : descEN
+    }
 
     const ogImage = fjord.satellite_filename
         ? `${siteUrl}/fjord_satellite/${fjord.satellite_filename}`
-        : `${siteUrl}/fjord_svgs/${fjord.svg_filename}`
+        : fjord.svg_filename
+            ? `${siteUrl}/fjord_svgs/${fjord.svg_filename}`
+            : `${siteUrl}/og-image.png`
 
     return {
         title,

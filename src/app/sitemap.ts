@@ -40,13 +40,25 @@ async function getCountySlugs(): Promise<string[]> {
 }
 
 async function getFjordSlugs(): Promise<string[]> {
-    const { data } = await supabase
-        .from('fjordle_fjords')
-        .select('slug')
-        .not('slug', 'is', null)
-        .order('name')
+    const slugs: string[] = []
+    const pageSize = 1000
+    let offset = 0
 
-    return (data ?? []).map(f => f.slug).filter(Boolean)
+    while (true) {
+        const { data } = await supabase
+            .from('fjordle_fjords')
+            .select('slug')
+            .not('slug', 'is', null)
+            .order('name')
+            .range(offset, offset + pageSize - 1)
+
+        if (!data || data.length === 0) break
+        slugs.push(...data.map(f => f.slug).filter(Boolean))
+        if (data.length < pageSize) break
+        offset += pageSize
+    }
+
+    return slugs
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

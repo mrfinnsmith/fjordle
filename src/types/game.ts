@@ -39,6 +39,8 @@ export interface Fjord {
   width_km?: number
   depth_m?: number
   measurement_source_url?: string
+  description_no?: string
+  description_en?: string
 }
 
 export interface FjordOption {

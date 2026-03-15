@@ -52,6 +52,14 @@ export default function FjordFactContent({ fjord, countySlugs = {}, siblingFjord
                     )}
                 </p>
 
+                {((language === 'no' && fjord.description_no) || (language === 'en' && fjord.description_en)) && (
+                    <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                        <p className="text-gray-700 leading-relaxed">
+                            {language === 'no' ? fjord.description_no : fjord.description_en}
+                        </p>
+                    </section>
+                )}
+
                 {hasStats && (
                     <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
                         <h2 className="text-xl font-semibold text-gray-900 mb-4">
@@ -97,14 +105,16 @@ export default function FjordFactContent({ fjord, countySlugs = {}, siblingFjord
                     </section>
                 )}
 
-                <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        src={`/fjord_svgs/${fjord.svg_filename}`}
-                        alt={fjord.name}
-                        className="w-full h-auto max-h-80 object-contain"
-                    />
-                </section>
+                {fjord.svg_filename && (
+                    <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={`/fjord_svgs/${fjord.svg_filename}`}
+                            alt={fjord.name}
+                            className="w-full h-auto max-h-80 object-contain"
+                        />
+                    </section>
+                )}
 
                 {fjord.municipalities && fjord.municipalities.length > 0 && (
                     <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
