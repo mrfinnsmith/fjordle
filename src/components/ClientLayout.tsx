@@ -66,7 +66,7 @@ function Header() {
   const formattedDate = useFormattedDate(language)
 
   return (
-    <header className="mb-6">
+    <header className="mb-6 relative z-[1000]">
       {/* Mobile layout */}
       <div className="md:hidden">
         <div className="flex justify-end items-center space-x-2 mb-4">
