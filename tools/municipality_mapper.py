@@ -13,7 +13,7 @@ load_dotenv(".env.local")
 
 def get_supabase_client():
     url = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
-    service_key = os.getenv("NEXT_PUBLIC_SUPABASE_SERVICE_KEY")
+    service_key = os.getenv("SUPABASE_SECRET_KEY")
 
     if not url or not service_key:
         raise ValueError("Missing Supabase credentials in .env.local")

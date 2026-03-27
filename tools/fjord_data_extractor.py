@@ -11,8 +11,8 @@ Usage:
 
 Requires .env.local in project root with:
     NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-    NEXT_PUBLIC_SUPABASE_SERVICE_KEY=your_service_key
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+    SUPABASE_SECRET_KEY=your_secret_key
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
 """
 
 import requests
@@ -54,7 +54,7 @@ class SupabaseFjordExtractor:
         
         # Supabase configuration
         self.supabase_url = os.getenv('NEXT_PUBLIC_SUPABASE_URL')
-        self.supabase_key = os.getenv('NEXT_PUBLIC_SUPABASE_SERVICE_KEY') or os.getenv('NEXT_PUBLIC_SUPABASE_ANON_KEY')
+        self.supabase_key = os.getenv('SUPABASE_SECRET_KEY') or os.getenv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY')
         
         if not self.supabase_url or not self.supabase_key:
             raise ValueError("Missing Supabase configuration. Check .env.local file.")

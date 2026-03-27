@@ -251,7 +251,7 @@ clearWeatherCache()
 
 ### Configuration
 Requires GitHub repository secret:
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous public key
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` - Supabase anonymous public key
 - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 
 ### Edge Function
@@ -415,7 +415,7 @@ npm run lint
 ### Environment Variables
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
 NEXT_PUBLIC_SITE_URL=your_domain_when_deployed
 ```
 
@@ -640,7 +640,7 @@ Each page includes Norwegian SEO metadata via layout.tsx files for optimal searc
 ## Deployment Notes
 
 - Set `NEXT_PUBLIC_SITE_URL` for proper OpenGraph/canonical URLs
-- **IMPORTANT**: Update `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` environment variables for new "games" Supabase project
+- **IMPORTANT**: Update `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` environment variables for new "games" Supabase project
 - Update GitHub Actions secrets with new Supabase credentials
 - Ensure Supabase RLS policies allow anonymous access
 - Verify all 1,467 SVG files are deployed to `/public/fjord_svgs/`
@@ -664,7 +664,7 @@ SELECT assign_daily_puzzle();
 1. Check Actions tab in GitHub repository
 2. Click failed run to see error details
 3. Common issues:
-   - Missing `SUPABASE_ANON_KEY` secret
+   - Missing `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` secret
    - Supabase Edge Function not deployed
    - Database function errors
 
@@ -738,7 +738,7 @@ WHERE quarantined = TRUE;
 
 ### Update GitHub Secrets
 1. Go to GitHub repository → Settings → Secrets and variables → Actions
-2. Update `SUPABASE_ANON_KEY` if Supabase keys change
+2. Update `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` if Supabase keys change
 3. Secrets are automatically used by GitHub Actions
 
 ### Onboarding Functions

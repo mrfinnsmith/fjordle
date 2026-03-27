@@ -97,7 +97,7 @@ def main():
     valid, invalid = process_measurements(data)
     
     supabase_url = os.getenv('NEXT_PUBLIC_SUPABASE_URL')
-    service_key = os.getenv('NEXT_PUBLIC_SUPABASE_SERVICE_KEY')
+    service_key = os.getenv('SUPABASE_SECRET_KEY')
     insert_measurements(valid, supabase_url, service_key)
     
     return valid, invalid

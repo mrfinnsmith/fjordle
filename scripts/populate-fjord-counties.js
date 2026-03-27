@@ -7,7 +7,7 @@
  * - County boundaries GeoJSON: Kartverket via Geonorge
  *
  * Usage: node scripts/populate-fjord-counties.js
- * Requires: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY env vars
+ * Requires: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY env vars
  */
 
 const fs = require('fs')
@@ -56,7 +56,7 @@ for (const f of fjordFeatures) {
 async function main() {
     const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
     )
 
     // Fetch all fjords from DB

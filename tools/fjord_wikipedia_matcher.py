@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv(".env.local")
 
 url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-key = os.environ.get("NEXT_PUBLIC_SUPABASE_SERVICE_KEY")
+key = os.environ.get("SUPABASE_SECRET_KEY")
 
 print(f"URL: {url}")
 print(f"Key present: {bool(key)}")

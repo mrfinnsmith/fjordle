@@ -24,8 +24,12 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = 'https://elqudjtoonlaclicskxh.supabase.co';
-const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVscXVkanRvb25sYWNsaWNza3hoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzE3NTYwOCwiZXhwIjoyMDcyNzUxNjA4fQ.pnXxd2CafifYof2AKZoYqZ88e-fhwLj6FdqLaBGYAj4';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY;
+if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) {
+  console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY env vars');
+  process.exit(1);
+}
 
 const SPARQL_ENDPOINT = 'https://query.wikidata.org/sparql';
 
@@ -33,7 +37,7 @@ const isDryRun = process.argv.includes('--dry-run');
 const limitIdx = process.argv.indexOf('--limit');
 const limit = limitIdx !== -1 ? parseInt(process.argv[limitIdx + 1], 10) : Infinity;
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 
 /**
  * Fetch all Norwegian fjords from Wikidata in one SPARQL query.
