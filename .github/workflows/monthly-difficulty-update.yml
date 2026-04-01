@@ -12,7 +12,8 @@ jobs:
       - name: Update difficulty tiers
         run: |
           response=$(curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_SECRET_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}" \
+            -H "Content-Type: application/json" \
             "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/functions/v1/fjordle-update-difficulty")
           
           echo "Response: $response"
