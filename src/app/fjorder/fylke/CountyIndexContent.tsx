@@ -36,7 +36,7 @@ export default function CountyIndexContent({ counties }: CountyIndexContentProps
                                 href={`/fjorder/fylke/${county.slug}`}
                                 className="flex items-center justify-between px-4 py-3 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
                             >
-                                <span className="font-medium text-gray-900">{county.name}</span>
+                                <span className="font-medium text-gray-900" translate="no">{county.name}</span>
                                 <span className="text-sm text-gray-500">
                                     {county.fjordCount} {language === 'no' ? 'fjorder' : 'fjords'}
                                 </span>

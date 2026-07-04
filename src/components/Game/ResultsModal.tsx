@@ -131,7 +131,7 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
 
           <div className="mb-4">
             <p className="text-sm text-gray-600 page-text">
-              {t('the_answer_was')}: <Link href={`/fjorder/${gameState.puzzle.fjord.slug}`} className="font-semibold hover:underline">{gameState.puzzle.fjord.name}</Link>
+              {t('the_answer_was')}: <Link href={`/fjorder/${gameState.puzzle.fjord.slug}`} className="font-semibold hover:underline" translate="no">{gameState.puzzle.fjord.name}</Link>
             </p>
 
             {/* Location Information */}
@@ -139,12 +139,12 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
               <div className="mt-2 text-xs text-gray-500">
                 {locationData.municipalities.length > 0 && (
                   <div className="mb-1">
-                    <span className="font-medium">{t('municipalities')}:</span> {locationData.municipalities.join(', ')}
+                    <span className="font-medium">{t('municipalities')}:</span> <span translate="no">{locationData.municipalities.join(', ')}</span>
                   </div>
                 )}
                 {locationData.counties.length > 0 && (
                   <div>
-                    <span className="font-medium">{t('counties')}:</span> {locationData.counties.join(', ')}
+                    <span className="font-medium">{t('counties')}:</span> <span translate="no">{locationData.counties.join(', ')}</span>
                   </div>
                 )}
               </div>
@@ -200,7 +200,7 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
                       key={index}
                       className="flex items-center justify-between py-2 px-3 bg-white rounded border text-sm"
                     >
-                      <div className="flex-1 text-left font-medium">
+                      <div className="flex-1 text-left font-medium" translate="no">
                         {guess.fjordSlug ? (
                           <Link href={`/fjorder/${guess.fjordSlug}`} className="hover:underline">
                             {guess.fjordName}

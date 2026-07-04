@@ -75,7 +75,7 @@ export default function HurtigrutenMap({ ships }: HurtigrutenMapProps) {
           : `${ship.speed.toFixed(1)} kn`
 
         leaflet.marker([ship.lat, ship.lng], { icon })
-          .bindPopup(`<strong>${ship.name}</strong><br/>${status}`)
+          .bindPopup(`<strong translate="no">${ship.name}</strong><br/>${status}`)
           .addTo(map)
       }
 

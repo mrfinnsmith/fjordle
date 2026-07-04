@@ -48,7 +48,7 @@ function GuessHistory({ guesses, gameOver }: GuessHistoryProps) {
                 >
                     <div className="step-marker" data-step={index + 1}></div>
                     <div className="step-content">
-                        <div className="fjord-name-journey">
+                        <div className="fjord-name-journey" translate="no">
                             {gameOver && guess.fjordSlug ? (
                                 <Link href={`/fjorder/${guess.fjordSlug}`} className="hover:underline">
                                     {guess.fjordName}

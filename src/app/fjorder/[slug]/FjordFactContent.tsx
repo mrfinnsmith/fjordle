@@ -26,7 +26,7 @@ export default function FjordFactContent({ fjord, countySlugs = {}, siblingFjord
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-4xl mx-auto px-4">
 
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">{fjord.name}</h1>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2" translate="no">{fjord.name}</h1>
 
                 <p className="text-lg text-gray-600 mb-6">
                     {language === 'no' ? 'Norsk fjord' : 'Norwegian fjord'}
@@ -34,7 +34,7 @@ export default function FjordFactContent({ fjord, countySlugs = {}, siblingFjord
                         <>
                             {language === 'no' ? ' i ' : ' in '}
                             {fjord.counties.map((county, i) => (
-                                <span key={county}>
+                                <span key={county} translate="no">
                                     {i > 0 && ', '}
                                     {countySlugs[county] ? (
                                         <Link
@@ -123,7 +123,7 @@ export default function FjordFactContent({ fjord, countySlugs = {}, siblingFjord
                         </h2>
                         <ul className="space-y-1">
                             {fjord.municipalities.map(m => (
-                                <li key={m} className="text-gray-700">{m}</li>
+                                <li key={m} className="text-gray-700" translate="no">{m}</li>
                             ))}
                         </ul>
                     </section>
@@ -171,6 +171,7 @@ export default function FjordFactContent({ fjord, countySlugs = {}, siblingFjord
                                     <Link
                                         href={`/fjorder/${s.slug}`}
                                         className="inline-block px-3 py-1 text-sm rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                                        translate="no"
                                     >
                                         {s.name}
                                     </Link>

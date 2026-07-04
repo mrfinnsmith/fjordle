@@ -1,9 +1,10 @@
 'use client'
 
-import { createContext, useContext, ReactNode, useState } from 'react'
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react'
 import { Language, TranslationKey } from '@/types/game'
 import { translations } from './translations'
-import { setLanguageCookie } from './cookies'
+import { setLanguageCookie, hasLanguageCookieClient } from './cookies'
+import { shouldAutoSwitchToEnglish } from './localeDetection'
 
 interface LanguageContextType {
     language: Language
@@ -24,7 +25,31 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
     const setLanguage = (lang: Language) => {
         setLanguageState(lang)
         setLanguageCookie(lang)
+        if (typeof document !== 'undefined') {
+            document.documentElement.lang = lang
+        }
     }
+
+    // First-visit only: show the existing English UI to non-Norwegian visitors so
+    // they never fall back on the browser's bad machine translation of Norwegian.
+    // Runs after hydration, so crawlers and the first server render stay Norwegian.
+    useEffect(() => {
+        if (hasLanguageCookieClient()) {
+            return
+        }
+
+        const locales = navigator.languages?.length
+            ? navigator.languages
+            : [navigator.language].filter(Boolean)
+
+        if (shouldAutoSwitchToEnglish({
+            hasCookie: false,
+            userAgent: navigator.userAgent,
+            locales,
+        })) {
+            setLanguage('en')
+        }
+    }, [])
 
     const t = (key: TranslationKey): string => {
         const translation = translations[language]?.[key] || translations.en[key]

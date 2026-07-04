@@ -76,6 +76,7 @@ export default function FjordIndexContent({ fjords }: FjordIndexContentProps) {
                                     ? 'bg-blue-600 text-white border-blue-600'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
                             }`}
+                            translate="no"
                         >
                             {county}
                         </button>
@@ -92,9 +93,9 @@ export default function FjordIndexContent({ fjords }: FjordIndexContentProps) {
                                     href={`/fjorder/${fjord.slug}`}
                                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-3 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
                                 >
-                                    <span className="font-medium text-gray-900">{fjord.name}</span>
+                                    <span className="font-medium text-gray-900" translate="no">{fjord.name}</span>
                                     {fjord.counties.length > 0 && (
-                                        <span className="text-sm text-gray-500">{fjord.counties.join(', ')}</span>
+                                        <span className="text-sm text-gray-500" translate="no">{fjord.counties.join(', ')}</span>
                                     )}
                                 </Link>
                             </li>

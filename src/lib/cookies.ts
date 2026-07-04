@@ -26,6 +26,27 @@ export function getLanguageFromCookiesClient(): Language {
 }
 
 /**
+ * Whether a language cookie is present (client-side).
+ *
+ * Distinct from getLanguageFromCookiesClient(), which returns 'no' both when the
+ * cookie is absent and when it explicitly says 'no'. Detecting presence lets us
+ * tell a first-time visitor apart from someone who deliberately chose Norwegian.
+ */
+export function hasLanguageCookieClient(): boolean {
+  if (typeof document === 'undefined') {
+    return false
+  }
+
+  return document.cookie
+    .split(';')
+    .some(cookie => {
+      const value = cookie.trim().split('=')[1]?.trim()
+      return cookie.trim().startsWith(`${LANGUAGE_COOKIE_NAME}=`) &&
+        (value === 'no' || value === 'en')
+    })
+}
+
+/**
  * Set the language cookie (client-side)
  */
 export function setLanguageCookie(language: Language): void {

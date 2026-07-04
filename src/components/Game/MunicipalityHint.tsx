@@ -17,7 +17,7 @@ export default function MunicipalityHint({ isRevealed, municipalities, onReveal 
             </div>
             <div className="flex-shrink-0">
                 {isRevealed ? (
-                    <div className="text-sm min-w-[140px] text-right" style={{ color: 'var(--norwegian-red)' }}>
+                    <div className="text-sm min-w-[140px] text-right" style={{ color: 'var(--norwegian-red)' }} translate="no">
                         {municipalities.join(', ')}
                     </div>
                 ) : (

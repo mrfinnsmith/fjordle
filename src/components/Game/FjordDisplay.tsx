@@ -108,7 +108,7 @@ function FjordDisplay({
         
         return (
             <div className="mt-4 text-center">
-                <div className="text-2xl font-bold text-green-700 mb-2">
+                <div className="text-2xl font-bold text-green-700 mb-2" translate="no">
                     {correctAnswer}
                 </div>
             </div>
@@ -144,7 +144,7 @@ function FjordDisplay({
                         <div className="hint-icon">🏘️</div>
                         <div className="hint-content">
                             <span className="hint-label">{t('municipality_hint')}</span>
-                            <span className="hint-value">{municipalityHint.join(', ')}</span>
+                            <span className="hint-value" translate="no">{municipalityHint.join(', ')}</span>
                         </div>
                     </div>
                 )}
@@ -154,7 +154,7 @@ function FjordDisplay({
                         <div className="hint-icon">🏛️</div>
                         <div className="hint-content">
                             <span className="hint-label">{t('county_hint')}</span>
-                            <span className="hint-value">{countyHint.join(', ')}</span>
+                            <span className="hint-value" translate="no">{countyHint.join(', ')}</span>
                         </div>
                     </div>
                 )}
@@ -185,8 +185,8 @@ function FjordDisplay({
                         <div className="hint-icon">🚢</div>
                         <div className="hint-content">
                             <span className="hint-label">{t('ship_hint')}</span>
-                            <span className="hint-value">{shipHint.name}</span>
-                            <span className="hint-detail">→ {shipHint.destination}</span>
+                            <span className="hint-value" translate="no">{shipHint.name}</span>
+                            <span className="hint-detail" translate="no">→ {shipHint.destination}</span>
                         </div>
                     </div>
                 )}

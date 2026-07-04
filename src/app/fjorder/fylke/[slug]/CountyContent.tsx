@@ -36,7 +36,8 @@ export default function CountyContent({ countyName, fjords }: CountyContentProps
             <div className="max-w-4xl mx-auto px-4">
 
                 <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                    {language === 'no' ? `Fjorder i ${countyName}` : `Fjords in ${countyName}`}
+                    {language === 'no' ? 'Fjorder i ' : 'Fjords in '}
+                    <span translate="no">{countyName}</span>
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
                     {language === 'no'
@@ -53,7 +54,7 @@ export default function CountyContent({ countyName, fjords }: CountyContentProps
                                         {language === 'no' ? 'Dypeste fjord' : 'Deepest fjord'}
                                     </dt>
                                     <dd className="text-lg font-bold text-gray-900">
-                                        {deepest.name}
+                                        <span translate="no">{deepest.name}</span>
                                         <span className="text-sm font-normal text-gray-500 ml-2">
                                             {deepest.depth_m} m
                                         </span>
@@ -66,7 +67,7 @@ export default function CountyContent({ countyName, fjords }: CountyContentProps
                                         {language === 'no' ? 'Lengste fjord' : 'Longest fjord'}
                                     </dt>
                                     <dd className="text-lg font-bold text-gray-900">
-                                        {longest.name}
+                                        <span translate="no">{longest.name}</span>
                                         <span className="text-sm font-normal text-gray-500 ml-2">
                                             {longest.length_km} km
                                         </span>
@@ -84,7 +85,7 @@ export default function CountyContent({ countyName, fjords }: CountyContentProps
                                 href={`/fjorder/${fjord.slug}`}
                                 className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-3 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
                             >
-                                <span className="font-medium text-gray-900">{fjord.name}</span>
+                                <span className="font-medium text-gray-900" translate="no">{fjord.name}</span>
                                 <span className="text-sm text-gray-500">
                                     {[
                                         fjord.length_km != null ? `${fjord.length_km} km` : null,

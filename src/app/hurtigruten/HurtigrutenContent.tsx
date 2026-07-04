@@ -79,12 +79,12 @@ export default function HurtigrutenContent({ ships }: HurtigrutenContentProps) {
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <h3 className="font-semibold text-gray-900">{ship.name}</h3>
+                        <h3 className="font-semibold text-gray-900" translate="no">{ship.name}</h3>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
                           ship.operator === 'hurtigruten'
                             ? 'bg-blue-100 text-blue-700'
                             : 'bg-emerald-100 text-emerald-700'
-                        }`}>
+                        }`} translate="no">
                           {ship.operator === 'hurtigruten' ? 'Hurtigruten' : 'Havila'}
                         </span>
                       </div>
@@ -133,7 +133,7 @@ export default function HurtigrutenContent({ ships }: HurtigrutenContentProps) {
                   }`}
                 >
                   <span className="text-gray-400 mr-1.5">{port.order}.</span>
-                  {port.name}
+                  <span translate="no">{port.name}</span>
                   {shipHere && <span className="ml-1">{'\u{1F6A2}'}</span>}
                 </div>
               )
@@ -156,10 +156,10 @@ export default function HurtigrutenContent({ ships }: HurtigrutenContentProps) {
                   href={`/fjorder/${fjord.slug}`}
                   className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:border-blue-300 hover:shadow-md transition-all"
                 >
-                  <h3 className="font-medium text-gray-900">{fjord.name}</h3>
+                  <h3 className="font-medium text-gray-900" translate="no">{fjord.name}</h3>
                   {nearPort && (
                     <p className="text-xs text-gray-500 mt-1">
-                      {language === 'no' ? 'Nær' : 'Near'} {nearPort.name}
+                      {language === 'no' ? 'Nær' : 'Near'} <span translate="no">{nearPort.name}</span>
                     </p>
                   )}
                 </Link>

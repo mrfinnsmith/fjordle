@@ -159,9 +159,10 @@ export default function GuessInput({
                             />
 
                             {showDropdown && (
-                                <div 
-                                    ref={dropdownRef} 
+                                <div
+                                    ref={dropdownRef}
                                     className="guess-dropdown"
+                                    translate="no"
                                     role="listbox"
                                     id="fjord-dropdown"
                                     aria-label={t('a11y_guess_dropdown')}

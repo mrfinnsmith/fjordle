@@ -32,7 +32,7 @@ export default function Footer() {
         ))}
       </nav>
       <div className="text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} Fjordle
+        © {new Date().getFullYear()} <span translate="no">Fjordle</span>
       </div>
     </footer>
   )

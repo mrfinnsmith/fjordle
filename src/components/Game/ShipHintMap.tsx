@@ -100,7 +100,7 @@ export default function ShipHintMap({ shipLat, shipLng, shipName, isOpen, onClos
                 >
                     ×
                 </button>
-                <p className="text-sm text-gray-600 mb-3 pr-8">{shipName}</p>
+                <p className="text-sm text-gray-600 mb-3 pr-8" translate="no">{shipName}</p>
                 <div
                     ref={mapRef}
                     style={{ width: '100%', height: '350px', borderRadius: '6px' }}
