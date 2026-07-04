@@ -62,6 +62,7 @@ Thumbs.db
 # Project specific
 CLAUDE.md
 GEMINI.md
+AGENTS.md
 docs/status-memo.md
 .vercel
 tools/all_fjords.json
