@@ -69,7 +69,7 @@ function Header() {
     <header className="mb-6 relative z-[1000]">
       {/* Mobile layout */}
       <div className="md:hidden">
-        <div className="flex justify-end items-center space-x-2 mb-4">
+        <div className="relative flex justify-end items-center space-x-2 mb-4">
           <NavigationMenu />
           <LanguageToggle />
         </div>
@@ -99,7 +99,7 @@ function Header() {
             </span>
           </Link>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="relative flex items-center space-x-2">
           <NavigationMenu />
           <LanguageToggle />
         </div>
