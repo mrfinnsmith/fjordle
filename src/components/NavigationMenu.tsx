@@ -60,7 +60,7 @@ export default function NavigationMenu() {
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[160px] z-50"
+          className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[160px] max-w-[calc(100vw-1rem)] z-50"
         >
           {navigationLinks.map((link) => (
             <Link
