@@ -1,8 +1,10 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useLanguage } from '@/lib/languageContext'
+import { useClickOutside } from '@/lib/useClickOutside'
+import { navLinks } from '@/lib/navLinks'
 
 export default function NavigationMenu() {
   const { t } = useLanguage()
@@ -10,48 +12,29 @@ export default function NavigationMenu() {
   const menuRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
-  // Close menu when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false)
-      }
-    }
+  const close = useCallback(() => setIsOpen(false), [])
+  const outsideRefs = useMemo(() => [menuRef, buttonRef], [])
+  useClickOutside(outsideRefs, close, isOpen)
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+  // Close on Escape and return focus to the trigger button.
+  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setIsOpen(false)
+      buttonRef.current?.focus()
     }
   }, [])
 
-  const navigationLinks = [
-    { href: '/hvordan-spille', label: t('how_to_play') },
-    { href: '/om', label: t('about') },
-    { href: '/spoersmaal-og-svar', label: t('faq') },
-    { href: '/fjord-fakta', label: t('fjord_facts') },
-    { href: '/fjorder', label: t('fjorder_index_h1') },
-    { href: '/hurtigruten', label: t('hurtigruten') },
-    { href: '/tidligere', label: t('past_fjordles') },
-    { href: '/stats', label: t('statistics') },
-    { href: '/personvern', label: t('privacy') }
-  ]
-
   return (
-    <div className="relative">
+    <div className="relative" onKeyDown={handleKeyDown}>
       {/* Menu Button */}
       <button
         ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((open) => !open)}
         className="text-2xl hover:opacity-70 transition-opacity p-1"
         title="Menu"
         aria-label="Navigation menu"
         aria-expanded={isOpen}
-        aria-haspopup="true"
+        aria-haspopup="menu"
       >
         ☰
       </button>
@@ -60,16 +43,18 @@ export default function NavigationMenu() {
       {isOpen && (
         <div
           ref={menuRef}
+          role="menu"
           className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[160px] max-w-[calc(100vw-1rem)] z-50"
         >
-          {navigationLinks.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              onClick={() => setIsOpen(false)}
+              role="menuitem"
+              onClick={close}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap"
             >
-              {link.label}
+              {t(link.labelKey)}
             </Link>
           ))}
         </div>
