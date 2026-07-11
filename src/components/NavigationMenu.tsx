@@ -25,7 +25,10 @@ export default function NavigationMenu() {
   }, [])
 
   return (
-    <div className="relative" onKeyDown={handleKeyDown}>
+    // No `relative` here: the dropdown anchors to the nearest positioned
+    // ancestor (the header row), so it right-aligns against the screen edge
+    // rather than the button's edge.
+    <div onKeyDown={handleKeyDown}>
       {/* Menu Button */}
       <button
         ref={buttonRef}
