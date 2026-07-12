@@ -854,7 +854,7 @@ body {
       rgba(0, 32, 91, 0.5) 100%
     ) !important;
     backdrop-filter: blur(12px);
-    z-index: 50;
+    z-index: 1100;
   }
 
   .results-modal-content {
