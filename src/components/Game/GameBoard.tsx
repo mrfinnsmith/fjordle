@@ -492,7 +492,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         >
           <div
             ref={hintModalRef}
-            className="bg-white rounded-lg p-6 max-w-md w-full relative"
+            className="bg-white rounded-lg p-6 max-w-md w-full relative max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
