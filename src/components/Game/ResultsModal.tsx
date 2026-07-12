@@ -87,7 +87,7 @@ export default function ResultsModal({ gameState, userStats, locationData, isOpe
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 results-modal-backdrop flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-50 results-modal-backdrop flex items-center justify-center z-[1100] p-4"
       onKeyDown={(e) => {
         if (e.key === 'Escape') {
           onClose()
