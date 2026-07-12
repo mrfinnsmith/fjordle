@@ -482,7 +482,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
 
       {showHintModal && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1100] p-4"
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-[1100] p-4 overflow-y-auto"
           onClick={() => setShowHintModal(false)}
           onKeyDown={(e) => {
             if (e.key === 'Escape') {
@@ -492,7 +492,7 @@ export default function GameBoard({ puzzle, puzzleId }: GameBoardProps) {
         >
           <div
             ref={hintModalRef}
-            className="bg-white rounded-lg p-6 max-w-md w-full relative max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-lg p-6 max-w-md w-full relative my-auto"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
